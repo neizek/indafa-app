@@ -1,0 +1,47 @@
+import storage from '$lib/helpers/storage';
+import { Moon, Sun } from '@lucide/svelte';
+import { writable } from 'svelte/store';
+
+export enum Theme {
+	Light = 'light',
+	Dark = 'dark'
+}
+
+export const themesOptions = Object.values(Theme).map((theme) => ({
+	id: theme,
+	value: theme,
+	label: theme,
+	icon: theme === Theme.Dark ? Moon : Sun
+}));
+
+const isDarkThemePreffered = () =>
+	window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+function initTheme(): Theme {
+	let theme = storage.get('theme') as Theme;
+
+	if (!theme) {
+		theme = isDarkThemePreffered() ? Theme.Dark : Theme.Light;
+	}
+
+	applyTheme(theme);
+	return theme;
+}
+
+// export function applyTheme(theme: Theme) {
+// 	currentTheme.set(theme);
+// 	storage.set('theme', theme);
+// 	document.documentElement.classList.toggle('dark', theme === Theme.Dark);
+// }
+
+export const currentTheme = writable(initTheme());
+
+function applyTheme(theme: Theme) {
+	storage.set('theme', theme);
+	document.documentElement.classList.toggle('dark', theme === Theme.Dark);
+}
+
+export function updateTheme(theme: Theme) {
+	currentTheme.set(theme);
+	applyTheme(theme);
+}

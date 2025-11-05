@@ -1,0 +1,60 @@
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import mapboxgl from 'mapbox-gl';
+	import { carWashes } from '$lib/stores/carWashes';
+	import { createPopUp } from '$lib/stores/popUp';
+	import CarWashDetails from './CarWashDetails.svelte';
+	import type { CarWash } from '$lib/types/carWashes';
+	import { Bubbles } from '@lucide/svelte';
+
+	let mapContainer: HTMLElement;
+	mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
+
+	function openCarWashDetailsPopUp(carWash: CarWash) {
+		createPopUp({
+			title: carWash.address,
+			content: {
+				component: CarWashDetails,
+				props: { carWash }
+			},
+			icon: Bubbles
+		});
+	}
+
+	onMount(() => {
+		if (mapContainer === null || !mapContainer) {
+			return;
+		}
+
+		const map = new mapboxgl.Map({
+			container: mapContainer,
+			style: 'mapbox://styles/mapbox/navigation-night-v1',
+			center: [24.198310039551963, 56.990224093655414],
+			zoom: 9
+		});
+
+		map.addControl(new mapboxgl.FullscreenControl());
+
+		const bounds = new mapboxgl.LngLatBounds();
+		$carWashes.forEach((carWash) => {
+			if (carWash.long && carWash.lat) {
+				console.log({ lng: carWash.long, lat: carWash.lat });
+				const marker = new mapboxgl.Marker()
+					.setLngLat({ lng: carWash.long, lat: carWash.lat })
+					.addTo(map);
+				marker.getElement().addEventListener('click', () => openCarWashDetailsPopUp(carWash));
+				bounds.extend({ lng: carWash.long, lat: carWash.lat });
+			}
+		});
+
+		map.fitBounds(bounds, {
+			padding: 50,
+			maxZoom: 15,
+			duration: 1000
+		});
+	});
+</script>
+
+<div class="Map fixed top-0 right-0 bottom-0 left-0">
+	<div bind:this={mapContainer} class="fixed inset-0 h-full w-full"></div>
+</div>
