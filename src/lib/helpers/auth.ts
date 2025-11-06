@@ -1,4 +1,7 @@
+import SignInWidget from '$lib/components/widgets/SignInWidget.svelte';
 import supabase from '$lib/db';
+import { createPopUp } from '$lib/stores/popUp';
+import type { UserEditPayload } from '$lib/types/auth';
 
 export async function signIn(email: string, password: string) {
 	const { data, error } = await supabase.auth.signInWithPassword({
@@ -57,10 +60,28 @@ export async function verifyOTP(email: string, token: string) {
 	return data.user;
 }
 
+export async function updateUser(userEditPayload: UserEditPayload) {
+	const { error } = await supabase.auth.updateUser(userEditPayload);
+
+	if (error) {
+		console.error('User update error', error.message);
+	}
+}
+
 export async function signOut() {
 	const { error } = await supabase.auth.signOut();
 
 	if (error) {
 		console.error('Sign out error:', error.message);
 	}
+}
+
+export function callToLoginPopUp() {
+	createPopUp({
+		title: 'Login',
+		content: {
+			component: SignInWidget,
+			props: {}
+		}
+	});
 }

@@ -1,4 +1,5 @@
-import type { Component, IconProps } from '@lucide/svelte';
+import type { IconProps } from '@lucide/svelte';
+import type { Component } from 'svelte';
 
 export type AcceptedSelectOptionValues = string | number | Date | null;
 

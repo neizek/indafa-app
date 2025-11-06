@@ -1,3 +1,9 @@
+export enum AppointmentStatusEnum {
+	pending = 'pending',
+	completed = 'completed',
+	canceled = 'canceled'
+}
+
 export interface AppointmentPayload {
 	user_id?: string;
 	car_wash_id: number;
@@ -8,4 +14,5 @@ export interface AppointmentPayload {
 
 export interface Appointment extends AppointmentPayload {
 	id: number;
+	status: AppointmentStatusEnum;
 }

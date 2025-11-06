@@ -24,8 +24,11 @@
 				full
 			/>
 		</div>
-		<Button label="Piezvanit" onclick={() => window.open(`tel:${carWash.phone}`)} full>
-			<Phone></Phone>
-		</Button>
+		<Button
+			label="Piezvanit"
+			icon={Phone}
+			onclick={() => window.open(`tel:${carWash.phone}`)}
+			full
+		/>
 	</div>
 </div>

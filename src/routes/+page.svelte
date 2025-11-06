@@ -10,7 +10,9 @@
 	<div class="h-auto w-full p-2">
 		{@html IndafaLogo}
 	</div>
-	<Button label={$t('common.makeAnAppointment')} onclick={() => goto('/appointment')}>
-		<ClockPlus />
-	</Button>
+	<Button
+		label={$t('common.makeAnAppointment')}
+		icon={ClockPlus}
+		onclick={() => goto('/appointment')}
+	/>
 </div>

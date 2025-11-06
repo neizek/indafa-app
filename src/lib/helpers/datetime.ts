@@ -8,7 +8,6 @@ export function getDateLabel(date: Date = new Date()): string {
 	const dateToCheck = new Date(date);
 	dateToCheck.setHours(0, 0, 0, 0);
 
-	// Check if today or tomorrow
 	if (dateToCheck.getTime() === today.getTime()) {
 		return 'today';
 	}
@@ -16,8 +15,15 @@ export function getDateLabel(date: Date = new Date()): string {
 	if (dateToCheck.getTime() === tomorrow.getTime()) {
 		return 'tomorrow';
 	}
-
-	// Return day of week
-	const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+	const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 	return days[dateToCheck.getDay()];
+}
+
+export function formatDateTime(dbDate: string) {
+	const date = new Date(dbDate);
+
+	const hours = String(date.getHours()).padStart(2, '0');
+	const minutes = String(date.getMinutes()).padStart(2, '0');
+
+	return date.toLocaleDateString() + ' ' + hours + ':' + minutes;
 }

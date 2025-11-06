@@ -45,14 +45,20 @@
 
 	let dateOptions: SelectOption[] = $derived.by(() => getDateOptions());
 
+	const createDateWithTime = (dateObj: Date, timeString: string) => {
+		const [h, m, s] = timeString.split(':').map(Number);
+		return new Date(new Date(dateObj).setHours(h - 1, m, s, 0));
+	};
+
 	function getDateOptions() {
 		let dateOptions: SelectOption[] = [];
 
-		for (let i = 0; i < 2; i++) {
+		for (let i = 0; dateOptions.length < 2; i++) {
 			const date = new Date();
 			date.setDate(date.getDate() + i);
 			const wh = chosenCarWash?.working_hours.find((wh) => wh.day_of_week === date.getDay());
-			if (wh) {
+			console.log(wh);
+			if (wh && createDateWithTime(date, wh.close_time) > new Date()) {
 				const dateString = date.toISOString().split('T')[0];
 				dateOptions = [
 					...dateOptions,
@@ -162,13 +168,22 @@
 		</FormItem>
 	</Section>
 	<Section header="Car Information">
+		{#snippet controls()}
+			<div>
+				<AddVehicleButton />
+			</div>
+		{/snippet}
 		<FormItem label="Select Car">
 			<Selector options={$vehiclesOptions} bind:value={$data.vehicle} />
 		</FormItem>
-		<AddVehicleButton />
 	</Section>
 
-	<Button type="submit" label="Confirm appointment" {isLoading} onclick={sendAppointmentRequest}>
-		<Check />
-	</Button>
+	<Button
+		type="submit"
+		label="Confirm appointment"
+		{isLoading}
+		icon={Check}
+		onclick={sendAppointmentRequest}
+		full
+	/>
 </form>

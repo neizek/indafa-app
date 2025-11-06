@@ -1,34 +1,45 @@
 <script lang="ts">
-	import { LoaderCircle } from '@lucide/svelte';
+	import { LoaderCircle, type ComponentIcon, type IconProps } from '@lucide/svelte';
+	import type { Component } from 'svelte';
 
 	let {
 		type = 'button',
-		children,
+		// children,
 		label,
 		preset,
 		bg = 'primary-500',
 		full = false,
 		isLoading = false,
+		icon,
 		onclick
 	}: {
 		type?: 'submit' | 'button';
-		children?: any;
-		label: string;
+		// children?: any;
+		label?: string;
 		preset?: string;
 		bg?: string;
 		full?: boolean;
+		icon?: Component<IconProps>;
 		isLoading?: boolean;
-		onclick: () => void;
+		onclick?: () => void;
 	} = $props();
+
+	const Icon = icon;
 </script>
 
-<button {type} class="btn {full ? `w-full` : ``} preset-{preset} bg-{bg}" {onclick}>
-	{#if children}
-		{@render children()}
-	{/if}
+<button
+	{type}
+	class="{label ? `btn` : `btn-icon`} {full ? `w-full` : ``} preset-{preset} bg-{bg}"
+	{onclick}
+>
 	{#if isLoading}
-		<LoaderCircle size={16} class="animate-spin" />
+		<LoaderCircle size={20} class="animate-spin" />
 	{:else}
-		<span>{label}</span>
+		{#if icon}
+			<Icon size={20} />
+		{/if}
+		{#if label}
+			<span>{label}</span>
+		{/if}
 	{/if}
 </button>

@@ -17,17 +17,19 @@ supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
 
 // Listening to auth state changes
 supabase.auth.onAuthStateChange((_event, newSession) => {
-	if (_event === 'SIGNED_OUT') {
+	if (_event === 'SIGNED_OUT' || !newSession) {
 		console.log('User signed out');
+		session.set(null);
+		user.set(null);
 		vehiclesStore.clear();
 		appointmentsStore.clear();
 	}
 
-	if (_event === 'SIGNED_IN' || _event === 'INITIAL_SESSION') {
+	if ((_event === 'SIGNED_IN' || _event === 'INITIAL_SESSION') && newSession) {
+		console.log('User signed in');
+		session.set(newSession);
+		user.set(newSession?.user || null);
 		vehiclesStore.init(newSession!.user.id);
 		appointmentsStore.init();
 	}
-
-	session.set(newSession);
-	user.set(newSession?.user || null);
 });

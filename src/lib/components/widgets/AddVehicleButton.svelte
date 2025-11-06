@@ -6,5 +6,5 @@
 </script>
 
 {#if $vehiclesStore && $vehiclesStore.length < 8}
-	<Button label="Add car" onclick={openAddVehiclePopUp}><Plus /></Button>
+	<Button label="Add car" icon={Plus} preset="tonal" onclick={openAddVehiclePopUp} />
 {/if}

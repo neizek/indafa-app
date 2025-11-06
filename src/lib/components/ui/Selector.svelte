@@ -14,11 +14,17 @@
 		onchange?: (value: AcceptedSelectOptionValues) => void;
 	} = $props();
 
+	let optionsRefs: HTMLElement[] = $state([]);
+
 	if (!value || !options.find((option) => option.value === value)) selectFirstAvaliableOption();
 
 	function chooseOption(option: SelectOption) {
 		value = option.value;
 		if (onchange) onchange(value);
+		optionsRefs[options.findIndex((item) => item.value === option.value)]?.scrollIntoView({
+			behavior: 'smooth',
+			block: 'center'
+		});
 	}
 
 	function selectFirstAvaliableOption() {
@@ -41,14 +47,23 @@
 	});
 </script>
 
-<div class="flex flex-wrap gap-2">
-	{#each options as option}
+<div class="flex gap-2 overflow-auto p-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+	{#each options as option, index}
+		{@const Icon = option.icon}
 		<button
-			class="btn flex flex-col gap-2 {option.value === value ? `bg-primary-500` : ``}"
+			class="btn flex flex-1 flex-col gap-0 {option.value === value
+				? `bg-primary-500`
+				: `preset-tonal`}"
 			disabled={option.disabled}
+			bind:this={optionsRefs[index]}
 			onclick={() => chooseOption(option)}
 		>
-			<span>{option.label}</span>
+			<div class="flex items-center gap-2">
+				{#if Icon}
+					<Icon size={20} />
+				{/if}
+				<span>{option.label}</span>
+			</div>
 			{#if option.caption}
 				<span class="preset-text-caption">{option.caption}</span>
 			{/if}
