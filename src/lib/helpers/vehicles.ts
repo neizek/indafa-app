@@ -1,10 +1,10 @@
-import AddVehicleForm from '$lib/components/widgets/AddVehicleForm.svelte';
 import supabase from '$lib/db';
 import { createPopUp } from '$lib/stores/popUp';
 import vehiclesStore from '$lib/stores/vehicles';
 import { Trash } from '@lucide/svelte';
 import DeleteVehicle from '../../routes/user/profile/DeleteVehicle.svelte';
 import type { Vehicle } from '$lib/types/vehicles';
+import AddVehicleForm from '$lib/components/forms/AddVehicleForm.svelte';
 
 // Working with database
 

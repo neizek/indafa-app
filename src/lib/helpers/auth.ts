@@ -1,9 +1,12 @@
-import OTPForm from '$lib/components/widgets/OTPForm.svelte';
-import SignInForm from '$lib/components/widgets/SignInForm.svelte';
+import OTPForm from '$lib/components/forms/OTPForm.svelte';
+import SignInForm from '$lib/components/forms/SignInForm.svelte';
 import supabase from '$lib/db';
+import appointmentsStore from '$lib/stores/appointments';
 import { createPopUp } from '$lib/stores/popUp';
+import vehiclesStore from '$lib/stores/vehicles';
 import type { UserEditPayload, VerificationType } from '$lib/types/auth';
 import type { VerifyOtpParams } from '@supabase/supabase-js';
+import storage from './storage';
 
 export async function signIn(email: string, password: string) {
 	const { data, error } = await supabase.auth.signInWithPassword({
@@ -106,6 +109,11 @@ export async function updateUser(userEditPayload: UserEditPayload) {
 
 export async function signOut() {
 	const { error } = await supabase.auth.signOut();
+
+	vehiclesStore.clear();
+	storage.remove('vehicles');
+	appointmentsStore.clear();
+	storage.remove('appointments');
 
 	if (error) {
 		console.error('Sign out error:', error.message);

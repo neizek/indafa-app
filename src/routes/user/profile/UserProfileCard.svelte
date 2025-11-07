@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import EditProfileForm from '$lib/components/forms/EditProfileForm.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
 	import FormItem from '$lib/components/ui/FormItem.svelte';
 	import Section from '$lib/components/ui/Section.svelte';
-	import EditProfileForm from '$lib/components/widgets/EditProfileForm.svelte';
 	import { signOut } from '$lib/helpers/auth';
 	import { user } from '$lib/stores/auth';
 	import { createPopUp } from '$lib/stores/popUp';
