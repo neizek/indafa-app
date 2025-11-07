@@ -9,6 +9,6 @@
 
 <Section>
 	<FormItem label="Select car wash">
-		<Selector options={carWashesOptions} bind:value={selectedCarWash} />
+		<Selector options={$carWashesOptions} bind:value={selectedCarWash} />
 	</FormItem>
 </Section>

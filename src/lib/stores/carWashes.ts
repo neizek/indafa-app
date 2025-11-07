@@ -1,19 +1,25 @@
-import supabase from '$lib/db';
-import { writable } from 'svelte/store';
+// import supabase from '$lib/db';
+import { derived, writable, type Readable } from 'svelte/store';
 import type { CarWash } from '../types/carWashes';
+import { getCarWashes } from '$lib/helpers/carWashes';
+import storage from '$lib/helpers/storage';
+import type { SelectOption } from '$lib/types/ui';
 
-export const { data, error } = await supabase.from('car_wash').select('*');
+async function initCarWashes(): Promise<CarWash[]> {
+	let carWashes = storage.get('carWashes') as CarWash[];
 
-async function getCarWashes(): Promise<Array<CarWash>> {
-	const { data } = await supabase.from('car_wash').select('*, working_hours(*)');
-	return data ?? [];
+	if (!carWashes) {
+		carWashes = await getCarWashes();
+		storage.set('carWashes', carWashes);
+	}
+
+	return carWashes;
 }
 
-export const carWashesOptions =
-	data?.map((carWash) => ({
-		id: carWash.id.toString(),
+export const carWashes = writable<Array<CarWash>>(await initCarWashes());
+export const carWashesOptions: Readable<SelectOption[]> = derived(carWashes, (carWashes) =>
+	carWashes.map((carWash) => ({
 		value: carWash.id,
 		label: carWash.address
-	})) ?? [];
-
-export const carWashes = writable<Array<CarWash>>(await getCarWashes());
+	}))
+);

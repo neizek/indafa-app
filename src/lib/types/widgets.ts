@@ -2,7 +2,7 @@ import type { Component, ComponentProps } from 'svelte';
 
 type ComponentType = {
 	component: Component<ComponentProps>;
-	props: Record<string, unknown>;
+	props?: Record<string, unknown>;
 };
 
 export interface PopUp {

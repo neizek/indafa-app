@@ -1,13 +1,17 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/Button.svelte';
 	import type { CarWash } from '$lib/types/carWashes';
-	import { Phone } from '@lucide/svelte';
+	import { MapPin, Phone } from '@lucide/svelte';
 	import WorkingHours from './WorkingHours.svelte';
 
 	let { carWash }: { carWash: CarWash } = $props();
 </script>
 
 <div class="flex flex-col gap-4 card">
+	<div class="flex items-center gap-2">
+		<MapPin />
+		<span>{carWash.address}</span>
+	</div>
 	<WorkingHours workingHours={carWash.working_hours} />
 	<div class="flex flex-col gap-2">
 		<div class="flex gap-2">
@@ -25,7 +29,7 @@
 			/>
 		</div>
 		<Button
-			label="Piezvanit"
+			label={carWash.phone}
 			icon={Phone}
 			onclick={() => window.open(`tel:${carWash.phone}`)}
 			full

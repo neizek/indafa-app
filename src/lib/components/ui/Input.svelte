@@ -5,7 +5,7 @@
 		placeholder,
 		value = $bindable()
 	}: {
-		type?: 'text' | 'password' | 'email' | 'number';
+		type?: 'text' | 'password' | 'email' | 'number' | 'tel';
 		inputmode?: 'text' | 'tel' | 'numeric';
 		placeholder?: string;
 		value: any;

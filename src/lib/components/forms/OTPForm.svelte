@@ -10,7 +10,7 @@
 	import { Check } from '@lucide/svelte';
 	import Form from '../ui/Form.svelte';
 
-	let { email, closePopUp } = $props();
+	let { input, verificationType, closePopUp } = $props();
 
 	let isLoading: boolean = $state(false);
 
@@ -23,10 +23,9 @@
 		onSubmit: (values) => {
 			isLoading = true;
 
-			verifyOTP(email, values.otp)
+			verifyOTP(verificationType, input, values.otp)
 				.then(() => {
 					closePopUp();
-					goto('/');
 				})
 				.finally(() => {
 					isLoading = false;

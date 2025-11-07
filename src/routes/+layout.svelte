@@ -2,7 +2,7 @@
 	import '../mapbox.css';
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import BottomMenu from '$lib/components/BottomMenu.svelte';
+	import BottomMenu from '$lib/components/widgets/BottomMenu.svelte';
 	import PopUp from '$lib/components/widgets/PopUp.svelte';
 	import { beforeNavigate } from '$app/navigation';
 	import { previousUrl } from '$lib/stores/navigation';

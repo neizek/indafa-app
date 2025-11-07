@@ -1,11 +1,8 @@
 <script lang="ts">
-	import UserAppointmentsCard from './UserAppointmentsCard.svelte';
+	import UserAppointmentsCard from '../../../lib/components/widgets/AppointmentsBlock.svelte';
 	import UserProfileCard from './UserProfileCard.svelte';
 	import UserVehiclesCard from './UserVehiclesCard.svelte';
 </script>
 
-<div>
-	<UserAppointmentsCard />
-	<UserProfileCard />
-	<UserVehiclesCard />
-</div>
+<UserProfileCard />
+<UserVehiclesCard />

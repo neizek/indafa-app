@@ -16,6 +16,8 @@
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
 	import AddVehicleButton from '$lib/components/widgets/AddVehicleButton.svelte';
+	import { goto } from '$app/navigation';
+	import Form from '$lib/components/ui/Form.svelte';
 
 	let isLoading: boolean = $state(false);
 
@@ -30,12 +32,12 @@
 
 	const { form, errors, data } = createForm<FormValues>({
 		extend: validator({ schema }),
-		initialValues: {
-			location: $carWashes[0].id,
-			date: new Date(),
-			vehicle: $vehiclesStore[0].id,
-			startTime: 8
-		},
+		// initialValues: {
+		// 	location: $carWashes[0].id,
+		// 	date: new Date(),
+		// 	vehicle: $vehiclesStore[0].id,
+		// 	startTime: 8
+		// },
 		onSubmit: () => {}
 	});
 
@@ -54,6 +56,7 @@
 		let dateOptions: SelectOption[] = [];
 
 		for (let i = 0; dateOptions.length < 2; i++) {
+			if (i === 10) break;
 			const date = new Date();
 			date.setDate(date.getDate() + i);
 			const wh = chosenCarWash?.working_hours.find((wh) => wh.day_of_week === date.getDay());
@@ -76,7 +79,6 @@
 
 	const vehiclesOptions = derived(vehiclesStore, (items) =>
 		items.map((vehicle) => ({
-			id: vehicle.id.toString(),
 			value: vehicle.id,
 			label: vehicle.license_plate
 		}))
@@ -148,15 +150,16 @@
 			start_time: new Date($data.date.setHours($data.startTime, 0, 0, 0)).toISOString(),
 			end_time: new Date($data.date.setHours($data.startTime + 1, 0, 0, 0)).toISOString()
 		}).finally(() => {
+			goto('/user/profile');
 			isLoading = false;
 		});
 	}
 </script>
 
-<form use:form>
+<Form {form}>
 	<Section header="Desired spot">
 		<FormItem label="Select Car Wash">
-			<Selector options={carWashesOptions} bind:value={$data.location} />
+			<Selector options={$carWashesOptions} bind:value={$data.location} />
 		</FormItem>
 	</Section>
 	<Section header="Appointment">
@@ -175,6 +178,9 @@
 		{/snippet}
 		<FormItem label="Select Car">
 			<Selector options={$vehiclesOptions} bind:value={$data.vehicle} />
+			{#if $vehiclesOptions && $vehiclesOptions.length === 0}
+				Add some cars to your account
+			{/if}
 		</FormItem>
 	</Section>
 
@@ -186,4 +192,4 @@
 		onclick={sendAppointmentRequest}
 		full
 	/>
-</form>
+</Form>

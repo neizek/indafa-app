@@ -1,7 +1,9 @@
-import SignInWidget from '$lib/components/widgets/SignInWidget.svelte';
+import OTPForm from '$lib/components/widgets/OTPForm.svelte';
+import SignInForm from '$lib/components/widgets/SignInForm.svelte';
 import supabase from '$lib/db';
 import { createPopUp } from '$lib/stores/popUp';
-import type { UserEditPayload } from '$lib/types/auth';
+import type { UserEditPayload, VerificationType } from '$lib/types/auth';
+import type { VerifyOtpParams } from '@supabase/supabase-js';
 
 export async function signIn(email: string, password: string) {
 	const { data, error } = await supabase.auth.signInWithPassword({
@@ -31,11 +33,27 @@ export async function signUp(email: string, password: string) {
 	return data.user;
 }
 
-export async function sendOTP(email: string) {
-	const { data, error } = await supabase.auth.signInWithOtp({
-		email,
-		options: { shouldCreateUser: true }
-	});
+export async function sendOTP(type: VerificationType, input: string) {
+	const payload = (() => {
+		if (type === 'email') {
+			return {
+				email: input,
+				options: { shouldCreateUser: true }
+			};
+		}
+
+		if (type === 'phone') {
+			return {
+				phone: input,
+				options: { shouldCreateUser: true }
+			};
+		}
+	})();
+
+	if (!payload) {
+		return;
+	}
+	const { data, error } = await supabase.auth.signInWithOtp(payload);
 
 	if (error) {
 		console.error('Sign up error:', error.message);
@@ -45,16 +63,34 @@ export async function sendOTP(email: string) {
 	return data.user;
 }
 
-export async function verifyOTP(email: string, token: string) {
-	const { data, error } = await supabase.auth.verifyOtp({
-		email,
-		token,
-		type: 'email'
-	});
+export async function verifyOTP(type: VerificationType, input: string, token: string) {
+	const payload: VerifyOtpParams | undefined = (() => {
+		if (type === 'email') {
+			return {
+				email: input,
+				token,
+				type: 'email'
+			};
+		}
+
+		if (type === 'phone') {
+			return {
+				phone: input,
+				token,
+				type: 'sms'
+			};
+		}
+	})();
+
+	if (!payload) {
+		return;
+	}
+
+	const { data, error } = await supabase.auth.verifyOtp(payload);
 
 	if (error) {
 		console.error('Verify OTP error:', error.message);
-		return null;
+		return;
 	}
 
 	return data.user;
@@ -80,8 +116,21 @@ export function callToLoginPopUp() {
 	createPopUp({
 		title: 'Login',
 		content: {
-			component: SignInWidget,
+			component: SignInForm,
 			props: {}
+		}
+	});
+}
+
+export function openOTPVerificationPopUp(input: string, verificationType: VerificationType) {
+	createPopUp({
+		title: 'Verification',
+		content: {
+			component: OTPForm,
+			props: {
+				input,
+				verificationType
+			}
 		}
 	});
 }

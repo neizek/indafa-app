@@ -13,12 +13,16 @@
 			<AddVehicleButton />
 		</div>
 	{/snippet}
-	<div class="grid grid-cols-2 gap-2">
-		{#each $vehiclesStore as vehicle}
-			<div class="btn chip flex justify-between preset-tonal">
-				<span>{vehicle.license_plate}</span>
-				<Button bg="transparent" icon={XIcon} onclick={() => openDeleteVehiclePopUp(vehicle)} />
-			</div>
-		{/each}
-	</div>
+	{#if $vehiclesStore && $vehiclesStore.length === 0}
+		<span>You have no any cars added in your account.</span>
+	{:else}
+		<div class="grid grid-cols-2 gap-2">
+			{#each $vehiclesStore as vehicle}
+				<div class="btn chip flex justify-between preset-tonal">
+					<span>{vehicle.license_plate}</span>
+					<Button bg="transparent" icon={XIcon} onclick={() => openDeleteVehiclePopUp(vehicle)} />
+				</div>
+			{/each}
+		</div>
+	{/if}
 </Section>

@@ -2,6 +2,6 @@
 	let { form, children } = $props();
 </script>
 
-<form use:form class="flex flex-col gap-2">
+<form use:form class="flex flex-col gap-4">
 	{@render children?.()}
 </form>

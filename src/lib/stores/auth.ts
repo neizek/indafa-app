@@ -7,13 +7,24 @@ import appointmentsStore from './appointments';
 export const user = writable<Session['user'] | null>(null);
 export const session = writable<Session | null>(null);
 
-// Getting initial session state
-supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+export async function initSession() {
+	const {
+		data: { session: currentSession },
+		error
+	} = await supabase.auth.getSession();
+
+	if (error) {
+		console.log('Error with initiating session:', error);
+		return;
+	}
+
 	if (currentSession) {
 		session.set(currentSession);
 		user.set(currentSession?.user);
 	}
-});
+
+	return currentSession;
+}
 
 // Listening to auth state changes
 supabase.auth.onAuthStateChange((_event, newSession) => {

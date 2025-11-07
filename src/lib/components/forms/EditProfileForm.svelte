@@ -8,7 +8,7 @@
 	import Form from '../ui/Form.svelte';
 	import Button from '../ui/Button.svelte';
 	import { Check, XIcon } from '@lucide/svelte';
-	import { updateUser } from '$lib/helpers/auth';
+	import { openOTPVerificationPopUp, updateUser } from '$lib/helpers/auth';
 
 	const schema = z.object({
 		firstName: z.string(),
@@ -36,6 +36,9 @@
 				}
 			})
 				.then(() => {
+					if (values.phone !== $user?.phone) {
+						openOTPVerificationPopUp(values.phone, 'phone');
+					}
 					closePopUp();
 				})
 				.finally(() => {
@@ -57,6 +60,6 @@
 	</FormItem>
 	<div class="mt-2 flex gap-2">
 		<Button type="submit" label="Confirm" icon={Check} {isLoading} full />
-		<Button label="Cancel" preset="tonal" icon={XIcon} full />
+		<Button label="Cancel" preset="tonal" icon={XIcon} full onclick={closePopUp} />
 	</div>
 </Form>

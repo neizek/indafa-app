@@ -18,7 +18,7 @@
 {#if errors && errors.length > 0}
 	<div class="flex flex-col gap-2">
 		{#each errors as error}
-			<span>{error}</span>
+			<span class="text-red-500">{error}</span>
 		{/each}
 	</div>
 {/if}

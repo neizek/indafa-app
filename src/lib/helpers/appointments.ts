@@ -1,6 +1,12 @@
+import CancelAppointmentForm from '$lib/components/forms/CancelAppointmentForm.svelte';
 import supabase from '$lib/db';
 import appointmentsStore from '$lib/stores/appointments';
-import type { Appointment, AppointmentPayload } from '$lib/types/appointments';
+import { createPopUp } from '$lib/stores/popUp';
+import {
+	AppointmentStatusEnum,
+	type Appointment,
+	type AppointmentPayload
+} from '$lib/types/appointments';
 
 async function createAppointment(payload: AppointmentPayload) {
 	const { data, error } = await supabase
@@ -18,6 +24,24 @@ async function createAppointment(payload: AppointmentPayload) {
 	}
 
 	appointmentsStore.add(data[0]);
+	return data;
+}
+
+async function cancelAppointment(id: number) {
+	const { data, error } = await supabase
+		.from('appointment')
+		.update({
+			status: AppointmentStatusEnum.canceled
+		})
+		.eq('id', id)
+		.select();
+
+	if (error) {
+		console.error('Error canceling appointment:', error);
+		return [];
+	}
+
+	appointmentsStore.cancel(id);
 	return data;
 }
 
@@ -55,4 +79,22 @@ async function getAppointmentsByDate(date: Date, carWashId: number): Promise<App
 	return data;
 }
 
-export { createAppointment, getUserAppointments, getAppointmentsByDate };
+function openCancelAppointmentPopUp(appointment: Appointment) {
+	createPopUp({
+		title: 'Cancel appointment',
+		content: {
+			component: CancelAppointmentForm,
+			props: {
+				appointment
+			}
+		}
+	});
+}
+
+export {
+	createAppointment,
+	getUserAppointments,
+	getAppointmentsByDate,
+	openCancelAppointmentPopUp,
+	cancelAppointment
+};

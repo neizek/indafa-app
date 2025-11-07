@@ -6,7 +6,6 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 .preset-glass-surface {
-	background: color-mix(in oklab, var(--color-surface-500) 40%, transparent);
 	box-shadow: 0 0px 30px color-mix(in oklab, var(--color-surface-500) 50%, transparent) inset;
 	backdrop-filter: blur(16px);
 }

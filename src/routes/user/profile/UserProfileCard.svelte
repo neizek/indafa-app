@@ -33,8 +33,6 @@
 				isLoading = false;
 			});
 	}
-
-	console.log($user);
 </script>
 
 <Section header="User Profile">
@@ -42,13 +40,13 @@
 		<Button label="Edit" preset="tonal" icon={Pen} onclick={createEditProfilePopUp} />
 	{/snippet}
 	<FormItem label="First name">
-		<span>{$user?.user_metadata.firstName} {$user?.user_metadata.lastName}</span>
+		<span>{$user?.user_metadata.firstName ?? 'No data'} {$user?.user_metadata.lastName}</span>
 	</FormItem>
 	<FormItem label="Email">
-		<span>{$user?.email}</span>
+		<span>{$user?.email ?? 'No data'}</span>
 	</FormItem>
 	<FormItem label="Phone">
-		<span>{$user?.phone}</span>
+		<span>{$user?.phone ?? 'No data'}</span>
 	</FormItem>
 	<Button preset="tonal" label="Sign out" icon={LogOut} onclick={onSignOut} {isLoading} />
 </Section>

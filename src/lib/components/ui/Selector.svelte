@@ -4,19 +4,20 @@
 
 	let {
 		options,
-		value = $bindable(null),
+		value = $bindable(),
 		errors = null,
 		onchange
 	}: {
 		options: SelectOption[];
-		value: AcceptedSelectOptionValues;
+		value?: AcceptedSelectOptionValues;
 		errors?: string[] | null;
 		onchange?: (value: AcceptedSelectOptionValues) => void;
 	} = $props();
 
 	let optionsRefs: HTMLElement[] = $state([]);
 
-	if (!value || !options.find((option) => option.value === value)) selectFirstAvaliableOption();
+	if (!value && options && !options.find((option) => option.value === value))
+		selectFirstAvaliableOption();
 
 	function chooseOption(option: SelectOption) {
 		value = option.value;
@@ -28,6 +29,10 @@
 	}
 
 	function selectFirstAvaliableOption() {
+		if (options.length === 0) {
+			return;
+		}
+
 		for (const option of options) {
 			if (option.disabled) continue;
 			chooseOption(option);
