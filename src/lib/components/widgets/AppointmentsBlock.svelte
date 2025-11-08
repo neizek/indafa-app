@@ -2,18 +2,12 @@
 	import Button from '$lib/components/ui/Button.svelte';
 	import ScrollableSection from '$lib/components/ui/ScrollableSection.svelte';
 	import AppointmentCard from '$lib/components/widgets/AppointmentCard.svelte';
+	import { AppointmentStatusEnum } from '$lib/enums/appointments';
 	import appointmentsStore from '$lib/stores/appointments';
 	import { carWashes } from '$lib/stores/carWashes';
 	import vehiclesStore from '$lib/stores/vehicles';
-	import { AppointmentStatusEnum, type Appointment } from '$lib/types/appointments';
-	import type { CarWash } from '$lib/types/carWashes';
-	import { Plus } from '@lucide/svelte';
+	import { type FullAppointment } from '$lib/types/appointments';
 	import { derived, type Readable } from 'svelte/store';
-
-	interface FullAppointment extends Appointment {
-		carWash?: CarWash;
-		vehicle?: string;
-	}
 
 	const upcomingAppointments: Readable<FullAppointment[]> = derived(appointmentsStore, (items) =>
 		items

@@ -1,4 +1,4 @@
-import supabase from '$lib/db';
+import supabase from '$lib/helpers/db';
 import { createPopUp } from '$lib/stores/popUp';
 import vehiclesStore from '$lib/stores/vehicles';
 import { Trash } from '@lucide/svelte';

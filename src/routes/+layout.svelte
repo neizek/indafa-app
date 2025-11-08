@@ -7,6 +7,7 @@
 	import { beforeNavigate } from '$app/navigation';
 	import { previousUrl } from '$lib/stores/navigation';
 	import Toaster from '$lib/components/ui/Toaster.svelte';
+	import type { Route } from '$lib/constants/routes';
 
 	let { children } = $props();
 
@@ -14,7 +15,7 @@
 
 	beforeNavigate(({ type, from }) => {
 		historyNavigation = type === 'popstate';
-		previousUrl.set(from?.url.pathname);
+		previousUrl.set(from?.url.pathname as Route);
 	});
 </script>
 

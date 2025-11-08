@@ -17,6 +17,7 @@
 	import AddVehicleButton from '$lib/components/widgets/AddVehicleButton.svelte';
 	import { goto } from '$app/navigation';
 	import Form from '$lib/components/ui/Form.svelte';
+	import { ROUTES } from '$lib/constants/routes';
 
 	let isLoading: boolean = $state(false);
 
@@ -149,7 +150,7 @@
 			start_time: new Date($data.date.setHours($data.startTime, 0, 0, 0)).toISOString(),
 			end_time: new Date($data.date.setHours($data.startTime + 1, 0, 0, 0)).toISOString()
 		}).finally(() => {
-			goto('/user/profile');
+			goto(ROUTES.HOME);
 			isLoading = false;
 		});
 	}

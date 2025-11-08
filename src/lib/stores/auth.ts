@@ -1,4 +1,4 @@
-import supabase from '$lib/db';
+import supabase from '$lib/helpers/db';
 import type { Session } from '@supabase/supabase-js';
 import { writable } from 'svelte/store';
 import vehiclesStore from './vehicles';

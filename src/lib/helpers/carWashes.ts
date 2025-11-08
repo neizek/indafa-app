@@ -1,5 +1,5 @@
 import CarWashDetails from '$lib/components/widgets/CarWashDetails.svelte';
-import supabase from '$lib/db';
+import supabase from '$lib/helpers/db';
 import { createPopUp } from '$lib/stores/popUp';
 import type { CarWash } from '$lib/types/carWashes';
 import { Bubbles } from '@lucide/svelte';

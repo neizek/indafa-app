@@ -8,6 +8,7 @@
 		preset = 'primary',
 		full = false,
 		isLoading = false,
+		disabled = false,
 		icon,
 		onclick
 	}: {
@@ -17,6 +18,7 @@
 		full?: boolean;
 		icon?: Component<IconProps>;
 		isLoading?: boolean;
+		disabled?: boolean;
 		onclick?: () => void;
 	} = $props();
 
@@ -28,7 +30,13 @@
 		ghost: 'bg-transparent'
 	};
 
-	let classes = ['h9', icon && !label ? 'btn-icon' : 'btn', full ? 'w-full' : '', presets[preset]];
+	let classes = [
+		'h-9',
+		icon && !label ? 'btn-icon' : 'btn',
+		full ? 'w-full' : '',
+		presets[preset],
+		disabled ? 'opacity-50' : ''
+	];
 </script>
 
 <button {type} class={classes} {onclick}>

@@ -55,11 +55,11 @@
 	});
 </script>
 
+<span>Use this form to sign in your account on Indafa</span>
+<FormItem label="Choose your sign in way">
+	<Selector options={signInOptions} bind:value={signInWay} />
+</FormItem>
 <Form {form}>
-	<span>Use this form to sign in your account on Indafa</span>
-	<FormItem label="Choose your sign in way">
-		<Selector options={signInOptions} bind:value={signInWay} />
-	</FormItem>
 	{#if signInWay === 'email'}
 		<FormItem label="Email" errors={$errors.email}>
 			<Input type="email" placeholder="janis.berzins@gmail.com" bind:value={$data.email} />

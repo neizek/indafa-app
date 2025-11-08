@@ -1,6 +1,6 @@
 import OTPForm from '$lib/components/forms/OTPForm.svelte';
 import SignInForm from '$lib/components/forms/SignInForm.svelte';
-import supabase from '$lib/db';
+import supabase from '$lib/helpers/db';
 import appointmentsStore from '$lib/stores/appointments';
 import { createPopUp } from '$lib/stores/popUp';
 import vehiclesStore from '$lib/stores/vehicles';

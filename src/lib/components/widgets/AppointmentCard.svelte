@@ -3,15 +3,15 @@
 	import Button from '../ui/Button.svelte';
 	import { openCarWashDetailsPopUp } from '$lib/helpers/carWashes';
 	import { openCancelAppointmentPopUp } from '$lib/helpers/appointments';
-	import { formatAppointmentDateTime, formatDateTime } from '$lib/helpers/datetime';
+	import { formatAppointmentDateTime } from '$lib/helpers/datetime';
 	import Item from '../ui/Item.svelte';
-	import { AppointmentStatusEnum } from '$lib/types/appointments';
+	import { AppointmentStatusEnum } from '$lib/enums/appointments';
 
 	let { appointment } = $props();
 	let { date, time } = formatAppointmentDateTime(appointment.start_time);
 </script>
 
-<div class="relative flex flex-col gap-2 p-4">
+<div class="relative flex flex-col gap-2 p-5">
 	<span class="absolute right-4 badge preset-filled">{appointment.status}</span>
 	<Item icon={Car} label={appointment.vehicle} />
 	<Item icon={Clock} label={time} />

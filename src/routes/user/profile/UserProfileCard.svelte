@@ -4,6 +4,7 @@
 	import Button from '$lib/components/ui/Button.svelte';
 	import FormItem from '$lib/components/ui/FormItem.svelte';
 	import Section from '$lib/components/ui/Section.svelte';
+	import { ROUTES } from '$lib/constants/routes';
 	import { signOut } from '$lib/helpers/auth';
 	import { user } from '$lib/stores/auth';
 	import { createPopUp } from '$lib/stores/popUp';
@@ -27,7 +28,7 @@
 
 		signOut()
 			.then(() => {
-				goto('/');
+				goto(ROUTES.HOME);
 			})
 			.finally(() => {
 				isLoading = false;

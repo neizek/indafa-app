@@ -2,10 +2,11 @@
 	import { goto } from '$app/navigation';
 	import { createPopUp } from '$lib/stores/popUp';
 	import { UserIcon, Settings, House, Map, type IconProps, Plus } from '@lucide/svelte';
-	import { t } from '$lib/translations';
+	import { t } from '$lib/translations/translations';
 	import { page } from '$app/state';
 	import type { Component } from 'svelte';
 	import SettingsForm from '../forms/SettingsForm.svelte';
+	import { ROUTES } from '$lib/constants/routes';
 
 	interface MenuItem {
 		icon: Component<IconProps>;
@@ -15,9 +16,9 @@
 	}
 
 	const menu: MenuItem[] = [
-		{ icon: House, link: '/', label: 'common.home' },
-		{ icon: UserIcon, link: '/user/profile', label: 'common.profile' },
-		{ icon: Map, link: '/map', label: 'common.map' },
+		{ icon: House, link: ROUTES.HOME, label: 'common.home' },
+		{ icon: UserIcon, link: ROUTES.USER.PROFILE, label: 'common.profile' },
+		{ icon: Map, link: ROUTES.MAP, label: 'common.map' },
 		{ icon: Settings, action: () => createSettingsPopup(), label: 'common.settings' }
 	];
 

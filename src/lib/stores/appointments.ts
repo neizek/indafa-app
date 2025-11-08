@@ -1,8 +1,9 @@
 import storage from '$lib/helpers/storage';
-import { AppointmentStatusEnum, type Appointment } from '$lib/types/appointments';
+import { type Appointment } from '$lib/types/appointments';
 import { writable } from 'svelte/store';
 import { session } from './auth';
 import { getUserAppointments } from '$lib/helpers/appointments';
+import { AppointmentStatusEnum } from '$lib/enums/appointments';
 
 const appointmentsStore = (() => {
 	const { subscribe, set, update } = writable<Array<Appointment>>([]);

@@ -1,12 +1,9 @@
 import CancelAppointmentForm from '$lib/components/forms/CancelAppointmentForm.svelte';
-import supabase from '$lib/db';
+import supabase from '$lib/helpers/db';
+import { AppointmentStatusEnum } from '$lib/enums/appointments';
 import appointmentsStore from '$lib/stores/appointments';
 import { createPopUp } from '$lib/stores/popUp';
-import {
-	AppointmentStatusEnum,
-	type Appointment,
-	type AppointmentPayload
-} from '$lib/types/appointments';
+import { type Appointment, type AppointmentPayload } from '$lib/types/appointments';
 
 async function createAppointment(payload: AppointmentPayload) {
 	const { data, error } = await supabase
@@ -46,7 +43,10 @@ async function cancelAppointment(id: number) {
 }
 
 async function getUserAppointments() {
-	const { data, error } = await supabase.from('appointment').select('*');
+	const { data, error } = await supabase
+		.from('appointment')
+		.select('*')
+		.order('start_time', { ascending: false });
 
 	if (error) {
 		console.error('Error fetching appointments:', error);

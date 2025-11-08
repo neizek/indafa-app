@@ -1,9 +1,10 @@
 import { goto } from '$app/navigation';
+import { ROUTES } from '$lib/constants/routes.js';
 import { callToLoginPopUp } from '$lib/helpers/auth';
 import storage from '$lib/helpers/storage.js';
 import { initSession } from '$lib/stores/auth';
 import { previousUrl } from '$lib/stores/navigation.js';
-import { loadTranslations, supportedLocalesOptions } from '$lib/translations/';
+import { loadTranslations, supportedLocalesOptions } from '$lib/translations/translations';
 import { get } from 'svelte/store';
 
 export const ssr = false;
@@ -21,7 +22,7 @@ export async function load(page) {
 	const session = await initSession();
 
 	if (needsAuth && !session) {
-		const navigateToLink = get(previousUrl) ?? '/';
+		const navigateToLink = get(previousUrl) ?? ROUTES.HOME;
 
 		goto(navigateToLink, { replaceState: true }).then(() => {
 			callToLoginPopUp();

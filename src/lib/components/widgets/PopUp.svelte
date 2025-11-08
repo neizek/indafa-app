@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { closePopUp, popUps } from '$lib/stores/popUp';
-	import { t } from '$lib/translations';
+	import { t } from '$lib/translations/translations';
 	import { XIcon } from '@lucide/svelte';
 	import { cubicOut } from 'svelte/easing';
 	import { fade, fly } from 'svelte/transition';
