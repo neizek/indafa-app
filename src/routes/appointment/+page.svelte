@@ -9,9 +9,8 @@
 	import { derived } from 'svelte/store';
 	import type { SelectOption } from '$lib/types/ui';
 	import { createAppointment, getAppointmentsByDate } from '$lib/helpers/appointments';
-	import { getHoursFromTime } from '$lib/helpers/strings';
 	import { session } from '$lib/stores/auth';
-	import { getDateLabel } from '$lib/helpers/datetime';
+	import { getDateLabel, getHoursFromTime } from '$lib/helpers/datetime';
 	import { z } from 'zod';
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';

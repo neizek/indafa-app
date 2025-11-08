@@ -27,3 +27,27 @@ export function formatDateTime(dbDate: string) {
 
 	return date.toLocaleDateString() + ' ' + hours + ':' + minutes;
 }
+
+export function formatAppointmentDateTime(dateString: string) {
+	const date = new Date(dateString);
+
+	// Format date as "10 October"
+	const formattedDate = date.toLocaleDateString('en-GB', {
+		day: 'numeric',
+		month: 'long'
+	});
+
+	// Format time as "18:00"
+	const formattedTime = date.toLocaleTimeString('en-GB', {
+		hour: '2-digit',
+		minute: '2-digit',
+		hour12: false
+	});
+
+	return {
+		date: formattedDate,
+		time: formattedTime
+	};
+}
+
+export const getHoursFromTime = (time: string) => Number(time.split(':')[0]);

@@ -16,7 +16,7 @@ export async function signIn(email: string, password: string) {
 
 	if (error) {
 		console.error('Sign in error:', error.message);
-		return null;
+		throw error;
 	}
 
 	return data.session;
@@ -60,7 +60,7 @@ export async function sendOTP(type: VerificationType, input: string) {
 
 	if (error) {
 		console.error('Sign up error:', error.message);
-		return null;
+		throw error;
 	}
 
 	return data.user;
@@ -93,7 +93,7 @@ export async function verifyOTP(type: VerificationType, input: string, token: st
 
 	if (error) {
 		console.error('Verify OTP error:', error.message);
-		return;
+		throw error;
 	}
 
 	return data.user;
@@ -103,7 +103,8 @@ export async function updateUser(userEditPayload: UserEditPayload) {
 	const { error } = await supabase.auth.updateUser(userEditPayload);
 
 	if (error) {
-		console.error('User update error', error.message);
+		console.error('User update error', error);
+		throw error;
 	}
 }
 
@@ -116,7 +117,8 @@ export async function signOut() {
 	storage.remove('appointments');
 
 	if (error) {
-		console.error('Sign out error:', error.message);
+		console.error('Sign out error:', error);
+		throw error;
 	}
 }
 

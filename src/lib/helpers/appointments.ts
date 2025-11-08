@@ -20,7 +20,7 @@ async function createAppointment(payload: AppointmentPayload) {
 
 	if (error) {
 		console.error('Error adding appointment:', error);
-		return null;
+		throw error;
 	}
 
 	appointmentsStore.add(data[0]);
@@ -38,7 +38,7 @@ async function cancelAppointment(id: number) {
 
 	if (error) {
 		console.error('Error canceling appointment:', error);
-		return [];
+		throw error;
 	}
 
 	appointmentsStore.cancel(id);
@@ -50,7 +50,7 @@ async function getUserAppointments() {
 
 	if (error) {
 		console.error('Error fetching appointments:', error);
-		return [];
+		throw error;
 	}
 
 	return data;
@@ -73,7 +73,7 @@ async function getAppointmentsByDate(date: Date, carWashId: number): Promise<App
 
 	if (error) {
 		console.error('Error fetching appointments:', error);
-		return [];
+		throw error;
 	}
 
 	return data;

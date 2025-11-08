@@ -2,9 +2,9 @@ import supabase from '$lib/db';
 import { createPopUp } from '$lib/stores/popUp';
 import vehiclesStore from '$lib/stores/vehicles';
 import { Trash } from '@lucide/svelte';
-import DeleteVehicle from '../../routes/user/profile/DeleteVehicle.svelte';
 import type { Vehicle } from '$lib/types/vehicles';
 import AddVehicleForm from '$lib/components/forms/AddVehicleForm.svelte';
+import DeleteVehicleForm from '../components/forms/DeleteVehicleForm.svelte';
 
 // Working with database
 
@@ -21,7 +21,7 @@ async function addVehicle(licensePlate: string, userId: string) {
 
 	if (error) {
 		console.error('Error adding vehicle:', error);
-		return null;
+		throw error;
 	}
 
 	vehiclesStore.add(data[0]);
@@ -33,7 +33,7 @@ async function removeVehicle(id: number) {
 
 	if (error) {
 		console.error('Error removing vehicle:', error);
-		return null;
+		throw error;
 	}
 
 	vehiclesStore.remove(id);
@@ -44,7 +44,7 @@ async function getVehiclesByUserId(userId: string) {
 
 	if (error) {
 		console.error('Error fetching vehicles:', error);
-		return [];
+		throw error;
 	}
 
 	return data;
@@ -67,7 +67,7 @@ function openDeleteVehiclePopUp(vehicle: Vehicle) {
 		title: 'Delete Vehicle',
 		icon: Trash,
 		content: {
-			component: DeleteVehicle,
+			component: DeleteVehicleForm,
 			props: {
 				vehicle
 			}

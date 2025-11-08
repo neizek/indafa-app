@@ -37,7 +37,7 @@
 
 <Section header="User Profile">
 	{#snippet controls()}
-		<Button label="Edit" preset="tonal" icon={Pen} onclick={createEditProfilePopUp} />
+		<Button label="Edit" preset="ghost" icon={Pen} onclick={createEditProfilePopUp} />
 	{/snippet}
 	<FormItem label="First name">
 		<span>{$user?.user_metadata.firstName ?? 'No data'} {$user?.user_metadata.lastName}</span>

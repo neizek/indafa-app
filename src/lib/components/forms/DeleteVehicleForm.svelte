@@ -1,16 +1,27 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/Button.svelte';
+	import { getErrorMessage } from '$lib/helpers/errors';
+	import { showErrorToast } from '$lib/helpers/toaster';
 	import { removeVehicle } from '$lib/helpers/vehicles';
 	import { Check, XIcon } from '@lucide/svelte';
 
 	let { vehicle, closePopUp } = $props();
 
 	function onConfirm() {
-		removeVehicle(vehicle.id);
+		removeVehicle(vehicle.id)
+			.then(() => closePopUp())
+			.catch((error) => {
+				showErrorToast({
+					title: 'Error',
+					description: getErrorMessage(error)
+				});
+			});
 		closePopUp();
 	}
 
-	function onCancel() {}
+	function onCancel() {
+		closePopUp();
+	}
 </script>
 
 <div class="flex flex-col gap-4">

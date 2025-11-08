@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getErrorMessage } from '$lib/helpers/errors';
+	import { showErrorToast } from '$lib/helpers/toaster';
 	import { addVehicle } from '$lib/helpers/vehicles';
 	import { session } from '$lib/stores/auth';
 	import { validator } from '@felte/validator-zod';
@@ -31,12 +33,14 @@
 
 		isLoading = true;
 
-		try {
-			const result = await addVehicle(licensePlate, $session.user.id);
-			if (result && closePopUp) closePopUp();
-		} finally {
-			isLoading = false;
-		}
+		addVehicle(licensePlate, $session.user.id)
+			.then(() => {
+				closePopUp();
+			})
+			.catch((error) => showErrorToast({ error }))
+			.finally(() => {
+				isLoading = false;
+			});
 	}
 </script>
 

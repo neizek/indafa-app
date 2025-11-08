@@ -6,6 +6,7 @@
 	import PopUp from '$lib/components/widgets/PopUp.svelte';
 	import { beforeNavigate } from '$app/navigation';
 	import { previousUrl } from '$lib/stores/navigation';
+	import Toaster from '$lib/components/ui/Toaster.svelte';
 
 	let { children } = $props();
 
@@ -22,6 +23,7 @@
 </svelte:head>
 
 <PopUp />
+<Toaster />
 
 <div class="flex min-h-dvh flex-col gap-4 p-4 pb-30">
 	{@render children()}

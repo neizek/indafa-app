@@ -20,7 +20,7 @@
 			{#each $vehiclesStore as vehicle}
 				<div class="btn chip flex justify-between preset-tonal">
 					<span>{vehicle.license_plate}</span>
-					<Button bg="transparent" icon={XIcon} onclick={() => openDeleteVehiclePopUp(vehicle)} />
+					<Button preset="ghost" icon={XIcon} onclick={() => openDeleteVehiclePopUp(vehicle)} />
 				</div>
 			{/each}
 		</div>

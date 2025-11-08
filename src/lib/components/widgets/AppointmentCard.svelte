@@ -1,24 +1,23 @@
 <script>
-	import { Calendar, Car, MapPin, Navigation, XIcon } from '@lucide/svelte';
+	import { Calendar, Car, Clock, MapPin, Navigation, XIcon } from '@lucide/svelte';
 	import Button from '../ui/Button.svelte';
 	import { openCarWashDetailsPopUp } from '$lib/helpers/carWashes';
 	import { openCancelAppointmentPopUp } from '$lib/helpers/appointments';
-	import { formatDateTime } from '$lib/helpers/datetime';
+	import { formatAppointmentDateTime, formatDateTime } from '$lib/helpers/datetime';
 	import Item from '../ui/Item.svelte';
 	import { AppointmentStatusEnum } from '$lib/types/appointments';
 
 	let { appointment } = $props();
+	let { date, time } = formatAppointmentDateTime(appointment.start_time);
 </script>
 
-<div class="relative flex flex-col gap-5 p-4">
+<div class="relative flex flex-col gap-2 p-4">
 	<span class="absolute right-4 badge preset-filled">{appointment.status}</span>
-	<div class="flex items-center gap-2">
-		<Calendar size={18} />
-		<span>{formatDateTime(appointment.start_time)}</span>
-	</div>
-	<div class="flex justify-between gap-2">
+	<Item icon={Car} label={appointment.vehicle} />
+	<Item icon={Clock} label={time} />
+	<div class="flex justify-between">
+		<Item icon={Calendar} label={date} />
 		<Item icon={MapPin} label={appointment.carWash.address} />
-		<Item icon={Car} label={appointment.vehicle} />
 	</div>
 	{#if appointment.status === AppointmentStatusEnum.pending}
 		<div class="mt-4 flex justify-between gap-2">
@@ -31,7 +30,7 @@
 			<Button
 				label="Cancel appointment"
 				icon={XIcon}
-				preset="tonal"
+				preset="cancel"
 				onclick={() => openCancelAppointmentPopUp(appointment)}
 			/>
 		</div>

@@ -9,7 +9,7 @@ export async function getCarWashes(): Promise<Array<CarWash>> {
 
 	if (error) {
 		console.error('Error fetching car washes:', error);
-		return [];
+		throw error;
 	}
 
 	return data ?? [];

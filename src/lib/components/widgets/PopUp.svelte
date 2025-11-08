@@ -15,7 +15,7 @@
 		on:click|self={() => closePopUp(popUp.id)}
 	>
 		<div
-			class="absolute right-0 bottom-0 left-0 mx-auto mb-4 w-full max-w-sm space-y-4 card bg-surface-100-900 p-4 shadow-xl"
+			class="absolute right-0 bottom-0 left-0 mx-auto mb-4 w-full max-w-sm space-y-4 card bg-surface-50 p-4 shadow-xl dark:bg-surface-900"
 			transition:fly={{ y: 200, duration: 300, easing: cubicOut }}
 		>
 			<header class="flex items-center justify-between">

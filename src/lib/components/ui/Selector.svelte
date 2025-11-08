@@ -57,7 +57,7 @@
 		{@const Icon = option.icon}
 		<button
 			class="btn flex flex-1 flex-col gap-0 {option.value === value
-				? `bg-primary-500`
+				? `bg-primary-500 text-white `
 				: `preset-tonal`}"
 			disabled={option.disabled}
 			bind:this={optionsRefs[index]}

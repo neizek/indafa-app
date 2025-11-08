@@ -4,20 +4,16 @@
 
 	let {
 		type = 'button',
-		// children,
 		label,
-		preset,
-		bg = 'primary-500',
+		preset = 'primary',
 		full = false,
 		isLoading = false,
 		icon,
 		onclick
 	}: {
 		type?: 'submit' | 'button';
-		// children?: any;
 		label?: string;
-		preset?: string;
-		bg?: string;
+		preset?: 'primary' | 'cancel' | 'tonal' | 'ghost';
 		full?: boolean;
 		icon?: Component<IconProps>;
 		isLoading?: boolean;
@@ -25,13 +21,17 @@
 	} = $props();
 
 	const Icon = icon;
+	const presets = {
+		primary: 'bg-primary-600 text-white',
+		cancel: 'bg-error-950/20 text-error-900 dark:text-error-300',
+		tonal: 'bg-surface-100 dark:bg-surface-800/50',
+		ghost: 'bg-transparent'
+	};
+
+	let classes = ['h9', icon && !label ? 'btn-icon' : 'btn', full ? 'w-full' : '', presets[preset]];
 </script>
 
-<button
-	{type}
-	class="{label ? `btn` : `btn-icon`} {full ? `w-full` : ``} preset-{preset} bg-{bg}"
-	{onclick}
->
+<button {type} class={classes} {onclick}>
 	{#if isLoading}
 		<LoaderCircle size={20} class="animate-spin" />
 	{:else}
@@ -39,7 +39,7 @@
 			<Icon size={20} />
 		{/if}
 		{#if label}
-			<span>{label}</span>
+			<span class="pb-0.5">{label}</span>
 		{/if}
 	{/if}
 </button>
