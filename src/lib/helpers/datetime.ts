@@ -51,3 +51,8 @@ export function formatAppointmentDateTime(dateString: string) {
 }
 
 export const getHoursFromTime = (time: string) => Number(time.split(':')[0]);
+
+export const createDateWithTime = (dateObj: Date, timeString: string) => {
+	const [h, m, s] = timeString.split(':').map(Number);
+	return new Date(new Date(dateObj).setHours(h - 1, m, s, 0));
+};

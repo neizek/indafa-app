@@ -1,4 +1,5 @@
 <script>
+	import Image from '../ui/Image.svelte';
 	import ScrollableSection from '../ui/ScrollableSection.svelte';
 
 	const offers = [
@@ -15,6 +16,7 @@
 	items={offers}
 >
 	{#snippet itemRenderer(offer)}
-		<img src={offer.img} alt="Offer" />
+		<Image src={offer.img} alt="Special offer" />
+		<!-- <img src={offer.img} alt="Offer" class="ratioaspect-video" /> -->
 	{/snippet}
 </ScrollableSection>

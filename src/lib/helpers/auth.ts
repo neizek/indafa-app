@@ -7,6 +7,8 @@ import vehiclesStore from '$lib/stores/vehicles';
 import type { UserEditPayload, VerificationType } from '$lib/types/auth';
 import type { VerifyOtpParams } from '@supabase/supabase-js';
 import storage from './storage';
+import { KeyRound, Pen } from '@lucide/svelte';
+import EditProfileForm from '$lib/components/forms/EditProfileForm.svelte';
 
 export async function signIn(email: string, password: string) {
 	const { data, error } = await supabase.auth.signInWithPassword({
@@ -45,7 +47,7 @@ export async function sendOTP(type: VerificationType, input: string) {
 			};
 		}
 
-		if (type === 'phone') {
+		if (type === 'sms') {
 			return {
 				phone: input,
 				options: { shouldCreateUser: true }
@@ -56,6 +58,7 @@ export async function sendOTP(type: VerificationType, input: string) {
 	if (!payload) {
 		return;
 	}
+
 	const { data, error } = await supabase.auth.signInWithOtp(payload);
 
 	if (error) {
@@ -68,19 +71,19 @@ export async function sendOTP(type: VerificationType, input: string) {
 
 export async function verifyOTP(type: VerificationType, input: string, token: string) {
 	const payload: VerifyOtpParams | undefined = (() => {
-		if (type === 'email') {
+		if (type === 'email' || type === 'email_change') {
 			return {
 				email: input,
 				token,
-				type: 'email'
+				type
 			};
 		}
 
-		if (type === 'phone') {
+		if (type === 'sms' || type === 'phone_change') {
 			return {
 				phone: input,
 				token,
-				type: 'sms'
+				type
 			};
 		}
 	})();
@@ -122,12 +125,25 @@ export async function signOut() {
 	}
 }
 
+export async function getCustomerData(userId: string) {
+	const { data, error } = await supabase.rpc('get_user_contact_by_id', {
+		user_id: userId
+	});
+
+	if (error) {
+		console.error('Sign out error:', error);
+		throw error;
+	}
+
+	return data[0];
+}
+
 export function callToLoginPopUp() {
 	createPopUp({
 		title: 'Login',
+		icon: KeyRound,
 		content: {
-			component: SignInForm,
-			props: {}
+			component: SignInForm
 		}
 	});
 }
@@ -141,6 +157,17 @@ export function openOTPVerificationPopUp(input: string, verificationType: Verifi
 				input,
 				verificationType
 			}
+		}
+	});
+}
+
+export function createEditProfilePopUp() {
+	createPopUp({
+		title: 'Edit user',
+		icon: Pen,
+		content: {
+			component: EditProfileForm,
+			props: {}
 		}
 	});
 }

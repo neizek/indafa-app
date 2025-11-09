@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Card from '$lib/components/ui/Card.svelte';
 	import AppointmentCard from '$lib/components/widgets/AppointmentCard.svelte';
 	import appointmentsStore from '$lib/stores/appointments';
 	import { carWashes } from '$lib/stores/carWashes';
@@ -11,15 +12,19 @@
 			...appointment,
 			carWash: $carWashes.find((carWash) => carWash.id === appointment.car_wash_id),
 			vehicle: $vehiclesStore.find((vehicle) => vehicle.id === appointment.vehicle_id)
-				?.license_plate
 		}))
 	);
 </script>
 
 <div class="flex flex-col gap-4">
+	{#if $fullAppointments && $fullAppointments.length === 0}
+		<Card>
+			<span>You did not have any appointments up to now</span>
+		</Card>
+	{/if}
 	{#each $fullAppointments as appointment}
-		<div class="rounded-xl bg-surface-100/50 dark:bg-surface-900/50">
+		<Card>
 			<AppointmentCard {appointment} />
-		</div>
+		</Card>
 	{/each}
 </div>

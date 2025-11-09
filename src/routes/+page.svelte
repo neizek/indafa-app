@@ -9,7 +9,7 @@
 	import { ROUTES } from '$lib/constants/routes';
 </script>
 
-<div class="h-auto w-full p-2 dark:invert">
+<div class="h-auto w-full p-10 dark:invert">
 	{@html IndafaLogo}
 </div>
 <OffersBlock />
@@ -18,4 +18,5 @@
 	label={$t('common.makeAnAppointment')}
 	icon={ClockPlus}
 	onclick={() => goto(ROUTES.APPOINTMENT)}
+	full
 />

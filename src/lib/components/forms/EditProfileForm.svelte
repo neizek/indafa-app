@@ -18,6 +18,16 @@
 	let { closePopUp } = $props();
 	let isLoading: boolean = $state(false);
 
+	function preparePayload() {
+		return {
+			...($data.phone !== $user?.phone && { phone: $data.phone }),
+			data: {
+				...($data.firstName !== $user?.user_metadata.firstName && { firstName: $data.firstName }),
+				...($data.lastName !== $user?.user_metadata.lastName && { firstName: $data.lastName })
+			}
+		};
+	}
+
 	const { form, errors, data } = createForm({
 		extend: validator({ schema }),
 		initialValues: {
@@ -28,16 +38,10 @@
 		onSubmit: (values) => {
 			isLoading = true;
 
-			updateUser({
-				phone: values.phone,
-				data: {
-					firstName: values.firstName,
-					lastName: values.lastName
-				}
-			})
+			updateUser(preparePayload())
 				.then(() => {
 					if (values.phone !== $user?.phone) {
-						openOTPVerificationPopUp(values.phone, 'phone');
+						openOTPVerificationPopUp(values.phone, 'phone_change');
 					}
 					closePopUp();
 				})

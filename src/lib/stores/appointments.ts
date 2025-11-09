@@ -1,6 +1,6 @@
 import storage from '$lib/helpers/storage';
 import { type Appointment } from '$lib/types/appointments';
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import { session } from './auth';
 import { getUserAppointments } from '$lib/helpers/appointments';
 import { AppointmentStatusEnum } from '$lib/enums/appointments';
@@ -13,8 +13,14 @@ const appointmentsStore = (() => {
 			return [];
 		}
 
+		const id = get(session)?.user.id;
+
+		if (!id) {
+			return [];
+		}
+
 		let appointments: Appointment[] | null = storage.get('appointments');
-		if (!appointments) appointments = (await getUserAppointments()) || [];
+		if (!appointments) appointments = (await getUserAppointments(id)) || [];
 
 		storage.set('appointments', appointments);
 		appointmentsStore.set(appointments);

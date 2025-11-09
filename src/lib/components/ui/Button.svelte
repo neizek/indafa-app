@@ -39,7 +39,7 @@
 	];
 </script>
 
-<button {type} class={classes} {onclick}>
+<button {type} class={classes} {onclick} {disabled}>
 	{#if isLoading}
 		<LoaderCircle size={20} class="animate-spin" />
 	{:else}

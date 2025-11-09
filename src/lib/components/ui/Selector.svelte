@@ -53,10 +53,17 @@
 </script>
 
 <div class="flex gap-2 overflow-auto p-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+	{#if options.length === 0}
+		<div class="grid w-full grid-cols-3 gap-2">
+			<div class="h-9 placeholder animate-pulse"></div>
+			<div class="h-9 placeholder animate-pulse"></div>
+			<div class="h-9 placeholder animate-pulse"></div>
+		</div>
+	{/if}
 	{#each options as option, index}
 		{@const Icon = option.icon}
 		<button
-			class="btn flex flex-1 flex-col gap-0 {option.value === value
+			class="btn flex min-h-9 flex-1 flex-col gap-0 {option.value === value
 				? `bg-primary-500 text-white `
 				: `preset-tonal`}"
 			disabled={option.disabled}

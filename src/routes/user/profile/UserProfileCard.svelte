@@ -5,23 +5,12 @@
 	import FormItem from '$lib/components/ui/FormItem.svelte';
 	import Section from '$lib/components/ui/Section.svelte';
 	import { ROUTES } from '$lib/constants/routes';
-	import { signOut } from '$lib/helpers/auth';
+	import { createEditProfilePopUp, signOut } from '$lib/helpers/auth';
 	import { user } from '$lib/stores/auth';
 	import { createPopUp } from '$lib/stores/popUp';
 	import { LogOut, Pen } from '@lucide/svelte';
 
 	let isLoading: boolean = $state(false);
-
-	function createEditProfilePopUp() {
-		createPopUp({
-			title: 'Edit user',
-			icon: Pen,
-			content: {
-				component: EditProfileForm,
-				props: {}
-			}
-		});
-	}
 
 	function onSignOut() {
 		isLoading = true;
@@ -34,6 +23,8 @@
 				isLoading = false;
 			});
 	}
+
+	console.log($user?.phone);
 </script>
 
 <Section header="User Profile">
@@ -44,10 +35,10 @@
 		<span>{$user?.user_metadata.firstName ?? 'No data'} {$user?.user_metadata.lastName}</span>
 	</FormItem>
 	<FormItem label="Email">
-		<span>{$user?.email ?? 'No data'}</span>
+		<span>{!$user?.email || $user?.email === '' ? 'No data' : $user?.email}</span>
 	</FormItem>
 	<FormItem label="Phone">
-		<span>{$user?.phone ?? 'No data'}</span>
+		<span>{!$user?.phone || $user?.phone === '' ? 'No data' : $user?.phone}</span>
 	</FormItem>
 	<Button preset="tonal" label="Sign out" icon={LogOut} onclick={onSignOut} {isLoading} />
 </Section>

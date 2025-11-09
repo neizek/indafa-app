@@ -28,6 +28,10 @@ export function closePopUp(id: string) {
 	popUps.update((items) => items.filter((item) => item.id !== id));
 }
 
+export function closeAllPopUps() {
+	popUps.set([]);
+}
+
 const popUps: Writable<PopUp[]> = writable([]);
 
 export { popUps };

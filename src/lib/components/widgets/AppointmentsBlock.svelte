@@ -20,7 +20,6 @@
 				...appointment,
 				carWash: $carWashes.find((carWash) => carWash.id === appointment.car_wash_id),
 				vehicle: $vehiclesStore.find((vehicle) => vehicle.id === appointment.vehicle_id)
-					?.license_plate
 			}))
 	);
 </script>

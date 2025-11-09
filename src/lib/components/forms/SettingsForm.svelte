@@ -5,6 +5,8 @@
 	import Button from '../ui/Button.svelte';
 	import FormItem from '../ui/FormItem.svelte';
 	import Selector from '../ui/Selector.svelte';
+	import { goto } from '$app/navigation';
+	import { ROUTES } from '$lib/constants/routes';
 
 	let language = $state($locale);
 	let theme = $state($currentTheme);
@@ -26,6 +28,12 @@
 		/>
 	</FormItem>
 	<FormItem label="Others">
-		<Button preset="ghost" icon={CircleQuestionMark} label="Rules and policy" full />
+		<Button
+			preset="ghost"
+			icon={CircleQuestionMark}
+			label="Rules and policy"
+			full
+			onclick={() => goto(ROUTES.RULES)}
+		/>
 	</FormItem>
 </div>

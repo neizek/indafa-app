@@ -4,7 +4,6 @@
 	import Section from '$lib/components/ui/Section.svelte';
 	import { openDeleteVehiclePopUp } from '$lib/helpers/vehicles';
 	import AddVehicleButton from '$lib/components/widgets/AddVehicleButton.svelte';
-	import Button from '$lib/components/ui/Button.svelte';
 </script>
 
 <Section header="My Vehicles">
@@ -18,9 +17,11 @@
 	{:else}
 		<div class="grid grid-cols-2 gap-2">
 			{#each $vehiclesStore as vehicle}
-				<div class="btn chip flex justify-between preset-tonal">
+				<div class="chip flex justify-between preset-tonal">
 					<span>{vehicle.license_plate}</span>
-					<Button preset="ghost" icon={XIcon} onclick={() => openDeleteVehiclePopUp(vehicle)} />
+					<button class="bg-transparent" onclick={() => openDeleteVehiclePopUp(vehicle)}>
+						<XIcon size={20} />
+					</button>
 				</div>
 			{/each}
 		</div>

@@ -9,7 +9,7 @@
 	import { derived } from 'svelte/store';
 	import type { SelectOption } from '$lib/types/ui';
 	import { createAppointment, getAppointmentsByDate } from '$lib/helpers/appointments';
-	import { session } from '$lib/stores/auth';
+	import { session, user } from '$lib/stores/auth';
 	import { getDateLabel, getHoursFromTime } from '$lib/helpers/datetime';
 	import { z } from 'zod';
 	import { createForm } from 'felte';
@@ -18,6 +18,9 @@
 	import { goto } from '$app/navigation';
 	import Form from '$lib/components/ui/Form.svelte';
 	import { ROUTES } from '$lib/constants/routes';
+	import { getWorkingDatesOptions } from '$lib/helpers/carWashes';
+	import { createPopUp } from '$lib/stores/popUp';
+	import { createEditProfilePopUp } from '$lib/helpers/auth';
 
 	let isLoading: boolean = $state(false);
 
@@ -32,12 +35,6 @@
 
 	const { form, errors, data } = createForm<FormValues>({
 		extend: validator({ schema }),
-		// initialValues: {
-		// 	location: $carWashes[0].id,
-		// 	date: new Date(),
-		// 	vehicle: $vehiclesStore[0].id,
-		// 	startTime: 8
-		// },
 		onSubmit: () => {}
 	});
 
@@ -45,37 +42,9 @@
 		$carWashes.find((carWash) => carWash.id === $data.location)
 	);
 
-	let dateOptions: SelectOption[] = $derived.by(() => getDateOptions());
-
-	const createDateWithTime = (dateObj: Date, timeString: string) => {
-		const [h, m, s] = timeString.split(':').map(Number);
-		return new Date(new Date(dateObj).setHours(h - 1, m, s, 0));
-	};
-
-	function getDateOptions() {
-		let dateOptions: SelectOption[] = [];
-
-		for (let i = 0; dateOptions.length < 2; i++) {
-			if (i === 10) break;
-			const date = new Date();
-			date.setDate(date.getDate() + i);
-			const wh = chosenCarWash?.working_hours.find((wh) => wh.day_of_week === date.getDay());
-			console.log(wh);
-			if (wh && createDateWithTime(date, wh.close_time) > new Date()) {
-				const dateString = date.toISOString().split('T')[0];
-				dateOptions = [
-					...dateOptions,
-					{
-						value: date,
-						label: dateString,
-						caption: getDateLabel(date)
-					}
-				];
-			}
-		}
-
-		return dateOptions;
-	}
+	let dateOptions: SelectOption[] = $derived.by(() =>
+		chosenCarWash ? getWorkingDatesOptions(chosenCarWash) : []
+	);
 
 	const vehiclesOptions = derived(vehiclesStore, (items) =>
 		items.map((vehicle) => ({
@@ -87,6 +56,8 @@
 	let timeOptions: SelectOption[] = $state([]);
 
 	async function setAvaliableTimes() {
+		timeOptions = [];
+
 		const thisDateWorkingHours = chosenCarWash?.working_hours[$data.date.getDay()];
 
 		if (
@@ -138,6 +109,16 @@
 
 	function sendAppointmentRequest() {
 		if (!$data.date || !$data.location || !$data.vehicle || !$data.startTime || !$session) {
+			return;
+		}
+
+		if (
+			!$user?.user_metadata.firstName ||
+			!$user?.user_metadata.lastName ||
+			!$user.email ||
+			!$user.phone
+		) {
+			createEditProfilePopUp();
 			return;
 		}
 

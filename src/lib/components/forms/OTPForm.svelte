@@ -29,6 +29,7 @@
 		onSubmit: (values) => {
 			isLoading = true;
 
+			console.log(verificationType, input, values.otp);
 			verifyOTP(verificationType, input, values.otp)
 				.then(() => {
 					closePopUp();
@@ -56,7 +57,7 @@
 		}, 1000);
 	}
 
-	onMount(() => startCountdown);
+	startCountdown();
 </script>
 
 <Form {form}>

@@ -3,3 +3,9 @@ export enum AppointmentStatusEnum {
 	completed = 'completed',
 	canceled = 'canceled'
 }
+
+export enum AppointmentStatusColorsEnum {
+	pending = 'warning',
+	completed = 'success',
+	canceled = 'error'
+}
