@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/translations/translations';
 	import type { AcceptedSelectOptionValues, SelectOption } from '$lib/types/ui';
 	import { untrack } from 'svelte';
 
@@ -74,7 +75,7 @@
 				{#if Icon}
 					<Icon size={20} />
 				{/if}
-				<span>{option.label}</span>
+				<span class="pb-0.5">{$t(option.label)}</span>
 			</div>
 			{#if option.caption}
 				<span class="preset-text-caption">{option.caption}</span>

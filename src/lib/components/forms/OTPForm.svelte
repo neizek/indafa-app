@@ -10,6 +10,7 @@
 	import { Check } from '@lucide/svelte';
 	import Form from '../ui/Form.svelte';
 	import { onMount } from 'svelte';
+	import { t } from '$lib/translations/translations';
 
 	let { input, verificationType, closePopUp } = $props();
 
@@ -29,7 +30,6 @@
 		onSubmit: (values) => {
 			isLoading = true;
 
-			console.log(verificationType, input, values.otp);
 			verifyOTP(verificationType, input, values.otp)
 				.then(() => {
 					closePopUp();
@@ -61,21 +61,20 @@
 </script>
 
 <Form {form}>
-	<FormItem label="Verification code">
+	<FormItem label={$t('common.verificationCode')}>
 		<Input
 			type="text"
 			inputmode="numeric"
-			placeholder="Enter 6-digit code"
+			placeholder={$t('common.enterSixDigitCode')}
 			bind:value={$data.otp}
 		/>
 	</FormItem>
 	<div class="mt-4 flex flex-col gap-2">
-		<Button type="submit" label="Submit code" icon={Check} full />
+		<Button type="submit" label={$t('common.submitCode')} icon={Check} {isLoading} full />
 		<Button
 			preset="ghost"
-			label="Didn't receive code? Resend in {countdown}s"
+			label={`${$t('common.didntReceiveResend')} ${countdown} s`}
 			full
-			{isLoading}
 			disabled={isDisabled}
 			onclick={onResend}
 		/>

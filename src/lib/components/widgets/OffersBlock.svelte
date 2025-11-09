@@ -1,4 +1,5 @@
 <script>
+	import { t } from '$lib/translations/translations';
 	import Image from '../ui/Image.svelte';
 	import ScrollableSection from '../ui/ScrollableSection.svelte';
 
@@ -11,8 +12,8 @@
 </script>
 
 <ScrollableSection
-	header="Special offers"
-	noItemsText="No any special ads for the moment"
+	header={$t('common.specialOffers')}
+	noItemsText={$t('common.noSpecialOffersAvaliable')}
 	items={offers}
 >
 	{#snippet itemRenderer(offer)}

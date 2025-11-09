@@ -6,6 +6,7 @@
 	import appointmentsStore from '$lib/stores/appointments';
 	import { carWashes } from '$lib/stores/carWashes';
 	import vehiclesStore from '$lib/stores/vehicles';
+	import { t } from '$lib/translations/translations';
 	import { type FullAppointment } from '$lib/types/appointments';
 	import { derived, type Readable } from 'svelte/store';
 
@@ -25,8 +26,8 @@
 </script>
 
 <ScrollableSection
-	header="Appointments"
-	noItemsText="You don't have any upcoming appointments at the moment."
+	header={$t('common.appointments')}
+	noItemsText={$t('common.youDontHaveAnyAppointments')}
 	items={$upcomingAppointments}
 >
 	{#snippet itemRenderer(appointment)}

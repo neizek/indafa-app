@@ -8,9 +8,8 @@ export enum Theme {
 }
 
 export const themesOptions = Object.values(Theme).map((theme) => ({
-	id: theme,
 	value: theme,
-	label: theme,
+	label: `common.${theme}`,
 	icon: theme === Theme.Dark ? Moon : Sun
 }));
 

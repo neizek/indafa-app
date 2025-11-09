@@ -8,6 +8,7 @@
 	import { AppointmentStatusEnum } from '$lib/enums/appointments';
 	import type { FullAppointment } from '$lib/types/appointments';
 	import Badge from '../ui/Badge.svelte';
+	import Card from '../ui/Card.svelte';
 
 	let { appointment }: { appointment: FullAppointment } = $props();
 	let { date, time } = formatAppointmentDateTime(appointment.start_time);
@@ -20,33 +21,35 @@
 </script>
 
 {#if appointment.carWash && appointment.vehicle}
-	<div class="relative flex flex-col gap-2 p-5">
-		<Badge
-			label={appointment.status}
-			preset={statusColors[appointment.status]}
-			clases="absolute right-4"
-		/>
-		<Item icon={Car} label={appointment.vehicle?.license_plate} />
-		<Item icon={Clock} label={time} />
-		<div class="flex justify-between">
-			<Item icon={Calendar} label={date} />
-			<Item icon={MapPin} label={appointment.carWash.address} />
-		</div>
-		{#if appointment.status === AppointmentStatusEnum.pending}
-			<div class="mt-4 flex justify-between gap-2">
-				<Button
-					label="Locate"
-					full
-					icon={Navigation}
-					onclick={() => openCarWashDetailsPopUp(appointment.carWash)}
-				/>
-				<Button
-					label="Cancel appointment"
-					icon={XIcon}
-					preset="cancel"
-					onclick={() => openCancelAppointmentPopUp(appointment)}
-				/>
+	<Card>
+		<div class="relative flex flex-col gap-2">
+			<Badge
+				label={appointment.status}
+				preset={statusColors[appointment.status]}
+				clases="absolute right-4"
+			/>
+			<Item icon={Car} label={appointment.vehicle?.license_plate} />
+			<Item icon={Clock} label={time} />
+			<div class="flex justify-between">
+				<Item icon={Calendar} label={date} />
+				<Item icon={MapPin} label={appointment.carWash.address} />
 			</div>
-		{/if}
-	</div>
+			{#if appointment.status === AppointmentStatusEnum.pending}
+				<div class="mt-4 flex justify-between gap-2">
+					<Button
+						label="Locate"
+						full
+						icon={Navigation}
+						onclick={() => openCarWashDetailsPopUp(appointment.carWash)}
+					/>
+					<Button
+						label="Cancel appointment"
+						icon={XIcon}
+						preset="cancel"
+						onclick={() => openCancelAppointmentPopUp(appointment)}
+					/>
+				</div>
+			{/if}
+		</div>
+	</Card>
 {/if}

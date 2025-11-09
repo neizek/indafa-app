@@ -23,8 +23,6 @@
 		</Card>
 	{/if}
 	{#each $fullAppointments as appointment}
-		<Card>
-			<AppointmentCard {appointment} />
-		</Card>
+		<AppointmentCard {appointment} />
 	{/each}
 </div>

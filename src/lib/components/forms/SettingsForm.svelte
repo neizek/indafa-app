@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { currentTheme, Theme, themesOptions, updateTheme } from '$lib/stores/theme';
-	import { supportedLocalesOptions, switchLocale, locale } from '$lib/translations/translations';
+	import { supportedLocalesOptions, switchLocale, locale, t } from '$lib/translations/translations';
 	import { CircleQuestionMark } from '@lucide/svelte';
 	import Button from '../ui/Button.svelte';
 	import FormItem from '../ui/FormItem.svelte';
@@ -13,25 +13,25 @@
 </script>
 
 <div class="flex flex-col gap-4">
-	<FormItem label="Language">
+	<FormItem label={$t('common.language')}>
 		<Selector
 			options={supportedLocalesOptions}
 			bind:value={language}
 			onchange={() => switchLocale(language)}
 		/>
 	</FormItem>
-	<FormItem label="Theme">
+	<FormItem label={$t('common.theme')}>
 		<Selector
 			options={themesOptions}
 			bind:value={theme}
 			onchange={(value) => updateTheme(value as Theme)}
 		/>
 	</FormItem>
-	<FormItem label="Others">
+	<FormItem label={$t('common.others')}>
 		<Button
 			preset="ghost"
 			icon={CircleQuestionMark}
-			label="Rules and policy"
+			label={$t('common.rulesAndPolicy')}
 			full
 			onclick={() => goto(ROUTES.RULES)}
 		/>

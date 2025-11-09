@@ -5,6 +5,9 @@
 	import WorkingHours from './WorkingHours.svelte';
 
 	let { carWash }: { carWash: CarWash } = $props();
+
+	const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${carWash.long}%2C${carWash.lat}`;
+	const wazeUrl = `https://www.waze.com/ul?ll=${carWash.long}%2C${carWash.lat}&navigate=yes`;
 </script>
 
 <div class="flex flex-col gap-4 card">
@@ -15,16 +18,11 @@
 	<WorkingHours workingHours={carWash.working_hours} />
 	<div class="flex flex-col gap-2">
 		<div class="flex gap-2">
-			<Button
-				label="Waze"
-				preset="tonal"
-				onclick={() => window.open(`tel:${carWash.phone}`)}
-				full
-			/>
+			<Button label="Waze" preset="tonal" onclick={() => (window.location.href = wazeUrl)} full />
 			<Button
 				label="Google Maps"
 				preset="tonal"
-				onclick={() => window.open(`tel:${carWash.phone}`)}
+				onclick={() => (window.location.href = googleMapsUrl)}
 				full
 			/>
 		</div>

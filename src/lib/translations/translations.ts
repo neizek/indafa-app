@@ -1,27 +1,26 @@
 import storage from '$lib/helpers/storage';
 import type { SelectOption } from '$lib/types/ui';
 import i18n, { type Config } from 'sveltekit-i18n';
-
-const modules = import.meta.glob<{ default: Record<string, string> }>('./*.json');
+import en from './en.json';
+import ru from './ru.json';
+import lv from './lv.json';
 
 interface SupportedLocaleOption extends SelectOption {
 	value: string;
+	import: object;
 }
 
 export const supportedLocalesOptions: SupportedLocaleOption[] = [
-	{ value: 'en', label: 'English' },
-	{ value: 'lv', label: 'Latviešu' },
-	{ value: 'ru', label: 'Русский' }
+	{ value: 'en', label: 'English', import: en },
+	{ value: 'lv', label: 'Latviešu', import: lv },
+	{ value: 'ru', label: 'Русский', import: ru }
 ];
 
 const config: Config = {
 	loaders: supportedLocalesOptions.map((locale) => ({
 		locale: locale.value,
 		key: 'common',
-		loader: async () => {
-			const mod = await modules[`./${locale.value}.json`]();
-			return mod.default;
-		}
+		loader: async () => locale.import
 	})),
 	fallbackLocale: 'en'
 };

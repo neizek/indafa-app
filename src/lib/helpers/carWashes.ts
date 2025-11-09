@@ -44,7 +44,7 @@ export function getWorkingDatesOptions(carWash: CarWash): SelectOption[] {
 
 export function openCarWashDetailsPopUp(carWash: CarWash) {
 	createPopUp({
-		title: 'Car Wash Details',
+		title: 'common.carWashDetails',
 		content: {
 			component: CarWashDetails,
 			props: { carWash }

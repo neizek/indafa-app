@@ -140,7 +140,7 @@ export async function getCustomerData(userId: string) {
 
 export function callToLoginPopUp() {
 	createPopUp({
-		title: 'Login',
+		title: 'common.authorization',
 		icon: KeyRound,
 		content: {
 			component: SignInForm
@@ -166,8 +166,7 @@ export function createEditProfilePopUp() {
 		title: 'Edit user',
 		icon: Pen,
 		content: {
-			component: EditProfileForm,
-			props: {}
+			component: EditProfileForm
 		}
 	});
 }

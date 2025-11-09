@@ -1,16 +1,17 @@
 <script lang="ts">
+	import { t } from '$lib/translations/translations';
 	import { Clock, MinusIcon, PlusIcon } from '@lucide/svelte';
 	import { Collapsible } from '@skeletonlabs/skeleton-svelte';
 	let { workingHours } = $props();
 
-	const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+	const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 </script>
 
 <Collapsible>
 	<Collapsible.Trigger class="flex w-full items-center justify-between gap-2">
 		<div class="flex items-center gap-2">
 			<Clock size={20} />
-			<span>Working hours</span>
+			<span>{$t('common.businessHours')}</span>
 		</div>
 
 		<Collapsible.Indicator class="group">
@@ -21,7 +22,7 @@
 	<Collapsible.Content>
 		<div class="grid grid-cols-2 gap-2 px-5">
 			{#each workingHours as { day_of_week, open_time, close_time }}
-				<span>{days[day_of_week]}:</span>
+				<span>{$t(`common.${days[day_of_week]}`)}:</span>
 				<span>{open_time} - {close_time}</span>
 			{/each}
 		</div>
