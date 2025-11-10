@@ -3,7 +3,8 @@
 	import { getErrorMessage } from '$lib/helpers/errors';
 	import { showErrorToast } from '$lib/helpers/toaster';
 	import { removeVehicle } from '$lib/helpers/vehicles';
-	import { Check, XIcon } from '@lucide/svelte';
+	import { t } from '$lib/translations/translations';
+	import { Check, Trash, XIcon } from '@lucide/svelte';
 
 	let { vehicle, closePopUp } = $props();
 
@@ -25,9 +26,9 @@
 </script>
 
 <div class="flex flex-col gap-4">
-	<span>Do you want to remove car with license plate {vehicle.license_plate}?</span>
+	<span>{$t('common.doYouWantToDeleteVehicle')} {vehicle.license_plate}?</span>
 	<div class="flex items-center justify-between gap-2">
-		<Button label="Confirm" onclick={onConfirm} icon={Check} full />
-		<Button label="Cancel" preset="cancel" icon={XIcon} onclick={onCancel} full />
+		<Button label={$t('common.delete')} preset="cancel" onclick={onConfirm} icon={Trash} full />
+		<Button label={$t('common.cancel')} preset="tonal" icon={XIcon} onclick={onCancel} full />
 	</div>
 </div>

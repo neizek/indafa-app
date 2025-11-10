@@ -20,7 +20,7 @@
 			<Item icon={User} label="{customer.firstname} {customer.lastname}" />
 			<Item icon={Mail} label={customer.email} />
 			<div class="mt-2">
-				<Button icon={Phone} label={customer.phone ?? 'Позвонить'} full />
+				<Button icon={Phone} label={customer.phone} full />
 			</div>
 		</div>
 	{/await}

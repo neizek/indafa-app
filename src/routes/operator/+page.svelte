@@ -11,7 +11,8 @@
 	import type { SelectOption } from '$lib/types/ui';
 	import { getWorkingDatesOptions } from '$lib/helpers/carWashes';
 	import Badge from '$lib/components/ui/Badge.svelte';
-	import { AppointmentStatusColorsEnum } from '$lib/enums/appointments';
+	import { AppointmentStatusColorsEnum, AppointmentStatusEnum } from '$lib/enums/appointments';
+	import { t } from '$lib/translations/translations';
 
 	let selectedCarWash = $state($carWashes[0]);
 	let selectedDate = $state(null);
@@ -25,7 +26,7 @@
 
 	function openCustomerDetailsPopUp(userId: string) {
 		createPopUp({
-			title: 'Contact details',
+			title: $t('common.customerContacts'),
 			content: {
 				component: CustomerDetails,
 				props: {
@@ -34,6 +35,13 @@
 			}
 		});
 	}
+
+	// TO BE CHANGED
+	const statusColors = {
+		[AppointmentStatusEnum.pending]: 'preset-tonal-warning',
+		[AppointmentStatusEnum.canceled]: 'preset-tonal-error',
+		[AppointmentStatusEnum.completed]: 'preset-tonal-success'
+	};
 </script>
 
 <Section>
@@ -45,7 +53,7 @@
 	</FormItem>
 </Section>
 
-<Section header="Appointments">
+<Section header={$t('common.appointments')}>
 	{#await appointments}
 		<div class="w-full space-y-2">
 			<div class="placeholder animate-pulse"></div>
@@ -54,7 +62,7 @@
 		</div>
 	{:then appointments}
 		{#if appointments && appointments.length === 0}
-			<span>No any appointments for today</span>
+			<span>{$t('common.noAppointmentsForThisDay')}</span>
 		{/if}
 		{#each appointments as appointment}
 			{@const { date, time } = formatAppointmentDateTime(appointment.start_time)}
@@ -62,8 +70,8 @@
 				<span>{time}</span>
 				<span>{appointment.vehicle.license_plate}</span>
 				<Badge
-					label={appointment.status}
-					preset={AppointmentStatusColorsEnum[appointment.status]}
+					label={$t(`common.${appointment.status}`)}
+					clases={statusColors[appointment.status]}
 				/>
 				<button
 					class="bg-transparent"

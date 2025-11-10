@@ -9,14 +9,16 @@
 	import type { FullAppointment } from '$lib/types/appointments';
 	import Badge from '../ui/Badge.svelte';
 	import Card from '../ui/Card.svelte';
+	import { t } from '$lib/translations/translations';
 
 	let { appointment }: { appointment: FullAppointment } = $props();
 	let { date, time } = formatAppointmentDateTime(appointment.start_time);
 
+	// TO BE CHANGED
 	const statusColors = {
-		[AppointmentStatusEnum.pending]: 'warning',
-		[AppointmentStatusEnum.canceled]: 'error',
-		[AppointmentStatusEnum.completed]: 'success'
+		[AppointmentStatusEnum.pending]: 'preset-tonal-warning',
+		[AppointmentStatusEnum.canceled]: 'preset-tonal-error',
+		[AppointmentStatusEnum.completed]: 'preset-tonal-success'
 	};
 </script>
 
@@ -24,9 +26,8 @@
 	<Card>
 		<div class="relative flex flex-col gap-2">
 			<Badge
-				label={appointment.status}
-				preset={statusColors[appointment.status]}
-				clases="absolute right-4"
+				label={$t(`common.${appointment.status}`)}
+				clases="absolute right-0 {statusColors[appointment.status]}"
 			/>
 			<Item icon={Car} label={appointment.vehicle?.license_plate} />
 			<Item icon={Clock} label={time} />
@@ -37,13 +38,13 @@
 			{#if appointment.status === AppointmentStatusEnum.pending}
 				<div class="mt-4 flex justify-between gap-2">
 					<Button
-						label="Locate"
+						label={$t('common.locate')}
 						full
 						icon={Navigation}
 						onclick={() => openCarWashDetailsPopUp(appointment.carWash)}
 					/>
 					<Button
-						label="Cancel appointment"
+						label={$t('common.cancelAppointment')}
 						icon={XIcon}
 						preset="cancel"
 						onclick={() => openCancelAppointmentPopUp(appointment)}

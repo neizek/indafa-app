@@ -21,6 +21,7 @@
 	import { getWorkingDatesOptions } from '$lib/helpers/carWashes';
 	import { createPopUp } from '$lib/stores/popUp';
 	import { createEditProfilePopUp } from '$lib/helpers/auth';
+	import { t } from '$lib/translations/translations';
 
 	let isLoading: boolean = $state(false);
 
@@ -138,36 +139,36 @@
 </script>
 
 <Form {form}>
-	<Section header="Desired spot">
-		<FormItem label="Select Car Wash">
+	<Section header={$t('common.desiredSpot')}>
+		<FormItem label={$t('common.selectCarWash')}>
 			<Selector options={$carWashesOptions} bind:value={$data.location} />
 		</FormItem>
 	</Section>
-	<Section header="Appointment">
-		<FormItem label="Select Date">
+	<Section header={$t('common.appointment')}>
+		<FormItem label={$t('common.selectDate')}>
 			<Selector options={dateOptions} bind:value={$data.date} onchange={setAvaliableTimes} />
 		</FormItem>
-		<FormItem label="Select Time">
+		<FormItem label={$t('common.selectTime')}>
 			<Selector options={timeOptions} bind:value={$data.startTime} />
 		</FormItem>
 	</Section>
-	<Section header="Car Information">
+	<Section header={$t('common.carInfo')}>
 		{#snippet controls()}
 			<div>
 				<AddVehicleButton />
 			</div>
 		{/snippet}
-		<FormItem label="Select Car">
+		<FormItem label={$t('common.selectCar')}>
 			<Selector options={$vehiclesOptions} bind:value={$data.vehicle} />
 			{#if $vehiclesOptions && $vehiclesOptions.length === 0}
-				Add some cars to your account
+				{$t('common.addAtLeastOneCar')}
 			{/if}
 		</FormItem>
 	</Section>
 
 	<Button
 		type="submit"
-		label="Confirm appointment"
+		label={$t('common.confirmAppointment')}
 		{isLoading}
 		icon={Check}
 		onclick={sendAppointmentRequest}

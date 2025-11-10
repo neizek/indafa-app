@@ -1,12 +1,16 @@
 <script lang="ts">
-	import { getErrorMessage } from '$lib/helpers/errors';
 	import { showErrorToast } from '$lib/helpers/toaster';
 	import { addVehicle } from '$lib/helpers/vehicles';
 	import { session } from '$lib/stores/auth';
+	import { t } from '$lib/translations/translations';
 	import { validator } from '@felte/validator-zod';
-	import { Car, LoaderCircle } from '@lucide/svelte';
+	import { Plus, XIcon } from '@lucide/svelte';
 	import { createForm } from 'felte';
 	import { z } from 'zod';
+	import Form from '../ui/Form.svelte';
+	import FormItem from '../ui/FormItem.svelte';
+	import Input from '../ui/Input.svelte';
+	import Button from '../ui/Button.svelte';
 
 	let isLoading = $state(false);
 
@@ -44,20 +48,12 @@
 	}
 </script>
 
-<form class="input-group grid-cols-[auto_1fr_auto]" use:form>
-	<div class="ig-cell preset-tonal">
-		<Car size={16} />
+<Form {form}>
+	<FormItem label={$t('common.licensePlate')}>
+		<Input placeholder="EV7394" bind:value={$data.licensePlate} />
+	</FormItem>
+	<div class="mt-2 flex justify-between gap-2">
+		<Button type="submit" label={$t('common.addVehicle')} icon={Plus} full />
+		<Button preset="tonal" icon={XIcon} label={$t('common.cancel')} />
 	</div>
-	<input class="btn" type="text" name="licensePlate" />
-
-	{#if isLoading}
-		<button class="ig-btn preset-filled" disabled>
-			<LoaderCircle size={16} class="animate-spin" />
-		</button>
-	{:else}
-		<button type="submit" class="ig-btn preset-filled">Add</button>
-	{/if}
-</form>
-{#if $errors.licensePlate}
-	<span>{$errors.licensePlate[0]}</span>
-{/if}
+</Form>

@@ -7,12 +7,13 @@
 	import { UserLock } from '@lucide/svelte';
 	import { goto } from '$app/navigation';
 	import { ROUTES } from '$lib/constants/routes';
+	import { t } from '$lib/translations/translations';
 </script>
 
 <Tabs defaultValue="tab-1">
 	<Tabs.List>
-		<Tabs.Trigger value="tab-1">Profile</Tabs.Trigger>
-		<Tabs.Trigger value="tab-2">Appointments</Tabs.Trigger>
+		<Tabs.Trigger value="tab-1">{$t('common.profile')}</Tabs.Trigger>
+		<Tabs.Trigger value="tab-2">{$t('common.appointments')}</Tabs.Trigger>
 		<Tabs.Indicator />
 	</Tabs.List>
 	<Tabs.Content value="tab-1">
@@ -22,7 +23,7 @@
 			<Button
 				preset="tonal"
 				icon={UserLock}
-				label="Worker's dashboard"
+				label={$t('common.operatorsDashboard')}
 				onclick={() => goto(ROUTES.OPERATOR)}
 			/>
 		</div>

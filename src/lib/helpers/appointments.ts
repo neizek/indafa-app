@@ -112,7 +112,7 @@ async function getOperatorAppointmentsByDate(
 
 function openCancelAppointmentPopUp(appointment: Appointment) {
 	createPopUp({
-		title: 'Cancel appointment',
+		title: 'common.cancelAppointment',
 		content: {
 			component: CancelAppointmentForm,
 			props: {

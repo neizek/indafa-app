@@ -1,4 +1,3 @@
-import storage from '$lib/helpers/storage';
 import { type Appointment } from '$lib/types/appointments';
 import { get, writable } from 'svelte/store';
 import { session } from './auth';
@@ -19,28 +18,23 @@ const appointmentsStore = (() => {
 			return [];
 		}
 
-		let appointments: Appointment[] | null = storage.get('appointments');
-		if (!appointments) appointments = (await getUserAppointments(id)) || [];
+		const appointments: Appointment[] = (await getUserAppointments(id)) || [];
 
-		storage.set('appointments', appointments);
 		appointmentsStore.set(appointments);
 	}
 
 	function addAppointment(appointment: Appointment) {
 		const updatedVehicles = update((items) => [...items, appointment]);
-		storage.set('appointments', updatedVehicles);
 
 		return updatedVehicles;
 	}
 
 	function cancelAppointment(id: number) {
-		const updatedAppointments = update((items) =>
+		update((items) =>
 			items.map((item) =>
 				item.id === id ? { ...item, status: AppointmentStatusEnum.canceled } : item
 			)
 		);
-
-		storage.set('appointments', updatedAppointments);
 	}
 
 	return {

@@ -9,6 +9,7 @@
 	import Button from '../ui/Button.svelte';
 	import { Check, XIcon } from '@lucide/svelte';
 	import { openOTPVerificationPopUp, updateUser } from '$lib/helpers/auth';
+	import { t } from '$lib/translations/translations';
 
 	const schema = z.object({
 		firstName: z.string(),
@@ -53,17 +54,17 @@
 </script>
 
 <Form {form}>
-	<FormItem label="First name">
+	<FormItem label={$t('common.firstName')}>
 		<Input bind:value={$data.firstName} />
 	</FormItem>
-	<FormItem label="Last name">
+	<FormItem label={$t('common.lastName')}>
 		<Input bind:value={$data.lastName} />
 	</FormItem>
-	<FormItem label="Phone">
+	<FormItem label={$t('common.mobilePhone')}>
 		<Input bind:value={$data.phone} />
 	</FormItem>
 	<div class="mt-2 flex gap-2">
-		<Button type="submit" label="Confirm" icon={Check} {isLoading} full />
-		<Button label="Cancel" preset="tonal" icon={XIcon} full onclick={closePopUp} />
+		<Button type="submit" label={$t('common.confirm')} icon={Check} {isLoading} full />
+		<Button label={$t('common.cancel')} preset="tonal" icon={XIcon} full onclick={closePopUp} />
 	</div>
 </Form>

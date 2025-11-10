@@ -1,15 +1,14 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
 	let {
 		src,
 		alt,
-		ratio = 'video'
+		ratio = 'aspect-video'
 	}: {
 		src: string;
 		alt: string;
-		ratio?: 'video' | 'square';
+		ratio?: 'aspect-video' | 'aspect-square';
 	} = $props();
 
 	let isLoading: boolean = $state(true);
@@ -19,12 +18,6 @@
 		if (src) {
 		}
 	});
-
-	// onMount(() => {
-	// 	if (imageRef?.complete) {
-	// 		isLoading = false;
-	// 	}
-	// });
 </script>
 
 {#key src}
@@ -32,7 +25,7 @@
 		in:fade
 		{src}
 		{alt}
-		class={[`aspect-${ratio}`, 'w-full', isLoading ? 'placeholder animate-pulse' : '']}
+		class={[ratio, 'w-full', isLoading ? 'placeholder animate-pulse' : '']}
 		bind:this={imageRef}
 		onload={() => (isLoading = false)}
 	/>

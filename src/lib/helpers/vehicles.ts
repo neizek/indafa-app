@@ -1,7 +1,7 @@
 import supabase from '$lib/helpers/db';
 import { createPopUp } from '$lib/stores/popUp';
 import vehiclesStore from '$lib/stores/vehicles';
-import { Trash } from '@lucide/svelte';
+import { Car, Trash } from '@lucide/svelte';
 import type { Vehicle } from '$lib/types/vehicles';
 import AddVehicleForm from '$lib/components/forms/AddVehicleForm.svelte';
 import DeleteVehicleForm from '../components/forms/DeleteVehicleForm.svelte';
@@ -54,17 +54,17 @@ async function getVehiclesByUserId(userId: string) {
 
 function openAddVehiclePopUp() {
 	createPopUp({
-		title: 'Add Vehicle',
+		title: 'common.addVehicle',
+		icon: Car,
 		content: {
-			component: AddVehicleForm,
-			props: {}
+			component: AddVehicleForm
 		}
 	});
 }
 
 function openDeleteVehiclePopUp(vehicle: Vehicle) {
 	createPopUp({
-		title: 'Delete Vehicle',
+		title: 'common.deleteVehicle',
 		icon: Trash,
 		content: {
 			component: DeleteVehicleForm,

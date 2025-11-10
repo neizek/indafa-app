@@ -163,7 +163,7 @@ export function openOTPVerificationPopUp(input: string, verificationType: Verifi
 
 export function createEditProfilePopUp() {
 	createPopUp({
-		title: 'Edit user',
+		title: 'common.editProfile',
 		icon: Pen,
 		content: {
 			component: EditProfileForm

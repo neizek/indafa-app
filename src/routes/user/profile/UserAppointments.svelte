@@ -7,12 +7,22 @@
 	import type { FullAppointment } from '$lib/types/appointments';
 	import { derived, type Readable } from 'svelte/store';
 
+	// TO BE CHANGED
 	const fullAppointments: Readable<FullAppointment[]> = derived(appointmentsStore, (items) =>
-		items.map((appointment) => ({
-			...appointment,
-			carWash: $carWashes.find((carWash) => carWash.id === appointment.car_wash_id),
-			vehicle: $vehiclesStore.find((vehicle) => vehicle.id === appointment.vehicle_id)
-		}))
+		items.flatMap((appointment) => {
+			const carWash = $carWashes.find((carWash) => carWash.id === appointment.car_wash_id);
+			const vehicle = $vehiclesStore.find((vehicle) => vehicle.id === appointment.vehicle_id);
+
+			if (!carWash || !vehicle) {
+				return [];
+			}
+
+			return {
+				...appointment,
+				carWash,
+				vehicle
+			};
+		})
 	);
 </script>
 

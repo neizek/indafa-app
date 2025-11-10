@@ -10,6 +10,7 @@
 	import { type FullAppointment } from '$lib/types/appointments';
 	import { derived, type Readable } from 'svelte/store';
 
+	// TO BE CHANGED
 	const upcomingAppointments: Readable<FullAppointment[]> = derived(appointmentsStore, (items) =>
 		items
 			.filter(
@@ -17,11 +18,20 @@
 					appointment.status === AppointmentStatusEnum.pending &&
 					new Date(appointment.start_time) > new Date()
 			)
-			.map((appointment) => ({
-				...appointment,
-				carWash: $carWashes.find((carWash) => carWash.id === appointment.car_wash_id),
-				vehicle: $vehiclesStore.find((vehicle) => vehicle.id === appointment.vehicle_id)
-			}))
+			.flatMap((appointment) => {
+				const carWash = $carWashes.find((carWash) => carWash.id === appointment.car_wash_id);
+				const vehicle = $vehiclesStore.find((vehicle) => vehicle.id === appointment.vehicle_id);
+
+				if (!carWash || !vehicle) {
+					return [];
+				}
+
+				return {
+					...appointment,
+					carWash,
+					vehicle
+				};
+			})
 	);
 </script>
 

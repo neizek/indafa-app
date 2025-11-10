@@ -1,10 +1,9 @@
 <script lang="ts">
+	import { days } from '$lib/helpers/datetime';
 	import { t } from '$lib/translations/translations';
 	import { Clock, MinusIcon, PlusIcon } from '@lucide/svelte';
 	import { Collapsible } from '@skeletonlabs/skeleton-svelte';
 	let { workingHours } = $props();
-
-	const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 </script>
 
 <Collapsible>

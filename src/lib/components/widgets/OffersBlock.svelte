@@ -5,9 +5,9 @@
 
 	const offers = [
 		{
-			img: 'https://cdn.create.vista.com/downloads/a8b6e640-d047-45da-9b80-9728945ade97_1024.jpeg'
+			img: 'https://cdn.create.vista.com/downloads/a8b6e640-d047-45da-9b80-9728945ade97_1024s.jpeg'
 		},
-		{ img: 'https://images.template.net/390494/Car-Wash-Coupon-Template-edit-online.png' }
+		{ img: 'https://images.template.net/390494/Car-Wash-Coupon-Template-edit-onlines.png' }
 	];
 </script>
 

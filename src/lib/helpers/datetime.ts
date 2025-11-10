@@ -1,3 +1,8 @@
+import { locale } from '$lib/translations/translations';
+import { get } from 'svelte/store';
+
+export const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
 export function getDateLabel(date: Date = new Date()): string {
 	const today = new Date();
 	today.setHours(0, 0, 0, 0);
@@ -9,14 +14,14 @@ export function getDateLabel(date: Date = new Date()): string {
 	dateToCheck.setHours(0, 0, 0, 0);
 
 	if (dateToCheck.getTime() === today.getTime()) {
-		return 'today';
+		return 'common.today';
 	}
 
 	if (dateToCheck.getTime() === tomorrow.getTime()) {
-		return 'tomorrow';
+		return 'common.tomorrow';
 	}
-	const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-	return days[dateToCheck.getDay()];
+
+	return `common.${days[dateToCheck.getDay()]}`;
 }
 
 export function formatDateTime(dbDate: string) {
@@ -30,15 +35,15 @@ export function formatDateTime(dbDate: string) {
 
 export function formatAppointmentDateTime(dateString: string) {
 	const date = new Date(dateString);
-
+	const currentLocale = get(locale);
 	// Format date as "10 October"
-	const formattedDate = date.toLocaleDateString('en-GB', {
+	const formattedDate = date.toLocaleDateString(currentLocale, {
 		day: 'numeric',
 		month: 'long'
 	});
 
 	// Format time as "18:00"
-	const formattedTime = date.toLocaleTimeString('en-GB', {
+	const formattedTime = date.toLocaleTimeString(currentLocale, {
 		hour: '2-digit',
 		minute: '2-digit',
 		hour12: false

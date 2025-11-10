@@ -16,8 +16,8 @@ export interface Appointment extends AppointmentPayload {
 }
 
 export interface FullAppointment extends Appointment {
-	carWash?: CarWash;
-	vehicle?: Vehicle;
+	carWash: CarWash;
+	vehicle: Vehicle;
 }
 
 export interface OperatorAppointment extends Appointment {

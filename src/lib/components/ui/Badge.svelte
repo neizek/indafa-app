@@ -1,7 +1,13 @@
 <script lang="ts">
-	let { label, preset, clases = '' } = $props();
+	let {
+		label,
+		clases = ''
+	}: {
+		label: string;
+		clases: string;
+	} = $props();
 </script>
 
-<div class="{clases} badge preset-tonal-{preset}">
+<div class="{clases} badge">
 	{label}
 </div>
