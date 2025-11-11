@@ -5,17 +5,22 @@ import { getErrorMessage } from './errors';
 function showSuccessToast(data: Toast) {
 	toaster.success({
 		title: data.title,
-		description: data.description,
-		closable: true
+		description: data.description
 	});
 }
 
 function showErrorToast(data: ErrorToast) {
 	toaster.error({
-		title: data.title ?? 'Error',
-		description: data.description ?? getErrorMessage(data.error),
-		closable: true
+		title: data.title ?? 'common.error',
+		description: data.description ?? getErrorMessage(data.error)
 	});
 }
 
-export { showErrorToast, showSuccessToast };
+function showInfoToast(data: Toast) {
+	toaster.info({
+		title: data.title,
+		description: data.description
+	});
+}
+
+export { showErrorToast, showSuccessToast, showInfoToast };

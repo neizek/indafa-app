@@ -21,7 +21,9 @@
 			.regex(/^[A-Z0-9\s-]{1,9}$/, 'Enter a valid license plate number')
 	});
 
-	const { form, errors, data } = createForm({
+	type FormValues = z.infer<typeof schema>;
+
+	const { form, errors, data } = createForm<FormValues>({
 		extend: validator({ schema }),
 		onSubmit: (values) => {
 			sendAddVehicleRequest(values.licensePlate);
@@ -46,11 +48,20 @@
 				isLoading = false;
 			});
 	}
+
+	function capitalize(e: Event & { currentTarget: HTMLInputElement }) {
+		const start = e.currentTarget?.selectionStart;
+		$data.licensePlate = $data.licensePlate.toUpperCase();
+
+		setTimeout(() => {
+			e.currentTarget?.setSelectionRange(start, start);
+		}, 0);
+	}
 </script>
 
 <Form {form}>
-	<FormItem label={$t('common.licensePlate')}>
-		<Input placeholder="EV7394" bind:value={$data.licensePlate} />
+	<FormItem label={$t('common.licensePlate')} errors={$errors.licensePlate}>
+		<Input placeholder="EV7394" bind:value={$data.licensePlate} oninput={capitalize} />
 	</FormItem>
 	<div class="mt-2 flex justify-between gap-2">
 		<Button type="submit" label={$t('common.addVehicle')} icon={Plus} full />

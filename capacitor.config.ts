@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
 	appId: 'com.teweb.indafa',
-	appName: 'Inadafa',
+	appName: 'Indafa',
 	webDir: 'build'
 };
 

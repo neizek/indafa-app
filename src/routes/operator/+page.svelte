@@ -45,10 +45,10 @@
 </script>
 
 <Section>
-	<FormItem label="Select car wash">
+	<FormItem label={$t('common.selectCarWash')}>
 		<Selector options={$carWashesOptions} bind:value={selectedCarWash.id} />
 	</FormItem>
-	<FormItem label="Select Date">
+	<FormItem label={$t('common.selectDate')}>
 		<Selector options={dateOptions} bind:value={selectedDate} />
 	</FormItem>
 </Section>

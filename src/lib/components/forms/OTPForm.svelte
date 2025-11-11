@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { sendOTP, verifyOTP } from '$lib/helpers/auth';
 	import z from 'zod';
 	import Button from '../ui/Button.svelte';
@@ -9,14 +8,21 @@
 	import { createForm } from 'felte';
 	import { Check } from '@lucide/svelte';
 	import Form from '../ui/Form.svelte';
-	import { onMount } from 'svelte';
 	import { t } from '$lib/translations/translations';
+	import type { VerificationType } from '$lib/types/auth';
 
-	let { input, verificationType, closePopUp } = $props();
+	let {
+		input,
+		verificationType,
+		closePopUp
+	}: {
+		input: string;
+		verificationType: VerificationType;
+		closePopUp: () => void;
+	} = $props();
 
-	let isLoading: boolean = $state(false);
-	// let isDisabled: boolean = $state(true);
-	// let timer: number = 6000;
+	let isLoadingVerification: boolean = $state(false);
+	let isLoadingResending: boolean = $state(false);
 	let countdown = $state(0);
 	let isDisabled = $derived(countdown > 0);
 	let intervalId: ReturnType<typeof setInterval> | null = null;
@@ -28,20 +34,27 @@
 	const { form, errors, data } = createForm({
 		extend: validator({ schema }),
 		onSubmit: (values) => {
-			isLoading = true;
+			isLoadingVerification = true;
 
 			verifyOTP(verificationType, input, values.otp)
 				.then(() => {
 					closePopUp();
 				})
 				.finally(() => {
-					isLoading = false;
+					isLoadingVerification = false;
 				});
 		}
 	});
 
 	function onResend() {
-		startCountdown();
+		isLoadingResending = true;
+		sendOTP(verificationType, input)
+			.then(() => {
+				startCountdown();
+			})
+			.finally(() => {
+				isLoadingResending = false;
+			});
 	}
 
 	function startCountdown() {
@@ -61,7 +74,12 @@
 </script>
 
 <Form {form}>
-	<FormItem label={$t('common.verificationCode')}>
+	{#if verificationType === 'email' || verificationType === 'email_change'}
+		<span>{$t('common.codeSentToEmail', { email: input })}</span>
+	{:else if verificationType === 'sms' || verificationType === 'phone_change'}
+		<span>{$t('common.codeSentToPhone', { phone: input })}</span>
+	{/if}
+	<FormItem label={$t('common.verificationCode')} errors={$errors.otp}>
 		<Input
 			type="text"
 			inputmode="numeric"
@@ -70,11 +88,18 @@
 		/>
 	</FormItem>
 	<div class="mt-4 flex flex-col gap-2">
-		<Button type="submit" label={$t('common.submitCode')} icon={Check} {isLoading} full />
+		<Button
+			type="submit"
+			label={$t('common.submitCode')}
+			icon={Check}
+			isLoading={isLoadingVerification}
+			full
+		/>
 		<Button
 			preset="ghost"
-			label={`${$t('common.didntReceiveResend')} ${countdown} s`}
+			label={`${$t('common.didntReceiveResend')} ${countdown > 0 ? `${countdown}${$t('common.s')}` : ''}`}
 			full
+			isLoading={isLoadingResending}
 			disabled={isDisabled}
 			onclick={onResend}
 		/>

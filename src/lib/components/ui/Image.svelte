@@ -18,6 +18,7 @@
 		if (src) {
 		}
 	});
+	// TO BE CHANGED
 </script>
 
 {#key src}
@@ -25,7 +26,7 @@
 		in:fade
 		{src}
 		{alt}
-		class={[ratio, 'w-full', isLoading ? 'placeholder animate-pulse' : '']}
+		class={[ratio, 'w-full', 'object-cover', isLoading ? 'placeholder animate-pulse' : '']}
 		bind:this={imageRef}
 		onload={() => (isLoading = false)}
 	/>

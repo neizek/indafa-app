@@ -59,7 +59,7 @@
 	"locate": "Найти",
 	"addVehicle": "Добавить авто",
 	"deleteVehicle": "Удалить авто",
-	"doYouWantToCancelAppointment": "Хотите ли вы отменить запись на ",
+	"doYouWantToCancelAppointment": "Хотите ли вы отменить запись на {{ date }} в {{ time }}?",
 	"doYouWantToDeleteVehicle": "Хотите ли вы удалить авто с регистрационным номером ",
 	"editProfile": "Редактировать профиль",
 	"selectCarWash": "Выберите автомойку",
@@ -69,5 +69,11 @@
 	"desiredSpot": "Желаемое место",
 	"carInfo": "Автомобиль",
 	"addAtLeastOneCar": "Добавьте хотя бы один автомобиль в ваш аккаунт",
-	"customerContacts": "Контакты клиента"
+	"customerContacts": "Контакты клиента",
+	"codeSentToEmail": "Проверочный код был отправлен на вашу эл. почту {{ email }}",
+	"codeSentToPhone": "Проверочный код был отправлен на ваш номер телефона {{ phone }}",
+	"s": "с",
+	"error": "Произошла ошибка",
+	"info": "Информация",
+	"completeYouProfileBeforeAppointment": "Заполните полностью ваш профиль прежде чем записаться"
 }

@@ -39,7 +39,11 @@
 		<span>{!$user?.email || $user?.email === '' ? $t('common.notSpecified') : $user?.email}</span>
 	</FormItem>
 	<FormItem label={$t('common.mobilePhone')}>
-		<span>{!$user?.phone || $user?.phone === '' ? $t('common.notSpecified') : $user?.phone}</span>
+		<span
+			>{!$user?.phone || $user?.phone === ''
+				? $t('common.notSpecified')
+				: $user?.user_metadata.phone}</span
+		>
 	</FormItem>
 	<Button
 		preset="tonal"

@@ -9,6 +9,7 @@ import type { VerifyOtpParams } from '@supabase/supabase-js';
 import storage from './storage';
 import { KeyRound, Pen } from '@lucide/svelte';
 import EditProfileForm from '$lib/components/forms/EditProfileForm.svelte';
+import { user } from '$lib/stores/auth';
 
 export async function signIn(email: string, password: string) {
 	const { data, error } = await supabase.auth.signInWithPassword({
@@ -103,12 +104,15 @@ export async function verifyOTP(type: VerificationType, input: string, token: st
 }
 
 export async function updateUser(userEditPayload: UserEditPayload) {
-	const { error } = await supabase.auth.updateUser(userEditPayload);
+	const { data, error } = await supabase.auth.updateUser(userEditPayload);
 
 	if (error) {
 		console.error('User update error', error);
 		throw error;
 	}
+
+	user.set(data.user);
+	return data.user;
 }
 
 export async function signOut() {
@@ -150,7 +154,7 @@ export function callToLoginPopUp() {
 
 export function openOTPVerificationPopUp(input: string, verificationType: VerificationType) {
 	createPopUp({
-		title: 'Verification',
+		title: 'common.verification',
 		content: {
 			component: OTPForm,
 			props: {

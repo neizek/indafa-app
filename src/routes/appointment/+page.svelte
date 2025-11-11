@@ -22,6 +22,8 @@
 	import { createPopUp } from '$lib/stores/popUp';
 	import { createEditProfilePopUp } from '$lib/helpers/auth';
 	import { t } from '$lib/translations/translations';
+	import { toaster } from '$lib/stores/toaster';
+	import { showInfoToast } from '$lib/helpers/toaster';
 
 	let isLoading: boolean = $state(false);
 
@@ -119,6 +121,10 @@
 			!$user.email ||
 			!$user.phone
 		) {
+			showInfoToast({
+				title: 'common.info',
+				description: 'common.completeYouProfileBeforeAppointment'
+			});
 			createEditProfilePopUp();
 			return;
 		}
@@ -132,8 +138,8 @@
 			start_time: new Date($data.date.setHours($data.startTime, 0, 0, 0)).toISOString(),
 			end_time: new Date($data.date.setHours($data.startTime + 1, 0, 0, 0)).toISOString()
 		}).finally(() => {
-			goto(ROUTES.HOME);
 			isLoading = false;
+			goto(ROUTES.HOME);
 		});
 	}
 </script>

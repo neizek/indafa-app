@@ -13,12 +13,11 @@
 <label class="label">
 	<span class="label-text">{label}</span>
 	{@render children()}
+	{#if errors && errors.length > 0}
+		<div class="flex flex-col gap-2">
+			{#each errors as error}
+				<span class="label-text text-red-500">{error}</span>
+			{/each}
+		</div>
+	{/if}
 </label>
-
-{#if errors && errors.length > 0}
-	<div class="flex flex-col gap-2">
-		{#each errors as error}
-			<span class="text-red-500">{error}</span>
-		{/each}
-	</div>
-{/if}

@@ -16,7 +16,7 @@ export const supportedLocalesOptions: SupportedLocaleOption[] = [
 	{ value: 'ru', label: 'Русский', import: ru }
 ];
 
-const config: Config = {
+const config: Config<{ [prop: string]: string }> = {
 	loaders: supportedLocalesOptions.map((locale) => ({
 		locale: locale.value,
 		key: 'common',

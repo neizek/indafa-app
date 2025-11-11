@@ -10,10 +10,12 @@
 	import { Check, XIcon } from '@lucide/svelte';
 	import { openOTPVerificationPopUp, updateUser } from '$lib/helpers/auth';
 	import { t } from '$lib/translations/translations';
+	import PhoneInput from '../ui/PhoneInput.svelte';
 
 	const schema = z.object({
 		firstName: z.string(),
-		lastName: z.string()
+		lastName: z.string(),
+		phone: z.string().regex(/^\+[1-9]\d{1,14}$/, 'Enter a valid phone number')
 	});
 
 	let { closePopUp } = $props();
@@ -21,10 +23,10 @@
 
 	function preparePayload() {
 		return {
-			...($data.phone !== $user?.phone && { phone: $data.phone }),
+			...($data.phone !== $user?.user_metadata.phone && { phone: $data.phone }),
 			data: {
 				...($data.firstName !== $user?.user_metadata.firstName && { firstName: $data.firstName }),
-				...($data.lastName !== $user?.user_metadata.lastName && { firstName: $data.lastName })
+				...($data.lastName !== $user?.user_metadata.lastName && { lastName: $data.lastName })
 			}
 		};
 	}
@@ -34,11 +36,10 @@
 		initialValues: {
 			firstName: $user?.user_metadata.firstName ?? '',
 			lastName: $user?.user_metadata.lastName ?? '',
-			phone: $user?.phone ?? ''
+			phone: $user?.user_metadata.phone ?? ''
 		},
 		onSubmit: (values) => {
 			isLoading = true;
-
 			updateUser(preparePayload())
 				.then(() => {
 					if (values.phone !== $user?.phone) {
@@ -60,8 +61,8 @@
 	<FormItem label={$t('common.lastName')}>
 		<Input bind:value={$data.lastName} />
 	</FormItem>
-	<FormItem label={$t('common.mobilePhone')}>
-		<Input bind:value={$data.phone} />
+	<FormItem label={$t('common.mobilePhone')} errors={$errors.phone}>
+		<PhoneInput bind:value={$data.phone} />
 	</FormItem>
 	<div class="mt-2 flex gap-2">
 		<Button type="submit" label={$t('common.confirm')} icon={Check} {isLoading} full />

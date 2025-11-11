@@ -59,7 +59,7 @@
 	"locate": "Locate",
 	"addVehicle": "Add vehicle",
 	"deleteVehicle": "Delete vehicle",
-	"doYouWantToCancelAppointment": "Do you really want to cancel appointment on ",
+	"doYouWantToCancelAppointment": "Do you really want to cancel appointment on {{ date }} {{ time }}?",
 	"doYouWantToDeleteVehicle": "Do you want to delete vehicle with license plate number ",
 	"editProfile": "Edit profile",
 	"selectCarWash": "Select car wash",
@@ -69,5 +69,11 @@
 	"desiredSpot": "Desired place",
 	"carInfo": "Car information",
 	"addAtLeastOneCar": "Add at least one car to your account",
-	"customerContacts": "Customer's contacts"
+	"customerContacts": "Customer's contacts",
+	"codeSentToEmail": "A verification code has been sent to your email address {{ email }}",
+	"codeSentToPhone": "A verification code has been sent to your phone number {{ phone }}",
+	"s": "s",
+	"error": "Error occured",
+	"info": "Information",
+	"completeYouProfileBeforeAppointment": "Complete you profile before confirming the appointment"
 }

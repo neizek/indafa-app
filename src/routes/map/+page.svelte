@@ -2,10 +2,6 @@
 	import { onMount } from 'svelte';
 	import mapboxgl from 'mapbox-gl';
 	import { carWashes } from '$lib/stores/carWashes';
-	import { createPopUp } from '$lib/stores/popUp';
-	import CarWashDetails from '../../lib/components/widgets/CarWashDetails.svelte';
-	import type { CarWash } from '$lib/types/carWashes';
-	import { Bubbles } from '@lucide/svelte';
 	import { openCarWashDetailsPopUp } from '$lib/helpers/carWashes';
 
 	let mapContainer: HTMLElement;
@@ -28,7 +24,6 @@
 		const bounds = new mapboxgl.LngLatBounds();
 		$carWashes.forEach((carWash) => {
 			if (carWash.long && carWash.lat) {
-				console.log({ lng: carWash.long, lat: carWash.lat });
 				const marker = new mapboxgl.Marker()
 					.setLngLat({ lng: carWash.long, lat: carWash.lat })
 					.addTo(map);

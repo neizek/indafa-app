@@ -20,7 +20,7 @@
 </script>
 
 <div class="flex flex-col gap-4">
-	<span>{$t('common.doYouWantToCancelAppointment')} {date} {time}?</span>
+	<span>{$t('common.doYouWantToCancelAppointment', { date, time })}</span>
 	<div class="flex items-center justify-between gap-2">
 		<Button
 			label={$t('common.cancelAppointment')}

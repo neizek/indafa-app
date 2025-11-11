@@ -59,7 +59,7 @@
 	"locate": "Atrast",
 	"addVehicle": "Pievienot transportlīdzekli",
 	"deleteVehicle": "Dzēst transportlīdzekli",
-	"doYouWantToCancelAppointment": "Vai tiešām vēlaties atcelt pierakstu uz ",
+	"doYouWantToCancelAppointment": "Vai tiešām vēlaties atcelt pierakstu uz {{ date }} {{ time }}?",
 	"doYouWantToDeleteVehicle": "Vai vēlaties dzēst transportlīdzekli ar numura zīmi ",
 	"editProfile": "Rediģēt profilu",
 	"selectCarWash": "Izvēlieties automazgātavu",
@@ -69,5 +69,11 @@
 	"desiredSpot": "Vēlamā vieta",
 	"carInfo": "Transportlīdzeklis",
 	"addAtLeastOneCar": "Pievienojiet vismaz vienu automašīnu savam kontam",
-	"customerContacts": "Klienta kontakti"
+	"customerContacts": "Klienta kontakti",
+	"codeSentToEmail": "Pārbaudes kods ir nosūtīts uz jūsu e-pastu {{ email }}",
+	"codeSentToPhone": "Pārbaudes kods ir nosūtīts uz jūsu tālruņa numuru {{ phone }}",
+	"s": "s",
+	"error": "Notika kļūda",
+	"info": "Informācija",
+	"completeYouProfileBeforeAppointment": "Aizpildiet savu profilu, pirms apstiprināt pierakstu"
 }
