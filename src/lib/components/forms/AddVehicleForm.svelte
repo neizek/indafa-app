@@ -16,9 +16,8 @@
 
 	const schema = z.object({
 		licensePlate: z
-			.string()
-			.nonempty('This field can not be empty')
-			.regex(/^[A-Z0-9\s-]{1,9}$/, 'Enter a valid license plate number')
+			.string({ message: 'common.errors.required' })
+			.regex(/^[A-Z0-9\s-]{1,9}$/, 'common.errors.enterValidLicensePlate')
 	});
 
 	type FormValues = z.infer<typeof schema>;

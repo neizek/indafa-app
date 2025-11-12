@@ -8,6 +8,8 @@
 	import { goto } from '$app/navigation';
 	import { ROUTES } from '$lib/constants/routes';
 	import { t } from '$lib/translations/translations';
+	import { isOperator } from '$lib/stores/auth';
+	import UserManagementBlock from './UserManagementBlock.svelte';
 </script>
 
 <Tabs defaultValue="tab-1">
@@ -20,12 +22,7 @@
 		<div class="flex flex-col gap-4">
 			<UserProfileCard />
 			<UserVehiclesCard />
-			<Button
-				preset="tonal"
-				icon={UserLock}
-				label={$t('common.operatorsDashboard')}
-				onclick={() => goto(ROUTES.OPERATOR)}
-			/>
+			<UserManagementBlock />
 		</div>
 	</Tabs.Content>
 	<Tabs.Content value="tab-2">

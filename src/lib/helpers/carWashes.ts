@@ -4,7 +4,7 @@ import { createPopUp } from '$lib/stores/popUp';
 import type { CarWash } from '$lib/types/carWashes';
 import type { SelectOption } from '$lib/types/ui';
 import { Bubbles } from '@lucide/svelte';
-import { createDateWithTime, getDateLabel } from './datetime';
+import { createDateWithTime, formatAppointmentDateTime, getDateLabel } from './datetime';
 
 export async function getCarWashes(): Promise<Array<CarWash>> {
 	const { data, error } = await supabase.from('car_wash').select('*, working_hours(*)');
@@ -27,13 +27,14 @@ export function getWorkingDatesOptions(carWash: CarWash): SelectOption[] {
 		const wh = carWash.working_hours.find((wh) => wh.day_of_week === date.getDay());
 
 		if (wh && createDateWithTime(date, wh.close_time) > new Date()) {
-			const dateString = date.toISOString().split('T')[0];
+			const { date: dateString } = formatAppointmentDateTime(date.toISOString());
+
 			dateOptions = [
 				...dateOptions,
 				{
 					value: date,
-					label: dateString,
-					caption: getDateLabel(date)
+					label: getDateLabel(date),
+					caption: dateString
 				}
 			];
 		}

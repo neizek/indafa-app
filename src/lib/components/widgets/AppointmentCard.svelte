@@ -5,7 +5,7 @@
 	import { openCancelAppointmentPopUp } from '$lib/helpers/appointments';
 	import { formatAppointmentDateTime } from '$lib/helpers/datetime';
 	import Item from '../ui/Item.svelte';
-	import { AppointmentStatusEnum } from '$lib/enums/appointments';
+	import { AppointmentStatusColorsEnum, AppointmentStatusEnum } from '$lib/enums/appointments';
 	import type { FullAppointment } from '$lib/types/appointments';
 	import Badge from '../ui/Badge.svelte';
 	import Card from '../ui/Card.svelte';
@@ -13,13 +13,6 @@
 
 	let { appointment }: { appointment: FullAppointment } = $props();
 	let { date, time } = formatAppointmentDateTime(appointment.start_time);
-
-	// TO BE CHANGED
-	const statusColors = {
-		[AppointmentStatusEnum.pending]: 'preset-tonal-warning',
-		[AppointmentStatusEnum.canceled]: 'preset-tonal-error',
-		[AppointmentStatusEnum.completed]: 'preset-tonal-success'
-	};
 </script>
 
 {#if appointment.carWash && appointment.vehicle}
@@ -27,7 +20,7 @@
 		<div class="relative flex flex-col gap-2">
 			<Badge
 				label={$t(`common.${appointment.status}`)}
-				clases="absolute right-0 {statusColors[appointment.status]}"
+				clases="absolute right-0 {AppointmentStatusColorsEnum[appointment.status]}"
 			/>
 			<Item icon={Car} label={appointment.vehicle?.license_plate} />
 			<Item icon={Clock} label={time} />

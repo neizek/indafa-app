@@ -111,7 +111,7 @@ export async function updateUser(userEditPayload: UserEditPayload) {
 		throw error;
 	}
 
-	user.set(data.user);
+	user.set(data.user.user_metadata);
 	return data.user;
 }
 

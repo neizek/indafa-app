@@ -16,9 +16,9 @@
 
 	$effect(() => {
 		if (src) {
+			isLoading = true;
 		}
 	});
-	// TO BE CHANGED
 </script>
 
 {#key src}

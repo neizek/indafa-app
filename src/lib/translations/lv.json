@@ -17,7 +17,7 @@
 	"appointment": "Pieraksts",
 	"cancelAppointment": "Atcelt pierakstu",
 	"confirmAppointment": "Apstiprināt pierakstu",
-	"youDontHaveAnyAppointments": "Jums šobrīd nav gaidāmu pierakstu",
+	"youDontHaveAnyAppointments": "Jums šobrīd nav pierakstu",
 	"noSpecialOffersAvaliable": "Šobrīd nav pieejami īpaši piedāvājumi",
 	"noAppointmentsForThisDay": "Nav nekādu pierakstu izvēlētajai dienai",
 	"businessHours": "Darba laiks",
@@ -47,6 +47,7 @@
 	"personalData": "Personas dati",
 	"myVehicles": "Manas automašīnas",
 	"operatorsDashboard": "Operatora panelis",
+	"adminsDashboard": "Admina panelis",
 	"signOut": "Iziet",
 	"edit": "Rediģēt",
 	"notSpecified": "Nav norādīts",
@@ -75,5 +76,15 @@
 	"s": "s",
 	"error": "Notika kļūda",
 	"info": "Informācija",
-	"completeYouProfileBeforeAppointment": "Aizpildiet savu profilu, pirms apstiprināt pierakstu"
+	"completeYouProfileBeforeAppointment": "Aizpildiet savu profilu, pirms apstiprināt pierakstu",
+	"errors": {
+		"required": "Šis lauks nevar būt tukšs",
+		"enterValidEmail": "Ievadiet derīgu e-pasta adresi",
+		"enterValidPhone": "Ievadiet derīgu tālruņa numuru",
+		"enterValidLicensePlate": "Lūdzu, ievadiet pareizo transportlīdzekļa reģistrācijas numuru",
+		"codeMustConsistOfSixDigits": "Kodam jābūt 6 rakstzīmes garam.",
+		"notAllDataFilled": "Lūdzu, aizpildiet visus obligātos laukus",
+		"onlyOneAppointmentPerCarAllowed": "Jūs jau esat pierakstījies uz šīs automašīnas mazgāšanu. Katram automobilim ir atļauts tikai viens plānots pieraksts."
+	},
+	"management": "Kontrole"
 }

@@ -28,10 +28,14 @@
 	let intervalId: ReturnType<typeof setInterval> | null = null;
 
 	const schema = z.object({
-		otp: z.string().length(6, 'Code must consist of 6 digits')
+		otp: z
+			.string({ message: 'common.errors.required' })
+			.length(6, 'common.errors.codeMustConsistOfSixDigits')
 	});
 
-	const { form, errors, data } = createForm({
+	type FormValues = z.infer<typeof schema>;
+
+	const { form, errors, data, createSubmitHandler } = createForm<FormValues>({
 		extend: validator({ schema }),
 		onSubmit: (values) => {
 			isLoadingVerification = true;
@@ -45,6 +49,8 @@
 				});
 		}
 	});
+
+	const submitForm = createSubmitHandler();
 
 	function onResend() {
 		isLoadingResending = true;
@@ -70,6 +76,10 @@
 		}, 1000);
 	}
 
+	function onCodeInput() {
+		if ($data.otp.length === 6) submitForm();
+	}
+
 	startCountdown();
 </script>
 
@@ -84,7 +94,9 @@
 			type="text"
 			inputmode="numeric"
 			placeholder={$t('common.enterSixDigitCode')}
+			autocomplete="one-time-code"
 			bind:value={$data.otp}
+			oninput={onCodeInput}
 		/>
 	</FormItem>
 	<div class="mt-4 flex flex-col gap-2">

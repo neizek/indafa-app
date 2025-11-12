@@ -78,7 +78,7 @@
 				<span class="pb-0.5">{$t(option.label)}</span>
 			</div>
 			{#if option.caption}
-				<span class="preset-text-caption">{$t(option.caption)}</span>
+				<span class="label-text pb-1">{$t(option.caption)}</span>
 			{/if}
 		</button>
 	{/each}

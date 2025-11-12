@@ -5,7 +5,7 @@ export enum AppointmentStatusEnum {
 }
 
 export enum AppointmentStatusColorsEnum {
-	pending = 'warning',
-	completed = 'success',
-	canceled = 'error'
+	pending = 'preset-tonal-warning',
+	canceled = 'preset-tonal-error',
+	completed = 'preset-tonal-success'
 }

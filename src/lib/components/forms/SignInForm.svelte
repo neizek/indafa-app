@@ -11,6 +11,7 @@
 	import Selector from '../ui/Selector.svelte';
 	import type { VerificationType } from '$lib/types/auth';
 	import { t } from '$lib/translations/translations';
+	import PhoneInput from '../ui/PhoneInput.svelte';
 
 	let { closePopUp } = $props();
 	let isLoading: boolean = $state(false);
@@ -21,11 +22,13 @@
 	const schema = z.discriminatedUnion('type', [
 		z.object({
 			type: z.literal('email'),
-			email: z.string().email()
+			email: z.string({ message: 'common.errors.required' }).email('common.errors.enterValidEmail')
 		}),
 		z.object({
-			type: z.literal('phone'),
-			phone: z.string().regex(phoneRegex, 'Enter a valid phone number')
+			type: z.literal('sms'),
+			phone: z
+				.string({ message: 'common.errors.required' })
+				.regex(phoneRegex, 'common.errors.enterValidPhone')
 		})
 	]);
 
@@ -62,11 +65,11 @@
 <Form {form}>
 	{#if signInWay === 'email'}
 		<FormItem label={$t('common.email')} errors={$errors.email}>
-			<Input type="email" placeholder="janis.berzins@gmail.com" bind:value={$data.email} />
+			<Input type="email" bind:value={$data.email} placeholder="info@indafa.lv" />
 		</FormItem>
 	{:else if signInWay === 'sms'}
 		<FormItem label={$t('common.mobilePhone')} errors={$errors.phone}>
-			<Input type="tel" inputmode="tel" placeholder="+371 26972159" bind:value={$data.phone} />
+			<PhoneInput bind:value={$data.phone} code="+371" placeholder="67391995" />
 		</FormItem>
 	{/if}
 	<div class="mt-4">

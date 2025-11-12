@@ -17,7 +17,7 @@
 	"appointment": "Appointment",
 	"cancelAppointment": "Cancel appointment",
 	"confirmAppointment": "Confirm appointment",
-	"youDontHaveAnyAppointments": "You do not have any upcoming appointments at the moment",
+	"youDontHaveAnyAppointments": "You do not have any appointments at the moment",
 	"noSpecialOffersAvaliable": "No any special offers avaliable for the moment",
 	"noAppointmentsForThisDay": "No any appointments for the chosen day",
 	"businessHours": "Bussiness hours",
@@ -47,6 +47,7 @@
 	"personalData": "Personal data",
 	"myVehicles": "My vehicles",
 	"operatorsDashboard": "Operator's dashboard",
+	"adminsDashboard": "Admin's dashboard",
 	"signOut": "Sign out",
 	"edit": "Edit",
 	"notSpecified": "Not specified",
@@ -75,5 +76,15 @@
 	"s": "s",
 	"error": "Error occured",
 	"info": "Information",
-	"completeYouProfileBeforeAppointment": "Complete you profile before confirming the appointment"
+	"completeYouProfileBeforeAppointment": "Complete you profile before confirming the appointment",
+	"errors": {
+		"required": "This field cannot be empty",
+		"enterValidEmail": "Enter a valid email address",
+		"enterValidPhone": "Enter a valid phone number",
+		"enterValidLicensePlate": "Enter a valid license plate",
+		"codeMustConsistOfSixDigits": "The code must consist of 6 digits",
+		"notAllDataFilled": "Please fill up all required fields",
+		"onlyOneAppointmentPerCarAllowed": "You have already upcoming appointment for this car. Only one planned appointment per car is allowed."
+	},
+	"management": "Management"
 }

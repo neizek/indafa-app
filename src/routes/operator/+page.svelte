@@ -35,13 +35,6 @@
 			}
 		});
 	}
-
-	// TO BE CHANGED
-	const statusColors = {
-		[AppointmentStatusEnum.pending]: 'preset-tonal-warning',
-		[AppointmentStatusEnum.canceled]: 'preset-tonal-error',
-		[AppointmentStatusEnum.completed]: 'preset-tonal-success'
-	};
 </script>
 
 <Section>
@@ -71,7 +64,7 @@
 				<span>{appointment.vehicle.license_plate}</span>
 				<Badge
 					label={$t(`common.${appointment.status}`)}
-					clases={statusColors[appointment.status]}
+					clases={AppointmentStatusColorsEnum[appointment.status]}
 				/>
 				<button
 					class="bg-transparent"

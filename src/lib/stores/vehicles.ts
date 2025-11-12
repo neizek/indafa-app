@@ -1,7 +1,7 @@
 import storage from '$lib/helpers/storage';
 import { getVehiclesByUserId } from '$lib/helpers/vehicles';
 import type { Vehicle } from '$lib/types/vehicles';
-import { writable } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
 import { session } from './auth';
 
 const vehiclesStore = (() => {
@@ -36,6 +36,11 @@ const vehiclesStore = (() => {
 		return updatedVehicles;
 	}
 
+	function clearVehicles() {
+		vehiclesStore.set([]);
+		storage.remove('vehicles');
+	}
+
 	return {
 		subscribe,
 		set,
@@ -43,8 +48,12 @@ const vehiclesStore = (() => {
 		add: (vehicle: Vehicle) => addVehicle(vehicle),
 		remove: (id: Vehicle['id']) => removeVehicle(id),
 		init: (userId: string) => getInitialVehicles(userId),
-		clear: () => set([])
+		clear: () => clearVehicles()
 	};
 })();
 
 export default vehiclesStore;
+export const vehiclesMap = derived(
+	vehiclesStore,
+	(vehicles) => new Map(vehicles.map((vehicle) => [vehicle.id, vehicle]))
+);

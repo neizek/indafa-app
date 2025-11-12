@@ -6,7 +6,11 @@ export const ROUTES = {
 	USER: {
 		PROFILE: '/user/profile'
 	},
-	OPERATOR: '/operator'
+	OPERATOR: '/operator',
+	ADMIN: {
+		DASHBOARD: '/admin/dashboard',
+		OFFERS: '/admin/offers'
+	}
 } as const;
 
 export type Route = (typeof ROUTES)[keyof typeof ROUTES];

@@ -17,7 +17,7 @@
 	"appointment": "Запись",
 	"cancelAppointment": "Отменить запись",
 	"confirmAppointment": "Подтвердить запись",
-	"youDontHaveAnyAppointments": "У вас на данный момент нет ожидаемых записей",
+	"youDontHaveAnyAppointments": "У вас на данный момент нет никаких записей",
 	"noSpecialOffersAvaliable": "На данный момент нет специальных предложений",
 	"noAppointmentsForThisDay": "Нет никаких записей на выбранную дату",
 	"businessHours": "Рабочее время",
@@ -47,6 +47,7 @@
 	"personalData": "Персональные данные",
 	"myVehicles": "Мои авто",
 	"operatorsDashboard": "Панель оператора",
+	"adminsDashboard": "Панель администратора",
 	"signOut": "Выйти",
 	"edit": "Изменить",
 	"notSpecified": "Не указано",
@@ -75,5 +76,15 @@
 	"s": "с",
 	"error": "Произошла ошибка",
 	"info": "Информация",
-	"completeYouProfileBeforeAppointment": "Заполните полностью ваш профиль прежде чем записаться"
+	"completeYouProfileBeforeAppointment": "Заполните полностью ваш профиль прежде чем записаться",
+	"errors": {
+		"required": "Это поле не может быть пустым",
+		"enterValidEmail": "Введите корректную эл. почту",
+		"enterValidPhone": "Введите корректный номер телефона",
+		"enterValidLicensePlate": "Введите корректный рег. номер авто",
+		"codeMustConsistOfSixDigits": "Код должен состоять из 6 символов",
+		"notAllDataFilled": "Пожалуйста, заполните все необходимые поля",
+		"onlyOneAppointmentPerCarAllowed": "Вы уже записались на мойку этого авто. На каждый автомобиль разрешена только одна запланированная запись."
+	},
+	"management": "Управление"
 }

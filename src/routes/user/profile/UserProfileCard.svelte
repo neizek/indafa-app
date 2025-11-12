@@ -23,7 +23,14 @@
 			});
 	}
 
-	const displayedName = `${$user?.user_metadata.firstName} ${$user?.user_metadata.lastName}`;
+	// const displayedName = `${$user?.firstName} ${$user?.lastName}`;
+	const displayedName = $derived.by(() => {
+		if (!$user?.firstName && !$user?.lastName) {
+			return;
+		}
+
+		return `${$user?.firstName} ${$user?.lastName}`;
+	});
 </script>
 
 <Section header={$t('common.personalData')}>
@@ -39,11 +46,7 @@
 		<span>{!$user?.email || $user?.email === '' ? $t('common.notSpecified') : $user?.email}</span>
 	</FormItem>
 	<FormItem label={$t('common.mobilePhone')}>
-		<span
-			>{!$user?.phone || $user?.phone === ''
-				? $t('common.notSpecified')
-				: $user?.user_metadata.phone}</span
-		>
+		<span>{!$user?.phone || $user?.phone === '' ? $t('common.notSpecified') : $user?.phone}</span>
 	</FormItem>
 	<Button
 		preset="tonal"

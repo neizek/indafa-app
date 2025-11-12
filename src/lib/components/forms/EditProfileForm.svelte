@@ -13,9 +13,12 @@
 	import PhoneInput from '../ui/PhoneInput.svelte';
 
 	const schema = z.object({
-		firstName: z.string(),
-		lastName: z.string(),
-		phone: z.string().regex(/^\+[1-9]\d{1,14}$/, 'Enter a valid phone number')
+		firstName: z.string({ message: 'common.errors.required' }),
+		lastName: z.string({ message: 'common.errors.required' }),
+		phone: z
+			.string({ message: 'common.errors.required' })
+			.regex(/^\+[1-9]\d{1,14}$/, 'common.errors.enterValidPhone'),
+		email: z.string({ message: 'common.errors.required' }).email('common.errors.enterValidEmail')
 	});
 
 	let { closePopUp } = $props();
@@ -23,10 +26,13 @@
 
 	function preparePayload() {
 		return {
-			...($data.phone !== $user?.user_metadata.phone && { phone: $data.phone }),
+			...($data.phone !== $user?.phone && { phone: $data.phone }),
+			...($data.email !== $user?.email && { phone: $data.email }),
 			data: {
-				...($data.firstName !== $user?.user_metadata.firstName && { firstName: $data.firstName }),
-				...($data.lastName !== $user?.user_metadata.lastName && { lastName: $data.lastName })
+				...($data.firstName !== $user?.firstName && { firstName: $data.firstName }),
+				...($data.lastName !== $user?.lastName && { lastName: $data.lastName }),
+				...($data.phone !== $user?.phone && { phone: $data.phone }),
+				...($data.email !== $user?.email && { email: $data.email })
 			}
 		};
 	}
@@ -34,16 +40,21 @@
 	const { form, errors, data } = createForm({
 		extend: validator({ schema }),
 		initialValues: {
-			firstName: $user?.user_metadata.firstName ?? '',
-			lastName: $user?.user_metadata.lastName ?? '',
-			phone: $user?.user_metadata.phone ?? ''
+			firstName: $user?.firstName ?? '',
+			lastName: $user?.lastName ?? '',
+			phone: $user?.phone ?? '',
+			email: $user?.email ?? ''
 		},
 		onSubmit: (values) => {
 			isLoading = true;
+
 			updateUser(preparePayload())
 				.then(() => {
 					if (values.phone !== $user?.phone) {
 						openOTPVerificationPopUp(values.phone, 'phone_change');
+					}
+					if (values.email !== $user?.email) {
+						openOTPVerificationPopUp(values.email, 'email_change');
 					}
 					closePopUp();
 				})
@@ -55,14 +66,17 @@
 </script>
 
 <Form {form}>
-	<FormItem label={$t('common.firstName')}>
+	<FormItem label={$t('common.firstName')} errors={$errors.firstName}>
 		<Input bind:value={$data.firstName} />
 	</FormItem>
-	<FormItem label={$t('common.lastName')}>
+	<FormItem label={$t('common.lastName')} errors={$errors.lastName}>
 		<Input bind:value={$data.lastName} />
 	</FormItem>
 	<FormItem label={$t('common.mobilePhone')} errors={$errors.phone}>
 		<PhoneInput bind:value={$data.phone} />
+	</FormItem>
+	<FormItem label={$t('common.email')} errors={$errors.email}>
+		<Input bind:value={$data.email} />
 	</FormItem>
 	<div class="mt-2 flex gap-2">
 		<Button type="submit" label={$t('common.confirm')} icon={Check} {isLoading} full />

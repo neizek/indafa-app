@@ -23,3 +23,7 @@ export const carWashesOptions: Readable<SelectOption[]> = derived(carWashes, (ca
 		label: carWash.address
 	}))
 );
+export const carWashesMap = derived(
+	carWashes,
+	(carWashes) => new Map(carWashes.map((carWash) => [carWash.id, carWash]))
+);

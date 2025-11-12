@@ -10,7 +10,7 @@
 	import type { SelectOption } from '$lib/types/ui';
 	import { createAppointment, getAppointmentsByDate } from '$lib/helpers/appointments';
 	import { session, user } from '$lib/stores/auth';
-	import { getDateLabel, getHoursFromTime } from '$lib/helpers/datetime';
+	import { getHoursFromTime } from '$lib/helpers/datetime';
 	import { z } from 'zod';
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
@@ -19,19 +19,19 @@
 	import Form from '$lib/components/ui/Form.svelte';
 	import { ROUTES } from '$lib/constants/routes';
 	import { getWorkingDatesOptions } from '$lib/helpers/carWashes';
-	import { createPopUp } from '$lib/stores/popUp';
 	import { createEditProfilePopUp } from '$lib/helpers/auth';
 	import { t } from '$lib/translations/translations';
-	import { toaster } from '$lib/stores/toaster';
-	import { showInfoToast } from '$lib/helpers/toaster';
+	import { showErrorToast, showInfoToast } from '$lib/helpers/toaster';
+	import appointmentsStore from '$lib/stores/appointments';
+	import { AppointmentStatusEnum } from '$lib/enums/appointments';
 
 	let isLoading: boolean = $state(false);
 
 	const schema = z.object({
-		location: z.number(),
-		date: z.date(),
-		vehicle: z.number(),
-		startTime: z.number()
+		location: z.number({ message: 'common.errors.required' }),
+		date: z.date({ message: 'common.errors.required' }),
+		vehicle: z.number({ message: 'common.errors.required' }),
+		startTime: z.number({ message: 'common.errors.required' })
 	});
 
 	type FormValues = z.infer<typeof schema>;
@@ -112,15 +112,27 @@
 
 	function sendAppointmentRequest() {
 		if (!$data.date || !$data.location || !$data.vehicle || !$data.startTime || !$session) {
+			showErrorToast({
+				description: 'common.errors.notAllDataFilled'
+			});
 			return;
 		}
 
-		if (
-			!$user?.user_metadata.firstName ||
-			!$user?.user_metadata.lastName ||
-			!$user.email ||
-			!$user.phone
-		) {
+		const existingAppointment = $appointmentsStore.find(
+			(appointment) =>
+				appointment.vehicle_id === $data.vehicle &&
+				new Date(appointment.start_time) > new Date() &&
+				appointment.status === AppointmentStatusEnum.pending
+		);
+
+		if (existingAppointment) {
+			showErrorToast({
+				description: 'common.errors.onlyOneAppointmentPerCarAllowed'
+			});
+			return;
+		}
+
+		if (!$user?.firstName || !$user?.lastName || !$user.email || !$user.phone) {
 			showInfoToast({
 				title: 'common.info',
 				description: 'common.completeYouProfileBeforeAppointment'
@@ -146,15 +158,15 @@
 
 <Form {form}>
 	<Section header={$t('common.desiredSpot')}>
-		<FormItem label={$t('common.selectCarWash')}>
+		<FormItem label={$t('common.selectCarWash')} errors={$errors.location}>
 			<Selector options={$carWashesOptions} bind:value={$data.location} />
 		</FormItem>
 	</Section>
 	<Section header={$t('common.appointment')}>
-		<FormItem label={$t('common.selectDate')}>
+		<FormItem label={$t('common.selectDate')} errors={$errors.date}>
 			<Selector options={dateOptions} bind:value={$data.date} onchange={setAvaliableTimes} />
 		</FormItem>
-		<FormItem label={$t('common.selectTime')}>
+		<FormItem label={$t('common.selectTime')} errors={$errors.startTime}>
 			<Selector options={timeOptions} bind:value={$data.startTime} />
 		</FormItem>
 	</Section>
@@ -164,10 +176,11 @@
 				<AddVehicleButton />
 			</div>
 		{/snippet}
-		<FormItem label={$t('common.selectCar')}>
-			<Selector options={$vehiclesOptions} bind:value={$data.vehicle} />
+		<FormItem label={$t('common.selectCar')} errors={$errors.vehicle}>
 			{#if $vehiclesOptions && $vehiclesOptions.length === 0}
-				{$t('common.addAtLeastOneCar')}
+				<div class="p-2">{$t('common.addAtLeastOneCar')}</div>
+			{:else}
+				<Selector options={$vehiclesOptions} bind:value={$data.vehicle} />
 			{/if}
 		</FormItem>
 	</Section>
