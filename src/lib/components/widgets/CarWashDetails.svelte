@@ -6,8 +6,8 @@
 
 	let { carWash }: { carWash: CarWash } = $props();
 
-	const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${carWash.long}%2C${carWash.lat}`;
-	const wazeUrl = `https://www.waze.com/ul?ll=${carWash.long}%2C${carWash.lat}&navigate=yes`;
+	const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${carWash.lat}%2C${carWash.long}`;
+	const wazeUrl = `https://www.waze.com/ul?ll=${carWash.lat}%2C${carWash.long}&navigate=yes`;
 </script>
 
 <div class="flex flex-col gap-4 card">

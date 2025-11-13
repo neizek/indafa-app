@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { createPopUp } from '$lib/stores/popUp';
-	import { UserIcon, Settings, House, Map, type IconProps, Plus } from '@lucide/svelte';
+	import { UserIcon, Settings, House, Map, type IconProps } from '@lucide/svelte';
 	import { t } from '$lib/translations/translations';
 	import { page } from '$app/state';
 	import type { Component } from 'svelte';

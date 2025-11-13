@@ -84,7 +84,23 @@
 		"enterValidLicensePlate": "Lūdzu, ievadiet pareizo transportlīdzekļa reģistrācijas numuru",
 		"codeMustConsistOfSixDigits": "Kodam jābūt 6 rakstzīmes garam.",
 		"notAllDataFilled": "Lūdzu, aizpildiet visus obligātos laukus",
-		"onlyOneAppointmentPerCarAllowed": "Jūs jau esat pierakstījies uz šīs automašīnas mazgāšanu. Katram automobilim ir atļauts tikai viens plānots pieraksts."
+		"onlyOneAppointmentPerCarAllowed": "Jūs jau esat pierakstījies uz šīs automašīnas mazgāšanu. Katram automobilim ir atļauts tikai viens plānots pieraksts.",
+		"cannotDeleteRelatedRecords": "Nevar dzēst: pastāv saistītie ieraksti",
+		"requiredFieldMissing": "Trūkst obligātā lauka",
+		"invalidDataFormat": "Nederīgs datu formāts",
+		"duplicateEntry": "Šis ieraksts jau pastāv",
+		"invalidCredentials": "Nederīgs e-pasts vai parole",
+		"emailNotConfirmed": "Lūdzu, apstipriniet savu e-pasta adresi",
+		"userAlreadyExists": "Konts ar šo e-pasta adresi vai tālruņa numuru jau pastāv",
+		"unknownError": "Radās neparedzēta kļūda",
+		"recordNotFound": "Ieraksts nav atrasts",
+		"permissionDenied": "Jums nav tiesību veikt šo darbību",
+		"networkError": "Tīkla kļūda. Lūdzu, pārbaudiet savu savienojumu",
+		"cannotCompleteActionRelatedDataMissing": "Nav iespējams pabeigt darbību: trūkst saistīto datu"
 	},
-	"management": "Kontrole"
+	"management": "Kontrole",
+	"closed": "Slēgts",
+	"changeAppointmentStatus": "Mainīt pieraksta statusu",
+	"selectNewStatus": "Izvēlieties jauno statusu",
+	"save": "Saglabāt"
 }

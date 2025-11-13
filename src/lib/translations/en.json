@@ -84,7 +84,23 @@
 		"enterValidLicensePlate": "Enter a valid license plate",
 		"codeMustConsistOfSixDigits": "The code must consist of 6 digits",
 		"notAllDataFilled": "Please fill up all required fields",
-		"onlyOneAppointmentPerCarAllowed": "You have already upcoming appointment for this car. Only one planned appointment per car is allowed."
+		"onlyOneAppointmentPerCarAllowed": "You have already upcoming appointment for this car. Only one planned appointment per car is allowed.",
+		"cannotDeleteRelatedRecords": "Cannot delete: related records exist",
+		"requiredFieldMissing": "A required field is missing",
+		"invalidDataFormat": "Invalid data format",
+		"duplicateEntry": "This record already exists",
+		"invalidCredentials": "Invalid email or password",
+		"emailNotConfirmed": "Please verify your email address",
+		"userAlreadyExists": "An account with this email or phone number already exists",
+		"unknownError": "An unexpected error occurred",
+		"recordNotFound": "Record not found",
+		"permissionDenied": "You do not have permission to perform this action",
+		"networkError": "Network error. Please check your connection",
+		"cannotCompleteActionRelatedDataMissing": "Cannot complete action: related data is missing"
 	},
-	"management": "Management"
+	"management": "Management",
+	"closed": "Closed",
+	"changeAppointmentStatus": "Change appointment status",
+	"selectNewStatus": "Select new status",
+	"save": "Save"
 }

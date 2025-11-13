@@ -84,7 +84,23 @@
 		"enterValidLicensePlate": "Введите корректный рег. номер авто",
 		"codeMustConsistOfSixDigits": "Код должен состоять из 6 символов",
 		"notAllDataFilled": "Пожалуйста, заполните все необходимые поля",
-		"onlyOneAppointmentPerCarAllowed": "Вы уже записались на мойку этого авто. На каждый автомобиль разрешена только одна запланированная запись."
+		"onlyOneAppointmentPerCarAllowed": "Вы уже записались на мойку этого авто. На каждый автомобиль разрешена только одна запланированная запись.",
+		"cannotDeleteRelatedRecords": "Невозможно удалить: существуют связанные записи",
+		"requiredFieldMissing": "Обязательное поле отсутствует",
+		"invalidDataFormat": "Неверный формат данных",
+		"duplicateEntry": "Эта запись уже существует",
+		"invalidCredentials": "Неверная эл. почта или пароль",
+		"emailNotConfirmed": "Пожалуйста, подтвердите вашу эл. почту",
+		"userAlreadyExists": "Учетная запись с этой эл. почтой или номером телефона уже существует",
+		"unknownError": "Произошла непредвиденная ошибка",
+		"recordNotFound": "Запись не найдена",
+		"permissionDenied": "У вас нет прав для выполнения этого действия",
+		"networkError": "Ошибка сети. Пожалуйста, проверьте ваше соединение",
+		"cannotCompleteActionRelatedDataMissing": "Невозможно завершить действие: отсутствуют связанные данные"
 	},
-	"management": "Управление"
+	"management": "Управление",
+	"closed": "Закрыто",
+	"changeAppointmentStatus": "Изменить статус записи",
+	"selectNewStatus": "Выберите новый статус",
+	"save": "Сохранить"
 }

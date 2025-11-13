@@ -1,14 +1,17 @@
-<script>
+<script lang="ts">
+	import { getOffers } from '$lib/helpers/offers';
 	import { t } from '$lib/translations/translations';
+	import { onMount } from 'svelte';
 	import Image from '../ui/Image.svelte';
 	import ScrollableSection from '../ui/ScrollableSection.svelte';
 
-	const offers = [
-		{
-			img: 'https://cdn.create.vista.com/downloads/a8b6e640-d047-45da-9b80-9728945ade97_1024.jpeg'
-		},
-		{ img: 'https://images.template.net/390494/Car-Wash-Coupon-Template-edit-online.png' }
-	];
+	let offers: { url: string }[] = [{ url: '' }];
+
+	onMount(() => {
+		getOffers().then((data) => {
+			offers = data;
+		});
+	});
 </script>
 
 <ScrollableSection
@@ -17,7 +20,6 @@
 	items={offers}
 >
 	{#snippet itemRenderer(offer)}
-		<Image src={offer.img} alt="Special offer" />
-		<!-- <img src={offer.img} alt="Offer" class="ratioaspect-video" /> -->
+		<Image src={offer.url} alt="Special offer" />
 	{/snippet}
 </ScrollableSection>

@@ -11,18 +11,36 @@
 	import type { SelectOption } from '$lib/types/ui';
 	import { getWorkingDatesOptions } from '$lib/helpers/carWashes';
 	import Badge from '$lib/components/ui/Badge.svelte';
-	import { AppointmentStatusColorsEnum, AppointmentStatusEnum } from '$lib/enums/appointments';
+	import { AppointmentStatusColorsEnum, type AppointmentStatusEnum } from '$lib/enums/appointments';
 	import { t } from '$lib/translations/translations';
+	// import DeleteAppointment from './DeleteAppointment.svelte';
+	import StatusChange from './StatusChange.svelte';
+	import type { OperatorAppointment } from '$lib/types/appointments';
+	import { onMount } from 'svelte';
 
 	let selectedCarWash = $state($carWashes[0]);
 	let selectedDate = $state(null);
 
-	let appointments = $derived.by(() =>
-		selectedDate ? getOperatorAppointmentsByDate(selectedDate, selectedCarWash.id) : []
-	);
+	let appointments: OperatorAppointment[] = $state([]);
+	let isLoadingAppointments = $state(true);
 	let dateOptions: SelectOption[] = $derived.by(() =>
 		selectedCarWash ? getWorkingDatesOptions(selectedCarWash) : []
 	);
+
+	async function getAppointments() {
+		if (selectedDate && selectedCarWash) {
+			isLoadingAppointments = true;
+			getOperatorAppointmentsByDate(selectedDate, selectedCarWash.id)
+				.then((data) => {
+					appointments = data;
+				})
+				.finally(() => {
+					isLoadingAppointments = false;
+				});
+		} else {
+			appointments = [];
+		}
+	}
 
 	function openCustomerDetailsPopUp(userId: string) {
 		createPopUp({
@@ -35,6 +53,42 @@
 			}
 		});
 	}
+
+	// function openDeleteAppointmentPopUp(appointment: any) {
+	// 	createPopUp({
+	// 		title: $t('common.appointmentControls'),
+	// 		content: {
+	// 			component: DeleteAppointment,
+	// 			props: {
+	// 				appointment
+	// 			}
+	// 		}
+	// 	});
+	// }
+
+	function openStatusChangePopUp(appointment: any) {
+		createPopUp({
+			title: $t('common.changeAppointmentStatus'),
+			content: {
+				component: StatusChange,
+				props: {
+					appointment,
+					onchange: (newStatus: AppointmentStatusEnum) =>
+						(appointments = appointments.map((item) =>
+							item.id === appointment.id ? { ...item, status: newStatus } : item
+						))
+				}
+			}
+		});
+	}
+
+	$effect(() => {
+		getAppointments();
+	});
+
+	onMount(() => {
+		getAppointments();
+	});
 </script>
 
 <Section>
@@ -47,13 +101,13 @@
 </Section>
 
 <Section header={$t('common.appointments')}>
-	{#await appointments}
+	{#if isLoadingAppointments}
 		<div class="w-full space-y-2">
 			<div class="placeholder animate-pulse"></div>
 			<div class="placeholder animate-pulse"></div>
 			<div class="placeholder animate-pulse"></div>
 		</div>
-	{:then appointments}
+	{:else}
 		{#if appointments && appointments.length === 0}
 			<span>{$t('common.noAppointmentsForThisDay')}</span>
 		{/if}
@@ -62,17 +116,23 @@
 			<div class="flex items-center justify-between gap-4">
 				<span>{time}</span>
 				<span>{appointment.vehicle.license_plate}</span>
-				<Badge
-					label={$t(`common.${appointment.status}`)}
-					clases={AppointmentStatusColorsEnum[appointment.status]}
-				/>
-				<button
-					class="bg-transparent"
-					onclick={() => openCustomerDetailsPopUp(appointment.user_id)}
-				>
-					<UserSearch size={20} />
-				</button>
+				<div class="flex gap-4">
+					<Badge
+						label={$t(`common.${appointment.status}`)}
+						clases={AppointmentStatusColorsEnum[appointment.status]}
+						onclick={() => openStatusChangePopUp(appointment)}
+					/>
+					<button
+						class="bg-transparent"
+						onclick={() => openCustomerDetailsPopUp(appointment.user_id)}
+					>
+						<UserSearch size={20} />
+					</button>
+					<!-- <button class="bg-transparent" onclick={() => openDeleteAppointmentPopUp(appointment)}>
+						<Trash size={20} />
+					</button> -->
+				</div>
 			</div>
 		{/each}
-	{/await}
+	{/if}
 </Section>

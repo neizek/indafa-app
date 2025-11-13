@@ -44,6 +44,7 @@ const appointmentsStore = (() => {
 		add: (appointment: Appointment) => addAppointment(appointment),
 		cancel: (id: number) => cancelAppointment(id),
 		init: () => getInitialAppointments(),
+		remove: (id: number) => update((items) => items.filter((item) => item.id !== id)),
 		clear: () => set([])
 	};
 })();

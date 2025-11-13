@@ -1,33 +1,33 @@
 import type { PostgrestError } from '@supabase/supabase-js';
 
 export function getErrorMessage(error: PostgrestError | null | undefined): string {
-	if (!error) return 'An unexpected error occurred';
+	if (!error) return 'common.errors.unknownError';
 
 	// PostgreSQL error codes to user-friendly messages
 	const errorMessages: Record<string, string> = {
 		// Authentication errors
-		invalid_credentials: 'Invalid email or password',
-		email_not_confirmed: 'Please verify your email address',
-		user_already_exists: 'An account with this email already exists',
+		invalid_credentials: 'common.errors.invalidCredentials',
+		email_not_confirmed: 'common.errors.emailNotConfirmed',
+		user_already_exists: 'common.errors.userAlreadyExists',
 
 		// Database constraint errors
-		'23505': 'This record already exists',
-		'23503': 'Cannot delete: related records exist',
-		'23502': 'Required field is missing',
-		'23514': 'Invalid data provided',
+		'23505': 'common.errors.duplicateEntry',
+		'23503': 'common.errors.cannotDeleteRelatedRecords',
+		'23502': 'common.errors.requiredFieldMissing',
+		'23514': 'common.errors.invalidDataFormat',
 
 		// Foreign key violations
-		foreign_key_violation: 'Cannot complete action: related data is missing',
+		foreign_key_violation: 'common.errors.cannotCompleteActionRelatedDataMissing',
 
 		// Permission errors
-		'42501': 'You do not have permission to perform this action',
-		PGRST301: 'Permission denied',
+		'42501': 'common.errors.permissionDenied',
+		PGRST301: 'common.errors.permissionDenied',
 
 		// Not found
-		PGRST116: 'Record not found',
+		PGRST116: 'common.errors.recordNotFound',
 
 		// Network/connection errors
-		FetchError: 'Network error. Please check your connection'
+		FetchError: 'common.errors.networkError'
 	};
 
 	// Check for specific error code
@@ -37,15 +37,15 @@ export function getErrorMessage(error: PostgrestError | null | undefined): strin
 
 	// Check error message for patterns
 	if (error.message.includes('duplicate key')) {
-		return 'This item already exists';
+		return 'common.errors.duplicateEntry';
 	}
 
 	if (error.message.includes('violates foreign key constraint')) {
-		return 'Cannot complete action: related data is required';
+		return 'common.errors.cannotDeleteRelatedRecords';
 	}
 
 	if (error.message.includes('permission denied')) {
-		return 'You do not have permission to perform this action';
+		return 'common.errors.permissionDenied';
 	}
 
 	// Development mode: show actual error
@@ -55,5 +55,5 @@ export function getErrorMessage(error: PostgrestError | null | undefined): strin
 	}
 
 	// Production: generic message
-	return 'Something went wrong. Please try again later';
+	return 'common.errors.unknownError';
 }

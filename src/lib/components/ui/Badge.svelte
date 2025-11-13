@@ -1,13 +1,15 @@
 <script lang="ts">
 	let {
 		label,
-		clases = ''
+		clases = '',
+		onclick
 	}: {
 		label: string;
 		clases: string;
+		onclick?: () => void;
 	} = $props();
 </script>
 
-<div class="{clases} badge">
+<button class="{clases} badge" {onclick}>
 	{label}
-</div>
+</button>

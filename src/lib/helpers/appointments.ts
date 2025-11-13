@@ -46,6 +46,38 @@ async function cancelAppointment(id: number) {
 	return data;
 }
 
+async function changeAppointmentStatus(id: number, status: AppointmentStatusEnum) {
+	const { data, error } = await supabase
+		.from('appointment')
+		.update({
+			status
+		})
+		.eq('id', id)
+		.select();
+
+	if (error) {
+		console.error('Error changing appointment status:', error);
+		throw error;
+	}
+
+	appointmentsStore.update((items) =>
+		items.map((item) => (item.id === id ? { ...item, status } : item))
+	);
+	return data;
+}
+
+async function removeAppointment(id: number) {
+	const { data, error } = await supabase.from('appointment').delete().eq('id', id).select();
+
+	if (error) {
+		console.error('Error removing appointment:', error);
+		throw error;
+	}
+
+	appointmentsStore.remove(id);
+	return data;
+}
+
 async function getUserAppointments(id: string) {
 	const { data, error } = await supabase
 		.from('appointment')
@@ -128,5 +160,7 @@ export {
 	getAppointmentsByDate,
 	getOperatorAppointmentsByDate,
 	openCancelAppointmentPopUp,
-	cancelAppointment
+	cancelAppointment,
+	removeAppointment,
+	changeAppointmentStatus
 };

@@ -19,10 +19,18 @@
 		</Collapsible.Indicator>
 	</Collapsible.Trigger>
 	<Collapsible.Content>
-		<div class="grid grid-cols-2 gap-2 px-5">
-			{#each workingHours as { day_of_week, open_time, close_time }}
-				<span>{$t(`common.${days[day_of_week]}`)}:</span>
-				<span>{open_time} - {close_time}</span>
+		<div class="grid grid-cols-2 gap-2 px-7 py-2">
+			{#each days as day, index}
+				<span>{$t(`common.${day}`)}</span>
+				{#if workingHours[index]}
+					<span class="justify-self-end">
+						{workingHours[index].open_time.slice(0, 5)}
+						-
+						{workingHours[index].close_time.slice(0, 5)}
+					</span>
+				{:else}
+					<span class="justify-self-end">{$t('common.closed')}</span>
+				{/if}
 			{/each}
 		</div>
 	</Collapsible.Content>

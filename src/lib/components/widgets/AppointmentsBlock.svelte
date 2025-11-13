@@ -1,11 +1,10 @@
 <script lang="ts">
-	import Button from '$lib/components/ui/Button.svelte';
 	import ScrollableSection from '$lib/components/ui/ScrollableSection.svelte';
 	import AppointmentCard from '$lib/components/widgets/AppointmentCard.svelte';
 	import { AppointmentStatusEnum } from '$lib/enums/appointments';
 	import appointmentsStore from '$lib/stores/appointments';
-	import { carWashes, carWashesMap } from '$lib/stores/carWashes';
-	import vehiclesStore, { vehiclesMap } from '$lib/stores/vehicles';
+	import { carWashesMap } from '$lib/stores/carWashes';
+	import { vehiclesMap } from '$lib/stores/vehicles';
 	import { t } from '$lib/translations/translations';
 	import { type FullAppointment } from '$lib/types/appointments';
 	import { derived, type Readable } from 'svelte/store';

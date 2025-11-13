@@ -12,6 +12,7 @@
 	import type { VerificationType } from '$lib/types/auth';
 	import { t } from '$lib/translations/translations';
 	import PhoneInput from '../ui/PhoneInput.svelte';
+	import { showErrorToast } from '$lib/helpers/toaster';
 
 	let { closePopUp } = $props();
 	let isLoading: boolean = $state(false);
@@ -42,6 +43,9 @@
 				.then(() => {
 					closePopUp();
 					openOTPVerificationPopUp(input, values.type);
+				})
+				.catch((error) => {
+					showErrorToast(error);
 				})
 				.finally(() => {
 					isLoading = false;
