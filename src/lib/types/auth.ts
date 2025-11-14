@@ -3,6 +3,7 @@ import type { UserAttributes } from '@supabase/supabase-js';
 
 export type UserEditPayload = Partial<UserAttributes>;
 export type VerificationType = 'sms' | 'email' | 'phone_change' | 'email_change';
+export type SignInType = 'sms' | 'email';
 export interface UserMetaData {
 	firstName: string;
 	lastName: string;

@@ -11,6 +11,7 @@
 	import { openOTPVerificationPopUp, updateUser } from '$lib/helpers/auth';
 	import { t } from '$lib/translations/translations';
 	import PhoneInput from '../ui/PhoneInput.svelte';
+	import { showErrorToast } from '$lib/helpers/toaster';
 
 	const schema = z.object({
 		firstName: z.string({ message: 'common.errors.required' }),
@@ -25,24 +26,26 @@
 	let isLoading: boolean = $state(false);
 
 	function preparePayload() {
-		return {
-			...($data.phone !== $user?.phone && { phone: $data.phone }),
-			...($data.email !== $user?.email && { phone: $data.email }),
-			data: {
-				...($data.firstName !== $user?.firstName && { firstName: $data.firstName }),
-				...($data.lastName !== $user?.lastName && { lastName: $data.lastName }),
-				...($data.phone !== $user?.phone && { phone: $data.phone }),
-				...($data.email !== $user?.email && { email: $data.email })
-			}
-		};
+		if (!$user) {
+			return {};
+		}
+
+		const payload: Record<string, any> = { data: {} };
+
+		if ($data.firstName !== $user.user_metadata.firstName) payload.data.firstName = $data.firstName;
+		if ($data.lastName !== $user.user_metadata.lastName) payload.data.lastName = $data.lastName;
+		if ($data.phone !== `+${$user.phone}`) payload.phone = $data.phone;
+		if ($data.email !== $user.email) payload.email = $data.email;
+
+		return payload;
 	}
 
 	const { form, errors, data } = createForm({
 		extend: validator({ schema }),
 		initialValues: {
-			firstName: $user?.firstName ?? '',
-			lastName: $user?.lastName ?? '',
-			phone: $user?.phone ?? '',
+			firstName: $user?.user_metadata.firstName ?? '',
+			lastName: $user?.user_metadata.lastName ?? '',
+			phone: $user?.phone ? `+${$user.phone}` : '',
 			email: $user?.email ?? ''
 		},
 		onSubmit: (values) => {
@@ -50,13 +53,17 @@
 
 			updateUser(preparePayload())
 				.then(() => {
-					if (values.phone !== $user?.phone) {
+					if (values.phone !== `+${$user?.phone}`) {
 						openOTPVerificationPopUp(values.phone, 'phone_change');
 					}
 					if (values.email !== $user?.email) {
 						openOTPVerificationPopUp(values.email, 'email_change');
 					}
+
 					closePopUp();
+				})
+				.catch((error) => {
+					showErrorToast({ error });
 				})
 				.finally(() => {
 					isLoading = false;

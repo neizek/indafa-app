@@ -9,32 +9,43 @@
 	import { validator } from '@felte/validator-zod';
 	import { LogIn } from '@lucide/svelte';
 	import Selector from '../ui/Selector.svelte';
-	import type { VerificationType } from '$lib/types/auth';
+	import type { SignInType, VerificationType } from '$lib/types/auth';
 	import { t } from '$lib/translations/translations';
 	import PhoneInput from '../ui/PhoneInput.svelte';
 	import { showErrorToast } from '$lib/helpers/toaster';
 
 	let { closePopUp } = $props();
 	let isLoading: boolean = $state(false);
-	let signInWay: VerificationType = $state('email');
+	let signInWay: SignInType = $state('email');
 
 	const phoneRegex = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/;
 
-	const schema = z.discriminatedUnion('type', [
-		z.object({
-			type: z.literal('email'),
-			email: z.string({ message: 'common.errors.required' }).email('common.errors.enterValidEmail')
-		}),
-		z.object({
-			type: z.literal('sms'),
-			phone: z
-				.string({ message: 'common.errors.required' })
-				.regex(phoneRegex, 'common.errors.enterValidPhone')
-		})
+	const emailVerificationSchema = z.object({
+		type: z.literal('email'),
+		email: z.string({ message: 'common.errors.required' }).email('common.errors.enterValidEmail')
+	});
+
+	const smsVerificationSchema = z.object({
+		type: z.literal('sms'),
+		phone: z
+			.string({ message: 'common.errors.required' })
+			.regex(phoneRegex, 'common.errors.enterValidPhone')
+	});
+
+	const verificationSchema = z.discriminatedUnion('type', [
+		emailVerificationSchema,
+		smsVerificationSchema
 	]);
 
-	const { form, errors, data } = createForm({
-		extend: validator({ schema }),
+	type FormValues = z.infer<typeof verificationSchema>;
+	type SignInErrors = {
+		email?: string[];
+		phone?: string[];
+		type?: string[];
+	};
+
+	const { form, errors, data } = createForm<FormValues>({
+		extend: validator({ schema: verificationSchema }),
 		onSubmit: (values) => {
 			isLoading = true;
 
@@ -45,7 +56,7 @@
 					openOTPVerificationPopUp(input, values.type);
 				})
 				.catch((error) => {
-					showErrorToast(error);
+					showErrorToast({ error });
 				})
 				.finally(() => {
 					isLoading = false;
@@ -67,12 +78,12 @@
 	<Selector options={signInOptions} bind:value={signInWay} />
 </FormItem>
 <Form {form}>
-	{#if signInWay === 'email'}
-		<FormItem label={$t('common.email')} errors={$errors.email}>
+	{#if signInWay === 'email' && $data.type === 'email'}
+		<FormItem label={$t('common.email')} errors={($errors as SignInErrors).email}>
 			<Input type="email" bind:value={$data.email} placeholder="info@indafa.lv" />
 		</FormItem>
-	{:else if signInWay === 'sms'}
-		<FormItem label={$t('common.mobilePhone')} errors={$errors.phone}>
+	{:else if signInWay === 'sms' && $data.type === 'sms'}
+		<FormItem label={$t('common.mobilePhone')} errors={($errors as SignInErrors).phone}>
 			<PhoneInput bind:value={$data.phone} code="+371" placeholder="67391995" />
 		</FormItem>
 	{/if}

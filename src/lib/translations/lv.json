@@ -96,7 +96,8 @@
 		"recordNotFound": "Ieraksts nav atrasts",
 		"permissionDenied": "Jums nav tiesību veikt šo darbību",
 		"networkError": "Tīkla kļūda. Lūdzu, pārbaudiet savu savienojumu",
-		"cannotCompleteActionRelatedDataMissing": "Nav iespējams pabeigt darbību: trūkst saistīto datu"
+		"cannotCompleteActionRelatedDataMissing": "Nav iespējams pabeigt darbību: trūkst saistīto datu",
+		"tokenExpiredOrInvalid": "Pārbaudes kods ir nederīgs vai ir beidzies tā derīguma termiņš"
 	},
 	"management": "Kontrole",
 	"closed": "Slēgts",

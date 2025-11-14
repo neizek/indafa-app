@@ -38,7 +38,7 @@
 					closePopUp();
 				})
 				.catch((error) => {
-					showErrorToast(error);
+					showErrorToast({ error });
 				})
 				.finally(() => {
 					isLoading = false;

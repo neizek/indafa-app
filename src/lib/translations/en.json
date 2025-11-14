@@ -96,7 +96,8 @@
 		"recordNotFound": "Record not found",
 		"permissionDenied": "You do not have permission to perform this action",
 		"networkError": "Network error. Please check your connection",
-		"cannotCompleteActionRelatedDataMissing": "Cannot complete action: related data is missing"
+		"cannotCompleteActionRelatedDataMissing": "Cannot complete action: related data is missing",
+		"tokenExpiredOrInvalid": "The verification code is invalid or has expired"
 	},
 	"management": "Management",
 	"closed": "Closed",

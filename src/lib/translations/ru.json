@@ -96,7 +96,8 @@
 		"recordNotFound": "Запись не найдена",
 		"permissionDenied": "У вас нет прав для выполнения этого действия",
 		"networkError": "Ошибка сети. Пожалуйста, проверьте ваше соединение",
-		"cannotCompleteActionRelatedDataMissing": "Невозможно завершить действие: отсутствуют связанные данные"
+		"cannotCompleteActionRelatedDataMissing": "Невозможно завершить действие: отсутствуют связанные данные",
+		"tokenExpiredOrInvalid": "Срок действия токена истек или он недействителен"
 	},
 	"management": "Управление",
 	"closed": "Закрыто",

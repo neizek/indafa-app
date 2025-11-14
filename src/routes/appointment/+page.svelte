@@ -132,7 +132,12 @@
 			return;
 		}
 
-		if (!$user?.firstName || !$user?.lastName || !$user.email || !$user.phone) {
+		if (
+			!$user?.user_metadata.firstName ||
+			!$user?.user_metadata.lastName ||
+			!$user?.email ||
+			!$user?.phone
+		) {
 			showInfoToast({
 				title: 'common.info',
 				description: 'common.completeYouProfileBeforeAppointment'
@@ -149,10 +154,14 @@
 			vehicle_id: $data.vehicle,
 			start_time: new Date($data.date.setHours($data.startTime, 0, 0, 0)).toISOString(),
 			end_time: new Date($data.date.setHours($data.startTime + 1, 0, 0, 0)).toISOString()
-		}).finally(() => {
-			isLoading = false;
-			goto(ROUTES.HOME);
-		});
+		})
+			.catch((error) => {
+				showErrorToast({ error });
+			})
+			.finally(() => {
+				isLoading = false;
+				goto(ROUTES.HOME);
+			});
 	}
 </script>
 

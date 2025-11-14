@@ -3,7 +3,7 @@ import { resolve } from '$app/paths';
 import { ROUTES } from '$lib/constants/routes.js';
 import { callToLoginPopUp } from '$lib/helpers/auth';
 import storage from '$lib/helpers/storage.js';
-import { initSession, isAdmin, isOperator } from '$lib/stores/auth';
+import { initSession, isAdmin, isOperator, session } from '$lib/stores/auth';
 import { previousUrl } from '$lib/stores/navigation.js';
 import { loadTranslations, supportedLocalesOptions } from '$lib/translations/translations';
 import { get } from 'svelte/store';
@@ -15,6 +15,7 @@ export const prerender = false;
 const savedLocale = storage.get<string>('locale');
 
 loadTranslations(savedLocale ?? supportedLocalesOptions[0].value);
+await initSession();
 
 const adminRoutes = [ROUTES.ADMIN.DASHBOARD, ROUTES.ADMIN.OFFERS];
 const operatorRoutes = [ROUTES.OPERATOR];
@@ -32,9 +33,7 @@ export async function load(page) {
 	);
 	const adminsOnly = adminRoutes.some((route) => page.url.pathname.startsWith(route as string));
 
-	const session = await initSession();
-
-	if (needsAuth && !session) {
+	if (needsAuth && !get(session)) {
 		const navigateToLink = get(previousUrl) ?? ROUTES.HOME;
 
 		await goto(resolve(navigateToLink), { replaceState: true });

@@ -40,6 +40,10 @@ export function getErrorMessage(error: PostgrestError | null | undefined): strin
 		return 'common.errors.duplicateEntry';
 	}
 
+	if (error.message.includes('Token has expired') || error.message.includes('invalid token')) {
+		return 'common.errors.tokenExpiredOrInvalid';
+	}
+
 	if (error.message.includes('violates foreign key constraint')) {
 		return 'common.errors.cannotDeleteRelatedRecords';
 	}

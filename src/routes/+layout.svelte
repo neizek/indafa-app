@@ -28,7 +28,7 @@
 <PopUp />
 <Toaster />
 
-<div class="flex min-h-dvh flex-col gap-4 p-4 pb-30">
+<div class="m-auto flex min-h-dvh max-w-xl flex-col gap-4 self-center p-4 pb-30">
 	{@render children()}
 </div>
 

@@ -16,8 +16,6 @@ async function getOffers() {
 			return [];
 		}
 
-		console.log('Offer URL:', data);
-
 		return {
 			url: data.publicUrl
 		};

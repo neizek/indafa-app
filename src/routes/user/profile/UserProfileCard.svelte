@@ -23,13 +23,12 @@
 			});
 	}
 
-	// const displayedName = `${$user?.firstName} ${$user?.lastName}`;
 	const displayedName = $derived.by(() => {
-		if (!$user?.firstName && !$user?.lastName) {
+		if (!$user?.user_metadata.firstName && !$user?.user_metadata.lastName) {
 			return;
 		}
 
-		return `${$user?.firstName} ${$user?.lastName}`;
+		return `${$user?.user_metadata.firstName} ${$user?.user_metadata.lastName}`;
 	});
 </script>
 
@@ -46,7 +45,9 @@
 		<span>{!$user?.email || $user?.email === '' ? $t('common.notSpecified') : $user?.email}</span>
 	</FormItem>
 	<FormItem label={$t('common.mobilePhone')}>
-		<span>{!$user?.phone || $user?.phone === '' ? $t('common.notSpecified') : $user?.phone}</span>
+		<span>
+			{!$user?.phone || $user?.phone === '' ? $t('common.notSpecified') : `+${$user?.phone}`}
+		</span>
 	</FormItem>
 	<Button
 		preset="tonal"

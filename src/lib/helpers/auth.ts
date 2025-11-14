@@ -5,11 +5,29 @@ import appointmentsStore from '$lib/stores/appointments';
 import { createPopUp } from '$lib/stores/popUp';
 import vehiclesStore from '$lib/stores/vehicles';
 import type { UserEditPayload, VerificationType } from '$lib/types/auth';
-import type { VerifyOtpParams } from '@supabase/supabase-js';
+import type { Session, VerifyOtpParams } from '@supabase/supabase-js';
 import storage from './storage';
 import { KeyRound, Pen } from '@lucide/svelte';
 import EditProfileForm from '$lib/components/forms/EditProfileForm.svelte';
-import { user } from '$lib/stores/auth';
+import { session, user, userRole } from '$lib/stores/auth';
+
+export function initUser(currentSession: Session) {
+	session.set(currentSession);
+	user.set(currentSession.user);
+	userRole.set(currentSession.user.app_metadata.role);
+	vehiclesStore.init(currentSession.user.id);
+	appointmentsStore.init();
+}
+
+export function clearUser() {
+	session.set(null);
+	user.set(null);
+	vehiclesStore.clear();
+	storage.remove('vehicles');
+	appointmentsStore.clear();
+	storage.remove('appointments');
+	userRole.set(null);
+}
 
 export async function signIn(email: string, password: string) {
 	const { data, error } = await supabase.auth.signInWithPassword({
@@ -111,17 +129,17 @@ export async function updateUser(userEditPayload: UserEditPayload) {
 		throw error;
 	}
 
-	user.set(data.user.user_metadata);
+	user.set(data.user);
 	return data.user;
 }
 
 export async function signOut() {
 	const { error } = await supabase.auth.signOut();
 
-	vehiclesStore.clear();
-	storage.remove('vehicles');
-	appointmentsStore.clear();
-	storage.remove('appointments');
+	// vehiclesStore.clear();
+	// storage.remove('vehicles');
+	// appointmentsStore.clear();
+	// storage.remove('appointments');
 
 	if (error) {
 		console.error('Sign out error:', error);

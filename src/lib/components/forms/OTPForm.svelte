@@ -10,6 +10,7 @@
 	import Form from '../ui/Form.svelte';
 	import { t } from '$lib/translations/translations';
 	import type { VerificationType } from '$lib/types/auth';
+	import { showErrorToast } from '$lib/helpers/toaster';
 
 	let {
 		input,
@@ -39,10 +40,13 @@
 		extend: validator({ schema }),
 		onSubmit: (values) => {
 			isLoadingVerification = true;
-
+			console.log(verificationType, input, values.otp);
 			verifyOTP(verificationType, input, values.otp)
 				.then(() => {
 					closePopUp();
+				})
+				.catch((error) => {
+					showErrorToast({ error });
 				})
 				.finally(() => {
 					isLoadingVerification = false;
