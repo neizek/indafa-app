@@ -10,7 +10,9 @@
 	import Form from '../ui/Form.svelte';
 	import { t } from '$lib/translations/translations';
 	import type { VerificationType } from '$lib/types/auth';
-	import { showErrorToast } from '$lib/helpers/toaster';
+	import { showErrorToast, showInfoToast } from '$lib/helpers/toaster';
+	import { goto } from '$app/navigation';
+	import { intendedUrl } from '$lib/stores/navigation';
 
 	let {
 		input,
@@ -40,10 +42,18 @@
 		extend: validator({ schema }),
 		onSubmit: (values) => {
 			isLoadingVerification = true;
-			console.log(verificationType, input, values.otp);
+
 			verifyOTP(verificationType, input, values.otp)
 				.then(() => {
 					closePopUp();
+					if (verificationType === 'email' || verificationType === 'sms') {
+						goto($intendedUrl ?? '/');
+						intendedUrl.set(undefined);
+						showInfoToast({
+							title: 'common.authorization',
+							description: 'common.authorizationSuccessful'
+						});
+					}
 				})
 				.catch((error) => {
 					showErrorToast({ error });

@@ -7,7 +7,9 @@ import { Bubbles } from '@lucide/svelte';
 import { createDateWithTime, formatAppointmentDateTime, getDateLabel } from './datetime';
 
 export async function getCarWashes(): Promise<Array<CarWash>> {
-	const { data, error } = await supabase.from('car_wash').select('*, working_hours(*)');
+	const { data, error } = await supabase
+		.from('car_wash')
+		.select('*, working_hours(*), working_hours_exceptions(*)');
 
 	if (error) {
 		console.error('Error fetching car washes:', error);
@@ -25,8 +27,16 @@ export function getWorkingDatesOptions(carWash: CarWash): SelectOption[] {
 		const date = new Date();
 		date.setDate(date.getDate() + i);
 		const wh = carWash.working_hours.find((wh) => wh.day_of_week === date.getDay());
+		if (
+			carWash.working_hours_exceptions &&
+			carWash.working_hours_exceptions.some(
+				(whe) => new Date(whe.exception_date).toDateString() === date.toDateString()
+			)
+		) {
+			continue;
+		}
 
-		if (wh && createDateWithTime(date, wh.close_time) > new Date()) {
+		if (wh && createDateWithTime(date, wh.close_time, -3) > new Date()) {
 			const { date: dateString } = formatAppointmentDateTime(date.toISOString());
 
 			dateOptions = [

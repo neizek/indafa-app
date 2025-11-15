@@ -10,6 +10,8 @@
 	import Badge from '../ui/Badge.svelte';
 	import Card from '../ui/Card.svelte';
 	import { t } from '$lib/translations/translations';
+	import { goto } from '$app/navigation';
+	import { ROUTES } from '$lib/constants/routes';
 
 	let { appointment }: { appointment: FullAppointment } = $props();
 	let { date, time } = formatAppointmentDateTime(appointment.start_time);
@@ -34,7 +36,7 @@
 						label={$t('common.locate')}
 						full
 						icon={Navigation}
-						onclick={() => openCarWashDetailsPopUp(appointment.carWash)}
+						onclick={() => goto(`${ROUTES.MAP}#${appointment.carWash.id}`)}
 					/>
 					<Button
 						label={$t('common.cancelAppointment')}

@@ -31,6 +31,7 @@
 	"today": "Today",
 	"tomorrow": "Tomorrow",
 	"authorization": "Authorization",
+	"authorizationSuccessful": "You have successfully authorized into your account",
 	"chooseYourSignInWay": "Choose your sign in method",
 	"signInOrSignUp": "Sign In / Up",
 	"email": "Email",

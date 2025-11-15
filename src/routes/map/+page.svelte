@@ -1,16 +1,21 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import mapboxgl from 'mapbox-gl';
-	import { carWashes } from '$lib/stores/carWashes';
+	import { carWashes, carWashesMap } from '$lib/stores/carWashes';
 	import { openCarWashDetailsPopUp } from '$lib/helpers/carWashes';
+	import { page } from '$app/stores';
 
 	let mapContainer: HTMLElement;
 	mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
+
+	console.log($page.url.hash);
 
 	onMount(() => {
 		if (mapContainer === null || !mapContainer) {
 			return;
 		}
+
+		const queriedCarWash = $carWashesMap.get(Number($page.url.hash?.replace('#', '')));
 
 		const map = new mapboxgl.Map({
 			container: mapContainer,
@@ -28,7 +33,9 @@
 					.setLngLat({ lng: carWash.long, lat: carWash.lat })
 					.addTo(map);
 				marker.getElement().addEventListener('click', () => openCarWashDetailsPopUp(carWash));
-				bounds.extend({ lng: carWash.long, lat: carWash.lat });
+				if ((queriedCarWash && queriedCarWash.id !== carWash.id) || !queriedCarWash) {
+					bounds.extend({ lng: carWash.long, lat: carWash.lat });
+				}
 			}
 		});
 
@@ -37,6 +44,8 @@
 			maxZoom: 15,
 			duration: 1000
 		});
+
+		if (queriedCarWash) openCarWashDetailsPopUp(queriedCarWash);
 	});
 </script>
 
