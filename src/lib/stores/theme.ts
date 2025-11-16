@@ -16,8 +16,8 @@ export const themesOptions = Object.values(Theme).map((theme) => ({
 const isDarkThemePreffered = () =>
 	window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-function initTheme(): Theme {
-	let theme = storage.get('theme') as Theme;
+async function initTheme(): Promise<Theme> {
+	let theme = (await storage.get('theme')) as Theme;
 
 	if (!theme) {
 		theme = isDarkThemePreffered() ? Theme.Dark : Theme.Light;
@@ -27,13 +27,7 @@ function initTheme(): Theme {
 	return theme;
 }
 
-// export function applyTheme(theme: Theme) {
-// 	currentTheme.set(theme);
-// 	storage.set('theme', theme);
-// 	document.documentElement.classList.toggle('dark', theme === Theme.Dark);
-// }
-
-export const currentTheme = writable(initTheme());
+export const currentTheme = writable(await initTheme());
 
 function applyTheme(theme: Theme) {
 	storage.set('theme', theme);

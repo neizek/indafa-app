@@ -6,10 +6,10 @@ import { createPopUp } from '$lib/stores/popUp';
 import vehiclesStore from '$lib/stores/vehicles';
 import type { UserEditPayload, VerificationType } from '$lib/types/auth';
 import type { Session, VerifyOtpParams } from '@supabase/supabase-js';
-import storage from './storage';
 import { KeyRound, Pen } from '@lucide/svelte';
 import EditProfileForm from '$lib/components/forms/EditProfileForm.svelte';
 import { session, user, userRole } from '$lib/stores/auth';
+import storage from './storage';
 
 export function initUser(currentSession: Session) {
 	session.set(currentSession);
@@ -135,11 +135,6 @@ export async function updateUser(userEditPayload: UserEditPayload) {
 
 export async function signOut() {
 	const { error } = await supabase.auth.signOut();
-
-	// vehiclesStore.clear();
-	// storage.remove('vehicles');
-	// appointmentsStore.clear();
-	// storage.remove('appointments');
 
 	if (error) {
 		console.error('Sign out error:', error);

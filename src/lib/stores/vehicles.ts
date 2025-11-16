@@ -1,8 +1,8 @@
-import storage from '$lib/helpers/storage';
 import { getVehiclesByUserId } from '$lib/helpers/vehicles';
 import type { Vehicle } from '$lib/types/vehicles';
 import { derived, writable } from 'svelte/store';
 import { session } from './auth';
+import storage from '$lib/helpers/storage';
 
 const vehiclesStore = (() => {
 	const { subscribe, set, update } = writable<Array<Vehicle>>([]);
@@ -12,7 +12,7 @@ const vehiclesStore = (() => {
 			return [];
 		}
 
-		let vehicles: Vehicle[] | null = storage.get('vehicles');
+		let vehicles: Vehicle[] | null = await storage.get('vehicles');
 
 		if (!vehicles) vehicles = (await getVehiclesByUserId(userId)) || [];
 

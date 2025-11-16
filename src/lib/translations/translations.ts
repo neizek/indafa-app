@@ -1,9 +1,9 @@
-import storage from '$lib/helpers/storage';
 import type { SelectOption } from '$lib/types/ui';
 import i18n, { type Config } from 'sveltekit-i18n';
 import en from './en.json';
 import ru from './ru.json';
 import lv from './lv.json';
+import storage from '$lib/helpers/storage';
 
 interface SupportedLocaleOption extends SelectOption {
 	value: string;

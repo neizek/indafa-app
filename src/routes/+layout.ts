@@ -2,7 +2,7 @@ import { goto } from '$app/navigation';
 import { resolve } from '$app/paths';
 import { ROUTES } from '$lib/constants/routes.js';
 import { callToLoginPopUp } from '$lib/helpers/auth';
-import storage from '$lib/helpers/storage.js';
+import storage from '$lib/helpers/storage';
 import { initSession, isAdmin, isOperator, session } from '$lib/stores/auth';
 import { intendedUrl, previousUrl } from '$lib/stores/navigation.js';
 import { loadTranslations, supportedLocalesOptions } from '$lib/translations/translations';
@@ -12,7 +12,7 @@ export const ssr = false;
 export const csr = true;
 export const prerender = false;
 
-const savedLocale = storage.get<string>('locale');
+const savedLocale = await storage.get<string>('locale');
 
 loadTranslations(savedLocale ?? supportedLocalesOptions[0].value);
 await initSession();
