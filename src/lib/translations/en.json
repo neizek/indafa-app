@@ -1,4 +1,6 @@
 {
+	"carWashes": "Car washes",
+	"stats": "Statistics",
 	"confirm": "Confirm",
 	"cancel": "Cancel",
 	"makeAnAppointment": "Make an appointment",
@@ -104,5 +106,8 @@
 	"closed": "Closed",
 	"changeAppointmentStatus": "Change appointment status",
 	"selectNewStatus": "Select new status",
-	"save": "Save"
+	"save": "Save",
+	"changePhone": "Change phone",
+	"changeEmail": "Change email",
+	"changePersonalData": "Edit personal data"
 }

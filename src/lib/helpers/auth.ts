@@ -4,12 +4,22 @@ import supabase from '$lib/helpers/db';
 import appointmentsStore from '$lib/stores/appointments';
 import { createPopUp } from '$lib/stores/popUp';
 import vehiclesStore from '$lib/stores/vehicles';
-import type { UserEditPayload, VerificationType } from '$lib/types/auth';
+import type {
+	UserEditEmailOrPhonePayload,
+	UserEditPayload,
+	VerificationType
+} from '$lib/types/auth';
 import type { Session, VerifyOtpParams } from '@supabase/supabase-js';
-import { KeyRound, Pen } from '@lucide/svelte';
-import EditProfileForm from '$lib/components/forms/EditProfileForm.svelte';
+import { KeyRound, MailCheck, Pen, Phone, User, UserPen } from '@lucide/svelte';
+import EditProfileForm from '$lib/components/forms/MissingProfileDataForm.svelte';
 import { session, user, userRole } from '$lib/stores/auth';
 import storage from './storage';
+import EditUserMenu from '$lib/components/widgets/EditUserMenu.svelte';
+import ChangeEmailForm from '$lib/components/forms/ChangeEmailForm.svelte';
+import ChangePhoneForm from '$lib/components/forms/ChangePhoneForm.svelte';
+import ChangePersonalDataForm from '$lib/components/forms/ChangePersonalDataForm.svelte';
+
+// #region General
 
 export function initUser(currentSession: Session) {
 	session.set(currentSession);
@@ -28,6 +38,10 @@ export function clearUser() {
 	storage.remove('appointments');
 	userRole.set(null);
 }
+
+// #endregion
+
+// #region Database
 
 export async function signIn(email: string, password: string) {
 	const { data, error } = await supabase.auth.signInWithPassword({
@@ -118,6 +132,7 @@ export async function verifyOTP(type: VerificationType, input: string, token: st
 		throw error;
 	}
 
+	user.set(data.user);
 	return data.user;
 }
 
@@ -130,6 +145,17 @@ export async function updateUser(userEditPayload: UserEditPayload) {
 	}
 
 	user.set(data.user);
+	return data.user;
+}
+
+export async function updateUserEmailOrPhone(userEditPayload: UserEditEmailOrPhonePayload) {
+	const { data, error } = await supabase.auth.updateUser(userEditPayload);
+
+	if (error) {
+		console.error('User update error', error);
+		throw error;
+	}
+
 	return data.user;
 }
 
@@ -155,6 +181,10 @@ export async function getCustomerData(userId: string) {
 	return data[0];
 }
 
+// #endregion
+
+// #region PopUps
+
 export function callToLoginPopUp() {
 	createPopUp({
 		title: 'common.authorization',
@@ -178,7 +208,47 @@ export function openOTPVerificationPopUp(input: string, verificationType: Verifi
 	});
 }
 
-export function createEditProfilePopUp() {
+export function openEditUserMenuPopUp() {
+	createPopUp({
+		title: 'common.editProfile',
+		icon: User,
+		content: {
+			component: EditUserMenu
+		}
+	});
+}
+
+export function openChangePersonalDataPopUp() {
+	createPopUp({
+		title: 'common.changePersonalData',
+		icon: UserPen,
+		content: {
+			component: ChangePersonalDataForm
+		}
+	});
+}
+
+export function openChangeEmailPopUp() {
+	createPopUp({
+		title: 'common.changeEmail',
+		icon: MailCheck,
+		content: {
+			component: ChangeEmailForm
+		}
+	});
+}
+
+export function openChangePhonePopUp() {
+	createPopUp({
+		title: 'common.changePhone',
+		icon: Phone,
+		content: {
+			component: ChangePhoneForm
+		}
+	});
+}
+
+export function openMissingProfileDataPopup() {
 	createPopUp({
 		title: 'common.editProfile',
 		icon: Pen,
@@ -187,3 +257,5 @@ export function createEditProfilePopUp() {
 		}
 	});
 }
+
+// #endregion

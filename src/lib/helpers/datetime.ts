@@ -21,7 +21,7 @@ export function getDateLabel(date: Date = new Date()): string {
 		return 'common.tomorrow';
 	}
 
-	return `common.${days[dateToCheck.getDay()]}`;
+	return `common.${days[dateToCheck.getDay() - 1]}`;
 }
 
 export function formatDateTime(dbDate: string) {
@@ -55,9 +55,28 @@ export function formatAppointmentDateTime(dateString: string) {
 	};
 }
 
+// Gets hours from HH:mm:ss
 export const getHoursFromTime = (time: string) => Number(time.split(':')[0]);
 
 export const createDateWithTime = (dateObj: Date, timeString: string, offsetHours: number) => {
 	const [h, m, s] = timeString.split(':').map(Number);
 	return new Date(new Date(dateObj).setHours(h + offsetHours, m, s, 0));
 };
+
+// Returns new Date object with 00:00:00 time set
+export const setTimeToMidnight = (date: Date) => {
+	const newDate = new Date(date);
+	newDate.setHours(0);
+	newDate.setMinutes(0);
+	newDate.setSeconds(0);
+
+	return newDate;
+};
+
+// Function that substracts days from the given date
+export function subtractDays(date: Date, days = 7) {
+	const result = new Date(date);
+	result.setDate(result.getDate() - days);
+
+	return result;
+}

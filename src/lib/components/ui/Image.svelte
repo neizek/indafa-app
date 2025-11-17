@@ -18,12 +18,16 @@
 </script>
 
 {#key src}
+	{#if isLoading}
+		<div class={[ratio, 'w-full', cover, 'placeholder animate-pulse']}></div>
+	{/if}
 	<img
 		in:fade
 		{src}
 		{alt}
-		class={[ratio, 'w-full', cover, isLoading ? 'placeholder animate-pulse text-[0px]' : '']}
+		class={[ratio, 'w-full', cover, isLoading ? 'hidden' : 'text-[0px]']}
 		bind:this={imageRef}
 		onload={() => (isLoading = false)}
+		onerror={() => (isLoading = false)}
 	/>
 {/key}

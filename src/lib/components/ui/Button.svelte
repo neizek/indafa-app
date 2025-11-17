@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { LoaderCircle, type ComponentIcon, type IconProps } from '@lucide/svelte';
+	import { ChevronRight, LoaderCircle, type IconProps } from '@lucide/svelte';
 	import type { Component } from 'svelte';
 
 	let {
@@ -14,7 +14,7 @@
 	}: {
 		type?: 'submit' | 'button';
 		label?: string;
-		preset?: 'primary' | 'cancel' | 'tonal' | 'ghost';
+		preset?: 'primary' | 'cancel' | 'tonal' | 'ghost' | 'menu';
 		full?: boolean;
 		icon?: Component<IconProps>;
 		isLoading?: boolean;
@@ -27,7 +27,8 @@
 		primary: 'bg-primary-600 text-white',
 		cancel: 'bg-error-950/20 text-error-900 dark:text-error-300',
 		tonal: 'bg-surface-100 dark:bg-surface-800/50',
-		ghost: 'bg-transparent'
+		ghost: 'bg-transparent',
+		menu: 'bg-transparent grid grid-cols-[auto_1fr_auto] text-left indent-2'
 	};
 
 	let classes = [
@@ -48,6 +49,9 @@
 		{/if}
 		{#if label}
 			<span class="pb-0.5">{label}</span>
+		{/if}
+		{#if preset === 'menu'}
+			<ChevronRight size={20} />
 		{/if}
 	{/if}
 </button>

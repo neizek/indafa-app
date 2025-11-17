@@ -1,4 +1,6 @@
 {
+	"carWashes": "Автомойки",
+	"stats": "Статистика",
 	"confirm": "Подтвердить",
 	"cancel": "Отменить",
 	"makeAnAppointment": "Записаться на автомойку",
@@ -104,5 +106,8 @@
 	"closed": "Закрыто",
 	"changeAppointmentStatus": "Изменить статус записи",
 	"selectNewStatus": "Выберите новый статус",
-	"save": "Сохранить"
+	"save": "Сохранить",
+	"changePhone": "Изменить номер",
+	"changeEmail": "Изменить эл. почту",
+	"changePersonalData": "Редактировать личное"
 }

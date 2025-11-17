@@ -21,8 +21,7 @@
 				preset="tonal"
 				icon={UserStar}
 				label={$t('common.adminsDashboard')}
-				onclick={() => {}}
-				disabled
+				onclick={() => goto(ROUTES.ADMIN.DASHBOARD)}
 			/>
 		{/if}
 	</Section>

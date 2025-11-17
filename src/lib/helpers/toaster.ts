@@ -14,6 +14,7 @@ function showErrorToast(data: ErrorToast) {
 		title: data.title ?? 'common.error',
 		description: data.description ?? getErrorMessage(data.error)
 	});
+	throw data.error;
 }
 
 function showInfoToast(data: Toast) {

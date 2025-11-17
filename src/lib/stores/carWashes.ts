@@ -10,7 +10,7 @@ async function initCarWashes(): Promise<CarWash[]> {
 
 	if (!carWashes) {
 		carWashes = await getCarWashes();
-		storage.set('carWashes', carWashes);
+		storage.set('carWashes', carWashes, 86400000);
 	}
 
 	return carWashes;

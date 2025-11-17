@@ -2,7 +2,7 @@
 	import { user } from '$lib/stores/auth';
 	import { validator } from '@felte/validator-zod';
 	import { createForm } from 'felte';
-	import { z } from 'zod';
+	import z from 'zod';
 	import FormItem from '../ui/FormItem.svelte';
 	import Input from '../ui/Input.svelte';
 	import Form from '../ui/Form.svelte';
@@ -13,17 +13,23 @@
 	import PhoneInput from '../ui/PhoneInput.svelte';
 	import { showErrorToast } from '$lib/helpers/toaster';
 
+	let { closePopUp } = $props();
+	let isLoading: boolean = $state(false);
+
 	const schema = z.object({
-		firstName: z.string({ message: 'common.errors.required' }),
-		lastName: z.string({ message: 'common.errors.required' }),
+		firstName: z
+			.string({ message: 'common.errors.required' })
+			.min(1, 'common.errors.required')
+			.max(36),
+		lastName: z
+			.string({ message: 'common.errors.required' })
+			.min(1, 'common.errors.required')
+			.max(36),
 		phone: z
 			.string({ message: 'common.errors.required' })
 			.regex(/^\+[1-9]\d{1,14}$/, 'common.errors.enterValidPhone'),
 		email: z.string({ message: 'common.errors.required' }).email('common.errors.enterValidEmail')
 	});
-
-	let { closePopUp } = $props();
-	let isLoading: boolean = $state(false);
 
 	function preparePayload() {
 		if (!$user) {
@@ -43,10 +49,10 @@
 	const { form, errors, data } = createForm({
 		extend: validator({ schema }),
 		initialValues: {
-			firstName: $user?.user_metadata.firstName ?? '',
-			lastName: $user?.user_metadata.lastName ?? '',
-			phone: $user?.phone ? `+${$user.phone}` : '',
-			email: $user?.email ?? ''
+			firstName: $user?.user_metadata.firstName,
+			lastName: $user?.user_metadata.lastName,
+			phone: $user?.phone ? `+${$user.phone}` : undefined,
+			email: $user?.email
 		},
 		onSubmit: (values) => {
 			isLoading = true;
@@ -79,12 +85,16 @@
 	<FormItem label={$t('common.lastName')} errors={$errors.lastName}>
 		<Input bind:value={$data.lastName} />
 	</FormItem>
-	<FormItem label={$t('common.mobilePhone')} errors={$errors.phone}>
-		<PhoneInput bind:value={$data.phone} />
-	</FormItem>
-	<FormItem label={$t('common.email')} errors={$errors.email}>
-		<Input bind:value={$data.email} />
-	</FormItem>
+	{#if !$user?.phone}
+		<FormItem label={$t('common.mobilePhone')} errors={$errors.phone}>
+			<PhoneInput bind:value={$data.phone} />
+		</FormItem>
+	{/if}
+	{#if !$user?.email}
+		<FormItem label={$t('common.email')} errors={$errors.email}>
+			<Input bind:value={$data.email} />
+		</FormItem>
+	{/if}
 	<div class="mt-2 flex gap-2">
 		<Button type="submit" label={$t('common.confirm')} icon={Check} {isLoading} full />
 		<Button label={$t('common.cancel')} preset="tonal" icon={XIcon} full onclick={closePopUp} />

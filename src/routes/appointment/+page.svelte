@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { carWashes, carWashesOptions } from '$lib/stores/carWashes';
+	import { carWashes, carWashesMap, carWashesOptions } from '$lib/stores/carWashes';
 	import FormItem from '$lib/components/ui/FormItem.svelte';
 	import Selector from '$lib/components/ui/Selector.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
@@ -19,11 +19,11 @@
 	import Form from '$lib/components/ui/Form.svelte';
 	import { ROUTES } from '$lib/constants/routes';
 	import { getWorkingDatesOptions } from '$lib/helpers/carWashes';
-	import { createEditProfilePopUp } from '$lib/helpers/auth';
 	import { t } from '$lib/translations/translations';
 	import { showErrorToast, showInfoToast } from '$lib/helpers/toaster';
 	import appointmentsStore from '$lib/stores/appointments';
 	import { AppointmentStatusEnum } from '$lib/enums/appointments';
+	import { openMissingProfileDataPopup } from '$lib/helpers/auth';
 
 	let isLoading: boolean = $state(false);
 
@@ -41,9 +41,7 @@
 		onSubmit: () => {}
 	});
 
-	let chosenCarWash = $derived.by(() =>
-		$carWashes.find((carWash) => carWash.id === $data.location)
-	);
+	let chosenCarWash = $derived.by(() => $carWashesMap.get($data.location));
 
 	let dateOptions: SelectOption[] = $derived.by(() =>
 		chosenCarWash ? getWorkingDatesOptions(chosenCarWash) : []
@@ -133,7 +131,7 @@
 		}
 
 		if (
-			!$user?.user_metadata.firstName ||
+			$user?.user_metadata.firstName ||
 			!$user?.user_metadata.lastName ||
 			!$user?.email ||
 			!$user?.phone
@@ -142,7 +140,7 @@
 				title: 'common.info',
 				description: 'common.completeYouProfileBeforeAppointment'
 			});
-			createEditProfilePopUp();
+			openMissingProfileDataPopup();
 			return;
 		}
 

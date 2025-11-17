@@ -4,7 +4,7 @@
 	import FormItem from '$lib/components/ui/FormItem.svelte';
 	import Section from '$lib/components/ui/Section.svelte';
 	import { ROUTES } from '$lib/constants/routes';
-	import { createEditProfilePopUp, signOut } from '$lib/helpers/auth';
+	import { openEditUserMenuPopUp, signOut } from '$lib/helpers/auth';
 	import { user } from '$lib/stores/auth';
 	import { t } from '$lib/translations/translations';
 	import { LogOut, Pen } from '@lucide/svelte';
@@ -34,7 +34,7 @@
 
 <Section header={$t('common.personalData')}>
 	{#snippet controls()}
-		<Button label={$t('common.edit')} preset="ghost" icon={Pen} onclick={createEditProfilePopUp} />
+		<Button label={$t('common.edit')} preset="ghost" icon={Pen} onclick={openEditUserMenuPopUp} />
 	{/snippet}
 	<FormItem label={$t('common.firstName')}>
 		<span>

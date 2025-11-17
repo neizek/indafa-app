@@ -1,4 +1,6 @@
 {
+	"carWashes": "Automazgātavas",
+	"stats": "Statistika",
 	"confirm": "Apstiprināt",
 	"cancel": "Atcelt",
 	"makeAnAppointment": "Pierakstieties automazgātavai",
@@ -104,5 +106,8 @@
 	"closed": "Slēgts",
 	"changeAppointmentStatus": "Mainīt pieraksta statusu",
 	"selectNewStatus": "Izvēlieties jauno statusu",
-	"save": "Saglabāt"
+	"save": "Saglabāt",
+	"changePhone": "Mainīt tālruni",
+	"changeEmail": "Mainīt e-pastu",
+	"changePersonalData": "Mainīt personas datus"
 }
