@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { number } from 'zod';
-
 	let {
 		value,
 		label,
@@ -31,8 +29,10 @@
 	})();
 </script>
 
-<div class="flex flex-col items-center gap-2">
+<div class="relative flex flex-col items-center gap-2">
 	<span class="text-4xl">{value}</span>
-	<span class="label-text">{label}</span>
-	<div class="badge {badgeColor}">{shownPercentage}</div>
+	<span class="label-text text-center">{label}</span>
+	{#if percent}
+		<div class="badge {badgeColor}">{shownPercentage}</div>
+	{/if}
 </div>

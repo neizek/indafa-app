@@ -4,6 +4,8 @@
 	import { onMount } from 'svelte';
 	import Image from '../ui/Image.svelte';
 	import ScrollableSection from '../ui/ScrollableSection.svelte';
+	import { goto } from '$app/navigation';
+	import { ROUTES } from '$lib/constants/routes';
 
 	let offers: { url: string }[] = [{ url: '' }];
 
@@ -20,6 +22,8 @@
 	items={offers}
 >
 	{#snippet itemRenderer(offer)}
-		<Image src={offer.url} alt="Special offer" />
+		<button onclick={() => goto(ROUTES.APPOINTMENT)}>
+			<Image src={offer.url} alt={$t('common.specialOffers')} />
+		</button>
 	{/snippet}
 </ScrollableSection>

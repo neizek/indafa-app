@@ -16,14 +16,16 @@
 	import type { OperatorAppointment } from '$lib/types/appointments';
 	import { onMount } from 'svelte';
 	import StatusChangeForm from '../forms/StatusChangeForm.svelte';
-	import { isAdmin } from '$lib/stores/auth';
 	import DeleteAppointmentForm from '../forms/DeleteAppointmentForm.svelte';
+	import Input from '../ui/Input.svelte';
+
+	let { adminMode } = $props();
 
 	let selectedCarWash = $state($carWashes[0]);
 	let selectedDate = $state(null);
 
 	let appointments: OperatorAppointment[] = $state([]);
-	let isLoadingAppointments = $state(true);
+	let isLoadingAppointments = $state(false);
 	let dateOptions: SelectOption[] = $derived.by(() =>
 		selectedCarWash ? getWorkingDatesOptions(selectedCarWash) : []
 	);
@@ -97,7 +99,11 @@
 		<Selector options={$carWashesOptions} bind:value={selectedCarWash.id} />
 	</FormItem>
 	<FormItem label={$t('common.selectDate')}>
-		<Selector options={dateOptions} bind:value={selectedDate} />
+		{#if !adminMode}
+			<Selector options={dateOptions} bind:value={selectedDate} />
+		{:else}
+			<Input type="date" bind:value={selectedDate} />
+		{/if}
 	</FormItem>
 </Section>
 
@@ -129,7 +135,7 @@
 					>
 						<UserSearch size={20} />
 					</button>
-					{#if $isAdmin}
+					{#if adminMode}
 						<button class="bg-transparent" onclick={() => openDeleteAppointmentPopUp(appointment)}>
 							<Trash size={20} />
 						</button>

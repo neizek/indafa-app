@@ -61,7 +61,7 @@
 	"canceled": "Atcelts",
 	"completed": "Pabeigts",
 	"locate": "Atrast",
-	"addVehicle": "Pievienot transportlīdzekli",
+	"addVehicle": "Pievienot auto",
 	"deleteVehicle": "Dzēst transportlīdzekli",
 	"doYouWantToCancelAppointment": "Vai tiešām vēlaties atcelt pierakstu uz {{ date }} {{ time }}?",
 	"doYouWantToDeleteVehicle": "Vai vēlaties dzēst transportlīdzekli ar numura zīmi ",
@@ -100,7 +100,8 @@
 		"permissionDenied": "Jums nav tiesību veikt šo darbību",
 		"networkError": "Tīkla kļūda. Lūdzu, pārbaudiet savu savienojumu",
 		"cannotCompleteActionRelatedDataMissing": "Nav iespējams pabeigt darbību: trūkst saistīto datu",
-		"tokenExpiredOrInvalid": "Pārbaudes kods ir nederīgs vai ir beidzies tā derīguma termiņš"
+		"tokenExpiredOrInvalid": "Pārbaudes kods ir nederīgs vai ir beidzies tā derīguma termiņš",
+		"mustAgreeWithTerms": "Jums ir jāpiekrīt noteikumiem un nosacījumiem"
 	},
 	"management": "Kontrole",
 	"closed": "Slēgts",
@@ -109,5 +110,8 @@
 	"save": "Saglabāt",
 	"changePhone": "Mainīt tālruni",
 	"changeEmail": "Mainīt e-pastu",
-	"changePersonalData": "Mainīt personas datus"
+	"changePersonalData": "Mainīt personas datus",
+	"iAgreeWith": "Es piekrītu ar {{ link }}",
+	"termsOfUse": "lietošanas noteikumiem un nosacījumiem",
+	"successfulAppointment": "Jūs veiksmīgi pierakstījāties uz auto mazgāšanu"
 }

@@ -11,14 +11,14 @@
 {#if $isAdmin || $isOperator}
 	<Section header={$t('common.management')}>
 		<Button
-			preset="tonal"
+			preset="menu"
 			icon={UserLock}
 			label={$t('common.operatorsDashboard')}
 			onclick={() => goto(ROUTES.OPERATOR)}
 		/>
 		{#if $isAdmin}
 			<Button
-				preset="tonal"
+				preset="menu"
 				icon={UserStar}
 				label={$t('common.adminsDashboard')}
 				onclick={() => goto(ROUTES.ADMIN.DASHBOARD)}

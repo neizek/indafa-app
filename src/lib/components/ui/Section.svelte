@@ -2,12 +2,23 @@
 	let {
 		header,
 		children,
-		controls
+		controls,
+		transparent = false
 	}: {
 		header?: string;
 		children?: any;
 		controls?: any;
+		transparent?: boolean;
 	} = $props();
+
+	const clases = [
+		'flex',
+		'flex-col',
+		'gap-4',
+		'rounded-xl',
+		'p-4',
+		transparent ? 'bg-transparent' : 'bg-surface-100/50 dark:bg-surface-900/50'
+	];
 </script>
 
 <div class="flex flex-col gap-2">
@@ -19,7 +30,7 @@
 			{@render controls()}
 		{/if}
 	</div>
-	<div class="flex flex-col gap-4 rounded-xl bg-surface-100/50 p-4 dark:bg-surface-900/50">
+	<div class={clases}>
 		{@render children?.()}
 	</div>
 </div>

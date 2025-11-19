@@ -7,6 +7,7 @@
 	import OffersBlock from '$lib/components/widgets/OffersBlock.svelte';
 	import AppointmentsBlock from '$lib/components/widgets/AppointmentsBlock.svelte';
 	import { ROUTES } from '$lib/constants/routes';
+	import Section from '$lib/components/ui/Section.svelte';
 </script>
 
 <div class="h-auto w-full p-10 dark:invert">
@@ -14,9 +15,11 @@
 </div>
 <OffersBlock />
 <AppointmentsBlock />
-<Button
-	label={$t('common.makeAnAppointment')}
-	icon={ClockPlus}
-	onclick={() => goto(ROUTES.APPOINTMENT)}
-	full
-/>
+<Section transparent>
+	<Button
+		label={$t('common.makeAnAppointment')}
+		icon={ClockPlus}
+		onclick={() => goto(ROUTES.APPOINTMENT)}
+		full
+	/>
+</Section>

@@ -100,7 +100,8 @@
 		"permissionDenied": "You do not have permission to perform this action",
 		"networkError": "Network error. Please check your connection",
 		"cannotCompleteActionRelatedDataMissing": "Cannot complete action: related data is missing",
-		"tokenExpiredOrInvalid": "The verification code is invalid or has expired"
+		"tokenExpiredOrInvalid": "The verification code is invalid or has expired",
+		"mustAgreeWithTerms": "You must agree to the terms and conditions."
 	},
 	"management": "Management",
 	"closed": "Closed",
@@ -109,5 +110,8 @@
 	"save": "Save",
 	"changePhone": "Change phone",
 	"changeEmail": "Change email",
-	"changePersonalData": "Edit personal data"
+	"changePersonalData": "Edit personal data",
+	"iAgreeWith": "I agree with {{ link }}",
+	"termsOfUse": "terms of use and conditions",
+	"successfulAppointment": "You have successfully booked a car wash."
 }

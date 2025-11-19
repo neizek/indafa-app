@@ -1,7 +1,11 @@
 <script lang="ts">
 	import Section from '$lib/components/ui/Section.svelte';
 	import StatBlock from '$lib/components/ui/StatBlock.svelte';
-	import { getAppointmentsCount } from '$lib/helpers/admin';
+	import {
+		getAppointmentsCount,
+		getCompletedAppointmentsCount,
+		getPendingAppointmentsCount
+	} from '$lib/helpers/admin';
 	import { subtractDays } from '$lib/helpers/datetime';
 	import { t } from '$lib/translations/translations';
 	import { LoaderCircle } from '@lucide/svelte';
@@ -14,10 +18,14 @@
 		subtractDays(lastWeekDate),
 		lastWeekDate
 	);
+	const pendingAppointmentsCount = getPendingAppointmentsCount();
+	const completedAppointmentsCount = getCompletedAppointmentsCount();
 
 	const appointmentsPromises = Promise.all([
 		lastWeekAppointmentsCount,
-		previousWeekAppointmentsCount
+		previousWeekAppointmentsCount,
+		pendingAppointmentsCount,
+		completedAppointmentsCount
 	]);
 
 	function getPercentageChange(oldValue: number, newValue: number) {
@@ -27,15 +35,21 @@
 </script>
 
 <Section header={$t('common.appointments')}>
-	{#await appointmentsPromises}
-		<!-- <div class="animate-spin"> -->
-		<LoaderCircle class="animate-spin" />
-		<!-- </div> -->
-	{:then [previousweek, lastweek]}
-		{@const increase = lastweek && previousweek ? getPercentageChange(previousweek, lastweek) : 0}
-		<div class="flex gap-5">
+	<div class="flex justify-around gap-5">
+		{#await appointmentsPromises}
+			{#each Array(4) as _}
+				<div class="flex w-full flex-col gap-2">
+					<div class="badge h-[45px] placeholder w-full"></div>
+					<div class="badge placeholder"></div>
+					<div class="badge placeholder"></div>
+				</div>
+			{/each}
+		{:then [previousweek, lastweek, pending, completed]}
+			{@const increase = lastweek && previousweek ? getPercentageChange(previousweek, lastweek) : 0}
 			<StatBlock value={previousweek} label="Previous week" />
 			<StatBlock value={lastweek} label="Last week" percent={increase} />
-		</div>
-	{/await}
+			<StatBlock value={pending} label="Pending total" />
+			<StatBlock value={completed} label="Completed total" />
+		{/await}
+	</div>
 </Section>

@@ -100,7 +100,8 @@
 		"permissionDenied": "У вас нет прав для выполнения этого действия",
 		"networkError": "Ошибка сети. Пожалуйста, проверьте ваше соединение",
 		"cannotCompleteActionRelatedDataMissing": "Невозможно завершить действие: отсутствуют связанные данные",
-		"tokenExpiredOrInvalid": "Срок действия токена истек или он недействителен"
+		"tokenExpiredOrInvalid": "Срок действия токена истек или он недействителен",
+		"mustAgreeWithTerms": "Вы должны согласиться с правилами и условиями"
 	},
 	"management": "Управление",
 	"closed": "Закрыто",
@@ -109,5 +110,8 @@
 	"save": "Сохранить",
 	"changePhone": "Изменить номер",
 	"changeEmail": "Изменить эл. почту",
-	"changePersonalData": "Редактировать личное"
+	"changePersonalData": "Редактировать личное",
+	"iAgreeWith": "Я согласен с {{ link }}",
+	"termsOfUse": "правилами пользования и условиями",
+	"successfulAppointment": "Вы успешно записались на автомойку"
 }

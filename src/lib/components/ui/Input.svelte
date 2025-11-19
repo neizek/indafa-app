@@ -9,7 +9,7 @@
 		autocomplete,
 		oninput
 	}: {
-		type?: 'text' | 'password' | 'email' | 'number' | 'tel';
+		type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'date';
 		inputmode?: 'text' | 'tel' | 'numeric';
 		placeholder?: string;
 		value: any;

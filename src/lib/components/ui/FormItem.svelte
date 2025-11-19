@@ -7,13 +7,15 @@
 		errors
 	}: {
 		children: any;
-		label: string;
+		label?: string;
 		errors?: string[] | null;
 	} = $props();
 </script>
 
 <label class="label">
-	<span class="label-text">{label}</span>
+	{#if label}
+		<span class="label-text">{label}</span>
+	{/if}
 	{@render children()}
 	{#if errors && errors.length > 0}
 		<div class="flex flex-col gap-2">

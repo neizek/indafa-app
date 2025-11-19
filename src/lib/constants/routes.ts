@@ -9,7 +9,7 @@ export const ROUTES = {
 	OPERATOR: '/operator',
 	ADMIN: {
 		DASHBOARD: '/admin/dashboard',
-		OFFERS: '/admin/offers'
+		APPOINTMENTS: '/admin/appointments'
 	}
 } as const;
 

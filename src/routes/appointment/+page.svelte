@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { carWashes, carWashesMap, carWashesOptions } from '$lib/stores/carWashes';
+	import { carWashesMap, carWashesOptions } from '$lib/stores/carWashes';
 	import FormItem from '$lib/components/ui/FormItem.svelte';
 	import Selector from '$lib/components/ui/Selector.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
@@ -20,10 +20,11 @@
 	import { ROUTES } from '$lib/constants/routes';
 	import { getWorkingDatesOptions } from '$lib/helpers/carWashes';
 	import { t } from '$lib/translations/translations';
-	import { showErrorToast, showInfoToast } from '$lib/helpers/toaster';
+	import { showErrorToast, showInfoToast, showSuccessToast } from '$lib/helpers/toaster';
 	import appointmentsStore from '$lib/stores/appointments';
 	import { AppointmentStatusEnum } from '$lib/enums/appointments';
 	import { openMissingProfileDataPopup } from '$lib/helpers/auth';
+	import { Switch } from '@skeletonlabs/skeleton-svelte';
 
 	let isLoading: boolean = $state(false);
 
@@ -31,14 +32,73 @@
 		location: z.number({ message: 'common.errors.required' }),
 		date: z.date({ message: 'common.errors.required' }),
 		vehicle: z.number({ message: 'common.errors.required' }),
-		startTime: z.number({ message: 'common.errors.required' })
+		startTime: z.number({ message: 'common.errors.required' }),
+		agreeWithRules: z.boolean({ message: 'common.errors.mustAgreeWithTerms' })
 	});
 
 	type FormValues = z.infer<typeof schema>;
 
 	const { form, errors, data } = createForm<FormValues>({
 		extend: validator({ schema }),
-		onSubmit: () => {}
+		onSubmit: (values) => {
+			if (!values.date || !values.location || !values.vehicle || !values.startTime || !$session) {
+				showErrorToast({
+					description: 'common.errors.notAllDataFilled'
+				});
+				return;
+			}
+
+			const existingAppointment = $appointmentsStore.find(
+				(appointment) =>
+					appointment.vehicle_id === values.vehicle &&
+					new Date(appointment.start_time) > new Date() &&
+					appointment.status === AppointmentStatusEnum.pending
+			);
+
+			if (existingAppointment) {
+				showErrorToast({
+					description: 'common.errors.onlyOneAppointmentPerCarAllowed'
+				});
+				return;
+			}
+
+			if (
+				!$user?.user_metadata.firstName ||
+				!$user?.user_metadata.lastName ||
+				!$user?.email ||
+				!$user?.phone
+			) {
+				showInfoToast({
+					title: 'common.info',
+					description: 'common.completeYouProfileBeforeAppointment'
+				});
+				openMissingProfileDataPopup();
+				return;
+			}
+
+			isLoading = true;
+
+			createAppointment({
+				user_id: $session.user.id,
+				car_wash_id: values.location,
+				vehicle_id: values.vehicle,
+				start_time: new Date(values.date.setHours(values.startTime, 0, 0, 0)).toISOString(),
+				end_time: new Date(values.date.setHours(values.startTime + 1, 0, 0, 0)).toISOString()
+			})
+				.catch((error) => {
+					showErrorToast({ error });
+				})
+				.then(() => {
+					showSuccessToast({
+						title: 'common.info',
+						description: 'common.successfulAppointment'
+					});
+				})
+				.finally(() => {
+					isLoading = false;
+					goto(ROUTES.HOME);
+				});
+		}
 	});
 
 	let chosenCarWash = $derived.by(() => $carWashesMap.get($data.location));
@@ -107,60 +167,6 @@
 
 		return options as SelectOption[];
 	}
-
-	function sendAppointmentRequest() {
-		if (!$data.date || !$data.location || !$data.vehicle || !$data.startTime || !$session) {
-			showErrorToast({
-				description: 'common.errors.notAllDataFilled'
-			});
-			return;
-		}
-
-		const existingAppointment = $appointmentsStore.find(
-			(appointment) =>
-				appointment.vehicle_id === $data.vehicle &&
-				new Date(appointment.start_time) > new Date() &&
-				appointment.status === AppointmentStatusEnum.pending
-		);
-
-		if (existingAppointment) {
-			showErrorToast({
-				description: 'common.errors.onlyOneAppointmentPerCarAllowed'
-			});
-			return;
-		}
-
-		if (
-			$user?.user_metadata.firstName ||
-			!$user?.user_metadata.lastName ||
-			!$user?.email ||
-			!$user?.phone
-		) {
-			showInfoToast({
-				title: 'common.info',
-				description: 'common.completeYouProfileBeforeAppointment'
-			});
-			openMissingProfileDataPopup();
-			return;
-		}
-
-		isLoading = true;
-
-		createAppointment({
-			user_id: $session.user.id,
-			car_wash_id: $data.location,
-			vehicle_id: $data.vehicle,
-			start_time: new Date($data.date.setHours($data.startTime, 0, 0, 0)).toISOString(),
-			end_time: new Date($data.date.setHours($data.startTime + 1, 0, 0, 0)).toISOString()
-		})
-			.catch((error) => {
-				showErrorToast({ error });
-			})
-			.finally(() => {
-				isLoading = false;
-				goto(ROUTES.HOME);
-			});
-	}
 </script>
 
 <Form {form}>
@@ -191,13 +197,23 @@
 			{/if}
 		</FormItem>
 	</Section>
-
-	<Button
-		type="submit"
-		label={$t('common.confirmAppointment')}
-		{isLoading}
-		icon={Check}
-		onclick={sendAppointmentRequest}
-		full
-	/>
+	<Section transparent>
+		<FormItem errors={$errors.agreeWithRules}>
+			<Switch
+				checked={$data.agreeWithRules}
+				onchange={(e) => ($data.agreeWithRules = (e.target as HTMLInputElement)?.checked)}
+			>
+				<Switch.Control>
+					<Switch.Thumb />
+				</Switch.Control>
+				<Switch.Label>
+					{@html $t('common.iAgreeWith', {
+						link: `<a href="${ROUTES.RULES}" class="text-primary-500">${$t('common.termsOfUse')}</a>`
+					})}
+				</Switch.Label>
+				<Switch.HiddenInput />
+			</Switch>
+		</FormItem>
+		<Button type="submit" label={$t('common.confirmAppointment')} {isLoading} icon={Check} full />
+	</Section>
 </Form>

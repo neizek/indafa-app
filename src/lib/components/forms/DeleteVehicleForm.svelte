@@ -11,12 +11,12 @@
 	function onConfirm() {
 		isLoading = true;
 		removeVehicle(vehicle.id)
-			.then(() => closePopUp())
 			.catch((error) => {
 				showErrorToast({
 					error
 				});
 			})
+			.then(() => closePopUp())
 			.finally(() => {
 				isLoading = false;
 			});
