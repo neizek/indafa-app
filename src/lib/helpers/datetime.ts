@@ -1,7 +1,7 @@
 import { locale } from '$lib/translations/translations';
 import { get } from 'svelte/store';
 
-export const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+export const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
 export function getDateLabel(date: Date = new Date()): string {
 	const today = new Date();
@@ -21,7 +21,7 @@ export function getDateLabel(date: Date = new Date()): string {
 		return 'common.tomorrow';
 	}
 
-	return `common.${days[dateToCheck.getDay() - 1]}`;
+	return `common.${days[dateToCheck.getDay()]}`;
 }
 
 export function formatDateTime(dbDate: string) {

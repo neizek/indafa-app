@@ -21,12 +21,17 @@ export async function getCarWashes(): Promise<Array<CarWash>> {
 
 export function getWorkingDatesOptions(carWash: CarWash): SelectOption[] {
 	let dateOptions: SelectOption[] = [];
-
+	console.log(carWash.working_hours);
 	for (let i = 0; dateOptions.length < 2; i++) {
 		if (i === 10) break;
 		const date = new Date();
 		date.setDate(date.getDate() + i);
 		const wh = carWash.working_hours.find((wh) => wh.day_of_week === date.getDay());
+
+		if (!wh) {
+			continue;
+		}
+
 		if (
 			carWash.working_hours_exceptions &&
 			carWash.working_hours_exceptions.some(
@@ -36,7 +41,7 @@ export function getWorkingDatesOptions(carWash: CarWash): SelectOption[] {
 			continue;
 		}
 
-		if (wh && createDateWithTime(date, wh.close_time, -3) > new Date()) {
+		if (createDateWithTime(date, wh.close_time, -3) > new Date()) {
 			const { date: dateString } = formatAppointmentDateTime(date.toISOString());
 
 			dateOptions = [

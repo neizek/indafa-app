@@ -119,7 +119,10 @@
 	async function setAvaliableTimes() {
 		timeOptions = [];
 
-		const thisDateWorkingHours = chosenCarWash?.working_hours[$data.date.getDay()];
+		console.log(chosenCarWash?.working_hours[5]);
+		const thisDateWorkingHours = chosenCarWash?.working_hours.find(
+			(wh) => wh.day_of_week === $data.date.getDay()
+		);
 
 		if (
 			!thisDateWorkingHours ||
