@@ -113,5 +113,6 @@
 	"changePersonalData": "Редактировать личное",
 	"iAgreeWith": "Я согласен с {{ link }}",
 	"termsOfUse": "правилами пользования и условиями",
-	"successfulAppointment": "Вы успешно записались на автомойку"
+	"successfulAppointment": "Вы успешно записались на автомойку",
+	"doYouWantToDeleteAppointment": "Вы действительно хотите удалить эту запись?"
 }

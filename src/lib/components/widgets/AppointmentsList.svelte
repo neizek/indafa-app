@@ -59,7 +59,7 @@
 
 	function openDeleteAppointmentPopUp(appointment: any) {
 		createPopUp({
-			title: $t('common.appointmentControls'),
+			title: `${$t('common.delete')} ${$t('common.appointment').toLowerCase()}`,
 			content: {
 				component: DeleteAppointmentForm,
 				props: {
@@ -115,7 +115,9 @@
 			<div class="placeholder animate-pulse"></div>
 		</div>
 	{:else}
-		{#if appointments && appointments.length === 0}
+		{#if !selectedDate}
+			<span>{$t('common.selectDate')}</span>
+		{:else if appointments && appointments.length === 0}
 			<span>{$t('common.noAppointmentsForThisDay')}</span>
 		{/if}
 		{#each appointments as appointment}

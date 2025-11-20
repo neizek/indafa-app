@@ -113,5 +113,6 @@
 	"changePersonalData": "Mainīt personas datus",
 	"iAgreeWith": "Es piekrītu ar {{ link }}",
 	"termsOfUse": "lietošanas noteikumiem un nosacījumiem",
-	"successfulAppointment": "Jūs veiksmīgi pierakstījāties uz auto mazgāšanu"
+	"successfulAppointment": "Jūs veiksmīgi pierakstījāties uz auto mazgāšanu",
+	"doYouWantToDeleteAppointment": "Vai tiešām vēlaties dzēst pierakstu?"
 }

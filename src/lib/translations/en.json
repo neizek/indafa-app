@@ -113,5 +113,6 @@
 	"changePersonalData": "Edit personal data",
 	"iAgreeWith": "I agree with {{ link }}",
 	"termsOfUse": "terms of use and conditions",
-	"successfulAppointment": "You have successfully booked a car wash."
+	"successfulAppointment": "You have successfully booked a car wash.",
+	"doYouWantToDeleteAppointment": "Do you really want to delete the appointment?"
 }

@@ -29,7 +29,7 @@
 </script>
 
 <div class="flex flex-col gap-4">
-	<span>{$t('common.doYouWantToDeleteAppointment')}?</span>
+	<span>{$t('common.doYouWantToDeleteAppointment')}</span>
 	<div class="flex items-center justify-between gap-2">
 		<Button
 			label={$t('common.delete')}

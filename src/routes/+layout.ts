@@ -17,7 +17,7 @@ const savedLocale = await storage.get<string>('locale');
 loadTranslations(savedLocale ?? supportedLocalesOptions[0].value);
 await initSession();
 
-const adminRoutes = [ROUTES.ADMIN.DASHBOARD, ROUTES.ADMIN.OFFERS];
+const adminRoutes = [ROUTES.ADMIN.DASHBOARD, ROUTES.ADMIN.APPOINTMENTS];
 const operatorRoutes = [ROUTES.OPERATOR];
 const protectedRoutes = [
 	...adminRoutes,
