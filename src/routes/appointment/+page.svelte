@@ -8,7 +8,12 @@
 	import Section from '$lib/components/ui/Section.svelte';
 	import { derived } from 'svelte/store';
 	import type { SelectOption } from '$lib/types/ui';
-	import { createAppointment, getAppointmentsByDate } from '$lib/helpers/appointments';
+	import {
+		createAppointment,
+		getAppointmentsByDate,
+		getAvaliableTimes,
+		getBookedTimesByDate
+	} from '$lib/helpers/appointments';
 	import { session, user } from '$lib/stores/auth';
 	import { getHoursFromTime } from '$lib/helpers/datetime';
 	import { z } from 'zod';
@@ -116,59 +121,8 @@
 
 	let timeOptions: SelectOption[] = $state([]);
 
-	async function setAvaliableTimes() {
-		timeOptions = [];
-
-		console.log(chosenCarWash?.working_hours[5]);
-		const thisDateWorkingHours = chosenCarWash?.working_hours.find(
-			(wh) => wh.day_of_week === $data.date.getDay()
-		);
-
-		if (
-			!thisDateWorkingHours ||
-			!thisDateWorkingHours.open_time ||
-			!thisDateWorkingHours.close_time
-		) {
-			return;
-		}
-
-		const openTime = getHoursFromTime(thisDateWorkingHours.open_time);
-		const closeTime = getHoursFromTime(thisDateWorkingHours.close_time);
-
-		timeOptions =
-			(await createTimeOptions(
-				new Date($data.date.setHours(openTime, 0, 0, 0)),
-				new Date($data.date.setHours(closeTime, 0, 0, 0)),
-				60
-			)) ?? [];
-	}
-
-	async function createTimeOptions(from: Date, to: Date, intervalMinutes: number) {
-		if (!$data.location) {
-			return;
-		}
-
-		const options = [];
-		const current = new Date(from);
-		const thisDateAppointments = await getAppointmentsByDate(current, $data.location);
-		const bookedTimes: number[] = thisDateAppointments.map((appointment) =>
-			new Date(appointment.start_time).getHours()
-		);
-
-		while (current < to) {
-			const hours = current.getHours().toString().padStart(2, '0');
-			const minutes = current.getMinutes().toString().padStart(2, '0');
-			const timeString = `${hours}:${minutes}`;
-			options.push({
-				value: current.getHours(),
-				label: timeString,
-				disabled:
-					bookedTimes.includes(Number(hours)) || current < new Date(Date.now() + 60 * 60 * 1000)
-			});
-			current.setMinutes(current.getMinutes() + intervalMinutes);
-		}
-
-		return options as SelectOption[];
+	async function onDateChange() {
+		timeOptions = chosenCarWash ? await getAvaliableTimes(chosenCarWash, $data.date) : [];
 	}
 </script>
 
@@ -180,7 +134,7 @@
 	</Section>
 	<Section header={$t('common.appointment')}>
 		<FormItem label={$t('common.selectDate')} errors={$errors.date}>
-			<Selector options={dateOptions} bind:value={$data.date} onchange={setAvaliableTimes} />
+			<Selector options={dateOptions} bind:value={$data.date} onchange={onDateChange} />
 		</FormItem>
 		<FormItem label={$t('common.selectTime')} errors={$errors.startTime}>
 			<Selector options={timeOptions} bind:value={$data.startTime} />

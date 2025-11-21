@@ -6,6 +6,9 @@ const config: CapacitorConfig = {
 	webDir: 'build',
 	server: {
 		allowNavigation: ['https://*.supabase.co']
+	},
+	plugins: {
+		LocalNotifications: {}
 	}
 };
 

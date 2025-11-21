@@ -52,6 +52,10 @@ export function getErrorMessage(error: PostgrestError | null | undefined): strin
 		return 'common.errors.permissionDenied';
 	}
 
+	if (error.message.includes('timePassedOrBookedByCustomer')) {
+		return 'common.errors.timePassedOrBookedByCustomer';
+	}
+
 	// Development mode: show actual error
 	if (import.meta.env.DEV) {
 		console.error('Supabase error:', error);

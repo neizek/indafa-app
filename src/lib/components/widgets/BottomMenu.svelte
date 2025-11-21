@@ -42,18 +42,17 @@
 	};
 </script>
 
-<div
-	class="preset-glass-surface fixed right-0 bottom-0 left-0 mx-auto mb-4 w-full max-w-sm space-y-4 card bg-surface-100/50 dark:bg-surface-500/50"
->
-	<div class="flex items-center justify-around px-3">
+<div class="fixed right-4 bottom-0 left-4 mx-auto mb-4 max-w-sm">
+	<div
+		class="preset-glass-surface flex w-full items-center justify-around card bg-surface-100/50 px-3 dark:bg-surface-500/50"
+	>
 		{#each menu as { icon: Icon, link, label, action }}
-			<!-- {@const Icon = icon} -->
 			<button
-				class="flex flex-col items-center p-3 {isActive(link) ? `text-primary-400` : ``}"
+				class="flex flex-col items-center gap-1.5 p-3 {isActive(link) ? `text-primary-400` : ``}"
 				on:click={() => onAction(action, link)}
 			>
 				<Icon size={24} />
-				<span class="text-xs">{$t(label)}</span>
+				<span class="label-text leading-none">{$t(label)}</span>
 			</button>
 		{/each}
 	</div>

@@ -14,15 +14,18 @@
 	import { AppointmentStatusColorsEnum, type AppointmentStatusEnum } from '$lib/enums/appointments';
 	import { t } from '$lib/translations/translations';
 	import type { OperatorAppointment } from '$lib/types/appointments';
-	import { onMount } from 'svelte';
 	import StatusChangeForm from '../forms/StatusChangeForm.svelte';
 	import DeleteAppointmentForm from '../forms/DeleteAppointmentForm.svelte';
 	import Input from '../ui/Input.svelte';
+	import BookedTimes from './BookedTimes.svelte';
+	import { showErrorToast } from '$lib/helpers/toaster';
+	import DateInput from '../ui/DateInput.svelte';
+	import { onMount } from 'svelte';
 
 	let { adminMode } = $props();
 
 	let selectedCarWash = $state($carWashes[0]);
-	let selectedDate = $state(null);
+	let selectedDate: Date = $state(new Date());
 
 	let appointments: OperatorAppointment[] = $state([]);
 	let isLoadingAppointments = $state(false);
@@ -36,6 +39,9 @@
 			getOperatorAppointmentsByDate(selectedDate, selectedCarWash.id)
 				.then((data) => {
 					appointments = data;
+				})
+				.catch((error) => {
+					showErrorToast({ error });
 				})
 				.finally(() => {
 					isLoadingAppointments = false;
@@ -63,7 +69,8 @@
 			content: {
 				component: DeleteAppointmentForm,
 				props: {
-					appointment
+					appointment,
+					onDelete: () => getAppointments()
 				}
 			}
 		});
@@ -85,9 +92,9 @@
 		});
 	}
 
-	$effect(() => {
+	async function onChangeDateOrCarWash() {
 		getAppointments();
-	});
+	}
 
 	onMount(() => {
 		getAppointments();
@@ -96,16 +103,26 @@
 
 <Section>
 	<FormItem label={$t('common.selectCarWash')}>
-		<Selector options={$carWashesOptions} bind:value={selectedCarWash.id} />
+		<Selector
+			options={$carWashesOptions}
+			bind:value={selectedCarWash.id}
+			onchange={onChangeDateOrCarWash}
+		/>
 	</FormItem>
 	<FormItem label={$t('common.selectDate')}>
 		{#if !adminMode}
-			<Selector options={dateOptions} bind:value={selectedDate} />
+			<Selector options={dateOptions} bind:value={selectedDate} onchange={onChangeDateOrCarWash} />
 		{:else}
-			<Input type="date" bind:value={selectedDate} />
+			<DateInput bind:value={selectedDate} onchange={onChangeDateOrCarWash} />
 		{/if}
 	</FormItem>
 </Section>
+
+{#if selectedDate && selectedCarWash}
+	<Section>
+		<BookedTimes date={selectedDate} carWash={selectedCarWash} />
+	</Section>
+{/if}
 
 <Section header={$t('common.appointments')}>
 	{#if isLoadingAppointments}

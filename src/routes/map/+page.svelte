@@ -8,8 +8,6 @@
 	let mapContainer: HTMLElement;
 	mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
 
-	console.log($page.url.hash);
-
 	onMount(() => {
 		if (mapContainer === null || !mapContainer) {
 			return;
@@ -33,7 +31,7 @@
 					.setLngLat({ lng: carWash.long, lat: carWash.lat })
 					.addTo(map);
 				marker.getElement().addEventListener('click', () => openCarWashDetailsPopUp(carWash));
-				if ((queriedCarWash && queriedCarWash.id !== carWash.id) || !queriedCarWash) {
+				if ((queriedCarWash && queriedCarWash.id === carWash.id) || !queriedCarWash) {
 					bounds.extend({ lng: carWash.long, lat: carWash.lat });
 				}
 			}

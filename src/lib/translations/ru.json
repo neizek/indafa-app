@@ -101,7 +101,8 @@
 		"networkError": "Ошибка сети. Пожалуйста, проверьте ваше соединение",
 		"cannotCompleteActionRelatedDataMissing": "Невозможно завершить действие: отсутствуют связанные данные",
 		"tokenExpiredOrInvalid": "Срок действия токена истек или он недействителен",
-		"mustAgreeWithTerms": "Вы должны согласиться с правилами и условиями"
+		"mustAgreeWithTerms": "Вы должны согласиться с правилами и условиями",
+		"timePassedOrBookedByCustomer": "Врему уже прошло или было зарезервированно клиентом"
 	},
 	"management": "Управление",
 	"closed": "Закрыто",
@@ -114,5 +115,8 @@
 	"iAgreeWith": "Я согласен с {{ link }}",
 	"termsOfUse": "правилами пользования и условиями",
 	"successfulAppointment": "Вы успешно записались на автомойку",
-	"doYouWantToDeleteAppointment": "Вы действительно хотите удалить эту запись?"
+	"doYouWantToDeleteAppointment": "Вы действительно хотите удалить эту запись?",
+	"avaliableHours": "Доступные часы для записи",
+	"appointmentReminder": "Напоминание о записи на автомойку",
+	"appointmentReminderText": "Мы ждем вас сегодня в {{ time }}"
 }

@@ -101,7 +101,8 @@
 		"networkError": "Network error. Please check your connection",
 		"cannotCompleteActionRelatedDataMissing": "Cannot complete action: related data is missing",
 		"tokenExpiredOrInvalid": "The verification code is invalid or has expired",
-		"mustAgreeWithTerms": "You must agree to the terms and conditions."
+		"mustAgreeWithTerms": "You must agree to the terms and conditions.",
+		"timePassedOrBookedByCustomer": "Time passed or has been already booked by customer"
 	},
 	"management": "Management",
 	"closed": "Closed",
@@ -114,5 +115,8 @@
 	"iAgreeWith": "I agree with {{ link }}",
 	"termsOfUse": "terms of use and conditions",
 	"successfulAppointment": "You have successfully booked a car wash.",
-	"doYouWantToDeleteAppointment": "Do you really want to delete the appointment?"
+	"doYouWantToDeleteAppointment": "Do you really want to delete the appointment?",
+	"avaliableHours": "Avaliable hours for appointment",
+	"appointmentReminder": "Carwash appointment reminder",
+	"appointmentReminderText": "We are waiting for you today at {{ time }}"
 }

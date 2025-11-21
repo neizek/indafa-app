@@ -5,13 +5,16 @@
 	import { t } from '$lib/translations/translations';
 	import { Trash, XIcon } from '@lucide/svelte';
 
-	let { appointment, closePopUp } = $props();
+	let { appointment, onDelete, closePopUp } = $props();
 	let isLoading = $state(false);
 
 	function onConfirm() {
 		isLoading = true;
 		removeAppointment(appointment.id)
-			.then(() => closePopUp())
+			.then(() => {
+				onDelete();
+				closePopUp();
+			})
 			.catch((error) => {
 				showErrorToast({
 					error
@@ -20,7 +23,6 @@
 			.finally(() => {
 				isLoading = false;
 			});
-		closePopUp();
 	}
 
 	function onCancel() {

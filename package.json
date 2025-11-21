@@ -44,6 +44,7 @@
 		"@capacitor/cli": "^7.4.4",
 		"@capacitor/core": "^7.4.4",
 		"@capacitor/ios": "^7.4.4",
+		"@capacitor/local-notifications": "^7.0.3",
 		"@capacitor/preferences": "^7.0.2",
 		"@felte/validator-zod": "^1.0.18",
 		"@lucide/svelte": "^0.547.0",

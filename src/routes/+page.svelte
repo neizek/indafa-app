@@ -10,7 +10,7 @@
 	import Section from '$lib/components/ui/Section.svelte';
 </script>
 
-<div class="h-auto w-full p-10 dark:invert">
+<div class="h-auto w-full px-10 pt-5 dark:invert">
 	{@html IndafaLogo}
 </div>
 <OffersBlock />

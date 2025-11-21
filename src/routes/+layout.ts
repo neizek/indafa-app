@@ -6,6 +6,7 @@ import storage from '$lib/helpers/storage';
 import { initSession, isAdmin, isOperator, session } from '$lib/stores/auth';
 import { intendedUrl, previousUrl } from '$lib/stores/navigation.js';
 import { loadTranslations, supportedLocalesOptions } from '$lib/translations/translations';
+import { LocalNotifications } from '@capacitor/local-notifications';
 import { get } from 'svelte/store';
 
 export const ssr = false;
@@ -27,6 +28,14 @@ const protectedRoutes = [
 ];
 
 export async function load(page) {
+	// Permission for notifications
+	LocalNotifications.checkPermissions().then((status) => {
+		if (status.display === 'prompt' || status.display === 'prompt-with-rationale') {
+			LocalNotifications.requestPermissions();
+		}
+	});
+
+	// Route protection (Middleware)
 	const needsAuth = protectedRoutes.some((route) => page.url.pathname.startsWith(route as string));
 	const operatorsOnly = operatorRoutes.some((route) =>
 		page.url.pathname.startsWith(route as string)

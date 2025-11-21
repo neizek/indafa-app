@@ -101,7 +101,8 @@
 		"networkError": "Tīkla kļūda. Lūdzu, pārbaudiet savu savienojumu",
 		"cannotCompleteActionRelatedDataMissing": "Nav iespējams pabeigt darbību: trūkst saistīto datu",
 		"tokenExpiredOrInvalid": "Pārbaudes kods ir nederīgs vai ir beidzies tā derīguma termiņš",
-		"mustAgreeWithTerms": "Jums ir jāpiekrīt noteikumiem un nosacījumiem"
+		"mustAgreeWithTerms": "Jums ir jāpiekrīt noteikumiem un nosacījumiem",
+		"timePassedOrBookedByCustomer": "Laiks ir pagājis vai jau ir rezervēts klientam"
 	},
 	"management": "Kontrole",
 	"closed": "Slēgts",
@@ -114,5 +115,8 @@
 	"iAgreeWith": "Es piekrītu ar {{ link }}",
 	"termsOfUse": "lietošanas noteikumiem un nosacījumiem",
 	"successfulAppointment": "Jūs veiksmīgi pierakstījāties uz auto mazgāšanu",
-	"doYouWantToDeleteAppointment": "Vai tiešām vēlaties dzēst pierakstu?"
+	"doYouWantToDeleteAppointment": "Vai tiešām vēlaties dzēst pierakstu?",
+	"avaliableHours": "Pieejamais laiks rezervēšanai",
+	"appointmentReminder": "Automašīnas mazgāšanas atgādinājums",
+	"appointmentReminderText": "Mēs gaidām jūs šodien plkst. {{ time }}"
 }

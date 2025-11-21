@@ -6,8 +6,12 @@ import { createPopUp } from '$lib/stores/popUp';
 import {
 	type Appointment,
 	type AppointmentPayload,
+	type BookingAppointmentPayload,
 	type OperatorAppointment
 } from '$lib/types/appointments';
+import type { SelectOption } from '$lib/types/ui';
+import type { CarWash } from '$lib/types/carWashes';
+import { getHoursFromTime } from './datetime';
 
 async function createAppointment(payload: AppointmentPayload) {
 	const { data, error } = await supabase
@@ -116,6 +120,66 @@ async function getAppointmentsByDate(date: Date, carWashId: number): Promise<App
 	return data;
 }
 
+async function getBookedTimesByDate(date: Date, carWashId: number) {
+	const startOfDay = new Date(date);
+	startOfDay.setHours(0, 0, 0, 0);
+
+	const endOfDay = new Date(date);
+	endOfDay.setHours(23, 59, 59, 999);
+
+	const { data, error } = await supabase
+		.from('booked_times')
+		.select('*')
+		.gte('start_time', startOfDay.toISOString())
+		.lte('start_time', endOfDay.toISOString())
+		.eq('car_wash_id', carWashId)
+		.order('start_time');
+
+	if (error) {
+		console.error('Error fetching appointments:', error);
+		throw error;
+	}
+
+	return data;
+}
+
+async function createBookingTime(payload: BookingAppointmentPayload) {
+	const { data, error } = await supabase
+		.from('booked_times')
+		.insert([
+			{
+				...payload
+			}
+		])
+		.select();
+
+	if (error) {
+		console.error('Error adding booking:', error);
+		throw error;
+	}
+
+	return data;
+}
+
+async function removeBookingTime(startTime: string) {
+	const { data, error } = await supabase
+		.from('booked_times')
+		.delete()
+		.eq('start_time', startTime)
+		.select();
+
+	if (error) {
+		console.error('Error removing booking:', error);
+		throw error;
+	}
+
+	if (data && data.length === 0) {
+		throw new Error('common.errors.timePassedOrBookedByCustomer');
+	}
+
+	return data;
+}
+
 async function getOperatorAppointmentsByDate(
 	date: Date,
 	carWashId: number
@@ -154,13 +218,84 @@ function openCancelAppointmentPopUp(appointment: Appointment) {
 	});
 }
 
+// #region Other
+
+async function getAvaliableTimes(carWash: CarWash, date: Date): Promise<SelectOption[]> {
+	let timeOptions = [];
+
+	const thisDateWorkingHours = carWash?.working_hours.find(
+		(wh) => wh.day_of_week === date.getDay()
+	);
+
+	if (
+		!thisDateWorkingHours ||
+		!thisDateWorkingHours.open_time ||
+		!thisDateWorkingHours.close_time
+	) {
+		return [];
+	}
+	const openTime = getHoursFromTime(thisDateWorkingHours.open_time);
+	const closeTime = getHoursFromTime(thisDateWorkingHours.close_time);
+
+	timeOptions =
+		(await createTimeOptions(
+			new Date(date.setHours(openTime, 0, 0, 0)),
+			new Date(date.setHours(closeTime, 0, 0, 0)),
+			60,
+			carWash.id
+		)) ?? [];
+
+	return timeOptions;
+}
+
+async function createTimeOptions(from: Date, to: Date, intervalMinutes: number, carWashId: number) {
+	if (!carWashId) {
+		return;
+	}
+
+	const options = [];
+	const current = new Date(from);
+
+	const [thisDateAppointments, thisDateBookedTimes] = await Promise.all([
+		getAppointmentsByDate(current, carWashId),
+		getBookedTimesByDate(current, carWashId)
+	]);
+
+	const bookedTimes: number[] = [...thisDateAppointments, ...thisDateBookedTimes].map(
+		(reservation) => new Date(reservation.start_time).getHours()
+	);
+
+	while (current < to) {
+		const hours = current.getHours().toString().padStart(2, '0');
+		const minutes = current.getMinutes().toString().padStart(2, '0');
+		const timeString = `${hours}:${minutes}`;
+		options.push({
+			value: current.getHours(),
+			label: timeString,
+			disabled:
+				bookedTimes.includes(Number(hours)) || current < new Date(Date.now() + 60 * 60 * 1000)
+		});
+		current.setMinutes(current.getMinutes() + intervalMinutes);
+	}
+
+	return options as SelectOption[];
+}
+
+// #endregion
+
+// #region Export
+
 export {
 	createAppointment,
 	getUserAppointments,
 	getAppointmentsByDate,
+	getBookedTimesByDate,
+	createBookingTime,
+	removeBookingTime,
 	getOperatorAppointmentsByDate,
 	openCancelAppointmentPopUp,
 	cancelAppointment,
 	removeAppointment,
-	changeAppointmentStatus
+	changeAppointmentStatus,
+	getAvaliableTimes
 };

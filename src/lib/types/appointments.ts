@@ -23,3 +23,9 @@ export interface FullAppointment extends Appointment {
 export interface OperatorAppointment extends Appointment {
 	vehicle: Vehicle;
 }
+
+export interface BookingAppointmentPayload {
+	car_wash_id: number;
+	start_time: string;
+	end_time: string;
+}

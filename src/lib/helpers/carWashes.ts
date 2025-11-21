@@ -21,7 +21,7 @@ export async function getCarWashes(): Promise<Array<CarWash>> {
 
 export function getWorkingDatesOptions(carWash: CarWash): SelectOption[] {
 	let dateOptions: SelectOption[] = [];
-	console.log(carWash.working_hours);
+
 	for (let i = 0; dateOptions.length < 2; i++) {
 		if (i === 10) break;
 		const date = new Date();
