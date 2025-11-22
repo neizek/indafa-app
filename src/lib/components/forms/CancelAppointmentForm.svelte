@@ -6,6 +6,7 @@
 	import { t } from '$lib/translations/translations';
 	import { formatAppointmentDateTime } from '$lib/helpers/datetime';
 	import { showErrorToast } from '$lib/helpers/toaster';
+	import PopUpButtons from '../ui/PopUpButtons.svelte';
 
 	let { appointment, closePopUp }: { appointment: Appointment; closePopUp: () => void } = $props();
 	let isLoading = $state(false);
@@ -15,7 +16,7 @@
 		isLoading = true;
 		closePopUp();
 		cancelAppointment(appointment.id)
-			.catch((error) => showErrorToast(error))
+			.catch((error) => showErrorToast({ error }))
 			.finally(() => {
 				isLoading = false;
 			});
@@ -28,15 +29,18 @@
 
 <div class="flex flex-col gap-4">
 	<span>{$t('common.doYouWantToCancelAppointment', { date, time })}</span>
-	<div class="flex items-center justify-between gap-2">
-		<Button
-			label={$t('common.cancelAppointment')}
-			preset="cancel"
-			onclick={onConfirm}
-			icon={Trash}
-			{isLoading}
-			full
-		/>
-		<Button label={$t('common.cancel')} preset="tonal" icon={XIcon} onclick={onCancel} full />
-	</div>
+	<PopUpButtons>
+		{#snippet primaryButton()}
+			<Button
+				label={$t('common.cancelAppointment')}
+				preset="cancel"
+				onclick={onConfirm}
+				icon={Trash}
+				{isLoading}
+			/>
+		{/snippet}
+		{#snippet secondaryButton()}
+			<Button label={$t('common.cancel')} preset="tonal" icon={XIcon} onclick={onCancel} />
+		{/snippet}
+	</PopUpButtons>
 </div>

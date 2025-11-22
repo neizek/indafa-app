@@ -3,7 +3,7 @@ import { resolve } from '$app/paths';
 import { ROUTES } from '$lib/constants/routes.js';
 import { callToLoginPopUp } from '$lib/helpers/auth';
 import storage from '$lib/helpers/storage';
-import { initSession, isAdmin, isOperator, session } from '$lib/stores/auth';
+import { initSession, isAdmin, isOperator, isReviewer, session } from '$lib/stores/auth';
 import { intendedUrl, previousUrl } from '$lib/stores/navigation.js';
 import { loadTranslations, supportedLocalesOptions } from '$lib/translations/translations';
 import { LocalNotifications } from '@capacitor/local-notifications';
@@ -49,11 +49,11 @@ export async function load(page) {
 		callToLoginPopUp();
 	}
 
-	if (operatorsOnly && !get(isOperator) && !get(isAdmin)) {
+	if (operatorsOnly && !get(isOperator) && !get(isAdmin) && !get(isReviewer)) {
 		goto(resolve(ROUTES.HOME));
 	}
 
-	if (adminsOnly && !get(isAdmin)) {
+	if (adminsOnly && !get(isAdmin) && !get(isReviewer)) {
 		goto(resolve(ROUTES.HOME));
 	}
 }

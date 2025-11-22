@@ -11,6 +11,7 @@
 	import FormItem from '../ui/FormItem.svelte';
 	import { updateUser } from '$lib/helpers/auth';
 	import { showErrorToast } from '$lib/helpers/toaster';
+	import PopUpButtons from '../ui/PopUpButtons.svelte';
 
 	let isLoading: boolean = $state(false);
 	let { closePopUp } = $props();
@@ -67,8 +68,12 @@
 	<FormItem label={$t('common.lastName')} errors={$errors.lastName}>
 		<Input type="text" placeholder="Bērziņš" bind:value={$data.lastName} />
 	</FormItem>
-	<div class="mt-2 flex justify-between gap-2">
-		<Button type="submit" label={$t('common.confirm')} icon={Check} {isLoading} full />
-		<Button preset="tonal" label={$t('common.cancel')} icon={XIcon} onclick={closePopUp} />
-	</div>
+	<PopUpButtons>
+		{#snippet primaryButton()}
+			<Button type="submit" label={$t('common.confirm')} icon={Check} {isLoading} />
+		{/snippet}
+		{#snippet secondaryButton()}
+			<Button preset="tonal" label={$t('common.cancel')} icon={XIcon} onclick={closePopUp} />
+		{/snippet}
+	</PopUpButtons>
 </Form>

@@ -3,12 +3,7 @@
 	import UserProfileCard from './UserProfileCard.svelte';
 	import UserVehiclesCard from './UserVehiclesCard.svelte';
 	import UserAppointments from './UserAppointments.svelte';
-	import Button from '$lib/components/ui/Button.svelte';
-	import { UserLock } from '@lucide/svelte';
-	import { goto } from '$app/navigation';
-	import { ROUTES } from '$lib/constants/routes';
 	import { t } from '$lib/translations/translations';
-	import { isOperator } from '$lib/stores/auth';
 	import UserManagementBlock from './UserManagementBlock.svelte';
 </script>
 

@@ -1,26 +1,17 @@
 <script lang="ts">
-	import { ChevronRight, LoaderCircle, type IconProps } from '@lucide/svelte';
-	import type { Component } from 'svelte';
+	import type { ButtonProps } from '$lib/types/ui';
+	import { ChevronRight, LoaderCircle } from '@lucide/svelte';
 
 	let {
 		type = 'button',
 		label,
 		preset = 'primary',
-		full = false,
+		full = true,
 		isLoading = false,
 		disabled = false,
 		icon,
 		onclick
-	}: {
-		type?: 'submit' | 'button';
-		label?: string;
-		preset?: 'primary' | 'cancel' | 'tonal' | 'ghost' | 'menu';
-		full?: boolean;
-		icon?: Component<IconProps>;
-		isLoading?: boolean;
-		disabled?: boolean;
-		onclick?: () => void;
-	} = $props();
+	}: ButtonProps = $props();
 
 	const Icon = icon;
 	const presets = {

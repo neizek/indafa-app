@@ -4,6 +4,7 @@
 	import { removeVehicle } from '$lib/helpers/vehicles';
 	import { t } from '$lib/translations/translations';
 	import { Trash, XIcon } from '@lucide/svelte';
+	import PopUpButtons from '../ui/PopUpButtons.svelte';
 
 	let { vehicle, closePopUp } = $props();
 	let isLoading = $state(false);
@@ -30,15 +31,18 @@
 
 <div class="flex flex-col gap-4">
 	<span>{$t('common.doYouWantToDeleteVehicle')} {vehicle.license_plate}?</span>
-	<div class="flex items-center justify-between gap-2">
-		<Button
-			label={$t('common.delete')}
-			preset="cancel"
-			onclick={onConfirm}
-			icon={Trash}
-			{isLoading}
-			full
-		/>
-		<Button label={$t('common.cancel')} preset="tonal" icon={XIcon} onclick={onCancel} full />
-	</div>
+	<PopUpButtons>
+		{#snippet primaryButton()}
+			<Button
+				label={$t('common.delete')}
+				preset="cancel"
+				onclick={onConfirm}
+				icon={Trash}
+				{isLoading}
+			/>
+		{/snippet}
+		{#snippet secondaryButton()}
+			<Button label={$t('common.cancel')} preset="tonal" icon={XIcon} onclick={onCancel} />
+		{/snippet}
+	</PopUpButtons>
 </div>

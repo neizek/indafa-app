@@ -8,7 +8,6 @@
 	} from '$lib/helpers/admin';
 	import { subtractDays } from '$lib/helpers/datetime';
 	import { t } from '$lib/translations/translations';
-	import { LoaderCircle } from '@lucide/svelte';
 
 	const today = new Date();
 	const lastWeekDate = subtractDays(today);
@@ -35,7 +34,7 @@
 </script>
 
 <Section header={$t('common.appointments')}>
-	<div class="flex justify-around gap-5">
+	<div class="flex flex-wrap justify-around gap-5">
 		{#await appointmentsPromises}
 			{#each Array(4) as _}
 				<div class="flex w-full flex-col gap-2">
@@ -48,8 +47,8 @@
 			{@const increase = lastweek && previousweek ? getPercentageChange(previousweek, lastweek) : 0}
 			<StatBlock value={previousweek} label="Previous week" />
 			<StatBlock value={lastweek} label="Last week" percent={increase} />
-			<StatBlock value={pending} label="Pending total" />
-			<StatBlock value={completed} label="Completed total" />
+			<StatBlock value={pending} label={$t('common.pending')} />
+			<StatBlock value={completed} label={$t('common.completed')} />
 		{/await}
 	</div>
 </Section>

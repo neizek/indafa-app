@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Car, Plus, XIcon } from '@lucide/svelte';
+	import { XIcon } from '@lucide/svelte';
 	import vehiclesStore from '$lib/stores/vehicles';
 	import Section from '$lib/components/ui/Section.svelte';
 	import { openDeleteVehiclePopUp } from '$lib/helpers/vehicles';

@@ -12,6 +12,7 @@ export const userRole = writable<UserRole | null>(null);
 export const isAdmin = derived(userRole, ($role) => $role === UserRolesEnum.admin);
 export const isOperator = derived(userRole, ($role) => $role === UserRolesEnum.operator);
 export const isCustomer = derived(userRole, ($role) => $role === UserRolesEnum.customer);
+export const isReviewer = derived(userRole, ($role) => $role === UserRolesEnum.reviewer);
 
 export async function initSession() {
 	const {

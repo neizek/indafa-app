@@ -8,7 +8,9 @@ const config: CapacitorConfig = {
 		allowNavigation: ['https://*.supabase.co']
 	},
 	plugins: {
-		LocalNotifications: {}
+		LocalNotifications: {
+			smallIcon: 'ic_stat_icon'
+		}
 	}
 };
 

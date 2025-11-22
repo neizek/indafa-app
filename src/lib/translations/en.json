@@ -47,7 +47,7 @@
 	"verificationCode": "Verification code",
 	"didntReceiveResend": "Did not receive the code? Resend",
 	"submitCode": "Submit code",
-	"personalData": "Personal data",
+	"personalData": "User",
 	"myVehicles": "My vehicles",
 	"operatorsDashboard": "Operator's dashboard",
 	"adminsDashboard": "Admin's dashboard",
@@ -117,6 +117,6 @@
 	"successfulAppointment": "You have successfully booked a car wash.",
 	"doYouWantToDeleteAppointment": "Do you really want to delete the appointment?",
 	"avaliableHours": "Avaliable hours for appointment",
-	"appointmentReminder": "Carwash appointment reminder",
+	"appointmentReminder": "Carwash appointment",
 	"appointmentReminderText": "We are waiting for you today at {{ time }}"
 }

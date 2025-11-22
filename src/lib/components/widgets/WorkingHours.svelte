@@ -41,8 +41,8 @@
 			<PlusIcon class="block size-4 group-data-[state=open]:hidden" />
 		</Collapsible.Indicator>
 	</Collapsible.Trigger>
-	<Collapsible.Content>
-		<div class="grid grid-cols-2 gap-2 px-7 py-2">
+	<Collapsible.Content class="w-full px-7 py-3">
+		<div class="grid grid-cols-2 gap-2">
 			{#each orderedDays as day, index}
 				<span>{$t(`common.${day}`)}</span>
 				{#if workingHoursMap && workingHoursMap.get(dayStringToIndex[day as DayString])}

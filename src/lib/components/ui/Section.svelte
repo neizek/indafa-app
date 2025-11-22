@@ -24,7 +24,7 @@
 <div class="flex flex-col gap-2">
 	<div class="flex items-center justify-between">
 		{#if header}
-			<span class="text-xl font-bold">{header}</span>
+			<span class="text-lg font-bold">{header}</span>
 		{/if}
 		{#if controls}
 			{@render controls()}

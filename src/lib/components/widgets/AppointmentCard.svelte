@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Calendar, Car, Clock, MapPin, Navigation, XIcon } from '@lucide/svelte';
 	import Button from '../ui/Button.svelte';
-	import { openCarWashDetailsPopUp } from '$lib/helpers/carWashes';
 	import { openCancelAppointmentPopUp } from '$lib/helpers/appointments';
 	import { formatAppointmentDateTime } from '$lib/helpers/datetime';
 	import Item from '../ui/Item.svelte';
@@ -12,6 +11,7 @@
 	import { t } from '$lib/translations/translations';
 	import { goto } from '$app/navigation';
 	import { ROUTES } from '$lib/constants/routes';
+	import PopUpButtons from '../ui/PopUpButtons.svelte';
 
 	let { appointment }: { appointment: FullAppointment } = $props();
 	let { date, time } = formatAppointmentDateTime(appointment.start_time);
@@ -31,20 +31,23 @@
 				<Item icon={MapPin} label={appointment.carWash.address} />
 			</div>
 			{#if appointment.status === AppointmentStatusEnum.pending}
-				<div class="mt-4 flex justify-between gap-2">
-					<Button
-						label={$t('common.locate')}
-						full
-						icon={Navigation}
-						onclick={() => goto(`${ROUTES.MAP}#${appointment.carWash.id}`)}
-					/>
-					<Button
-						label={$t('common.cancelAppointment')}
-						icon={XIcon}
-						preset="cancel"
-						onclick={() => openCancelAppointmentPopUp(appointment)}
-					/>
-				</div>
+				<PopUpButtons>
+					{#snippet primaryButton()}
+						<Button
+							label={$t('common.locate')}
+							icon={Navigation}
+							onclick={() => goto(`${ROUTES.MAP}#${appointment.carWash.id}`)}
+						/>
+					{/snippet}
+					{#snippet secondaryButton()}
+						<Button
+							label={$t('common.cancelAppointment')}
+							icon={XIcon}
+							preset="cancel"
+							onclick={() => openCancelAppointmentPopUp(appointment)}
+						/>
+					{/snippet}
+				</PopUpButtons>
 			{/if}
 		</div>
 	</Card>

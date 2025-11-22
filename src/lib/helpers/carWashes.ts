@@ -19,7 +19,10 @@ export async function getCarWashes(): Promise<Array<CarWash>> {
 	return data ?? [];
 }
 
-export function getWorkingDatesOptions(carWash: CarWash): SelectOption[] {
+export function getWorkingDatesOptions(
+	carWash: CarWash,
+	pushToday: boolean = false
+): SelectOption[] {
 	let dateOptions: SelectOption[] = [];
 
 	for (let i = 0; dateOptions.length < 2; i++) {
@@ -41,7 +44,7 @@ export function getWorkingDatesOptions(carWash: CarWash): SelectOption[] {
 			continue;
 		}
 
-		if (createDateWithTime(date, wh.close_time, -3) > new Date()) {
+		if (createDateWithTime(date, wh.close_time, -3) > new Date() || pushToday) {
 			const { date: dateString } = formatAppointmentDateTime(date.toISOString());
 
 			dateOptions = [

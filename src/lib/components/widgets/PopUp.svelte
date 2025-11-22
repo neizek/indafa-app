@@ -15,7 +15,7 @@
 		on:click|self={() => closePopUp(popUp.id)}
 	>
 		<div
-			class="absolute right-0 bottom-0 left-0 mx-auto mb-4 w-full max-w-sm space-y-4 card bg-surface-50 p-4 shadow-xl dark:bg-surface-900"
+			class="absolute right-4 bottom-0 left-4 mx-auto mb-4 max-w-sm space-y-4 card bg-surface-50 p-4 shadow-xl dark:bg-surface-900"
 			transition:fly={{ y: 200, duration: 300, easing: cubicOut }}
 		>
 			<header class="flex items-center justify-between">
@@ -23,7 +23,7 @@
 					{#if popUp.icon}
 						<svelte:component this={popUp.icon} />
 					{/if}
-					<span class="text-xl">
+					<span class="text-lg font-bold">
 						{$t(popUp.title)}
 					</span>
 				</div>

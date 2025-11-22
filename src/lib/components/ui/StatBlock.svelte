@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { formatCompact } from '$lib/helpers/string';
+
 	let {
 		value,
 		label,
@@ -30,7 +32,7 @@
 </script>
 
 <div class="relative flex flex-col items-center gap-2">
-	<span class="text-4xl">{value}</span>
+	<span class="text-4xl">{value !== null ? formatCompact(value) : 0}</span>
 	<span class="label-text text-center">{label}</span>
 	{#if percent}
 		<div class="badge {badgeColor}">{shownPercentage}</div>

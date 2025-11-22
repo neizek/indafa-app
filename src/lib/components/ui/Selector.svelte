@@ -6,12 +6,10 @@
 	let {
 		options,
 		value = $bindable(),
-		errors = null,
 		onchange
 	}: {
 		options: SelectOption[];
 		value?: AcceptedSelectOptionValues;
-		errors?: string[] | null;
 		onchange?: (value: AcceptedSelectOptionValues) => void;
 	} = $props();
 
@@ -53,7 +51,7 @@
 	});
 </script>
 
-<div class="flex gap-2 overflow-auto p-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+<div class="flex gap-2 overflow-auto p-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
 	{#if options.length === 0}
 		<div class="grid w-full grid-cols-3 gap-2">
 			<div class="h-9 placeholder animate-pulse"></div>
@@ -64,6 +62,7 @@
 	{#each options as option, index}
 		{@const Icon = option.icon}
 		<button
+			type="button"
 			class="btn flex min-h-9 flex-1 flex-col gap-0 {option.value === value
 				? `bg-primary-500 text-white `
 				: `preset-tonal`}"

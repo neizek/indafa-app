@@ -8,14 +8,8 @@
 	import Section from '$lib/components/ui/Section.svelte';
 	import { derived } from 'svelte/store';
 	import type { SelectOption } from '$lib/types/ui';
-	import {
-		createAppointment,
-		getAppointmentsByDate,
-		getAvaliableTimes,
-		getBookedTimesByDate
-	} from '$lib/helpers/appointments';
+	import { createAppointment, getAvaliableTimes } from '$lib/helpers/appointments';
 	import { session, user } from '$lib/stores/auth';
-	import { getHoursFromTime } from '$lib/helpers/datetime';
 	import { z } from 'zod';
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
@@ -122,7 +116,7 @@
 	let timeOptions: SelectOption[] = $state([]);
 
 	async function onDateChange() {
-		timeOptions = chosenCarWash ? await getAvaliableTimes(chosenCarWash, $data.date) : [];
+		timeOptions = chosenCarWash ? await getAvaliableTimes(chosenCarWash, $data.date, true) : [];
 	}
 </script>
 

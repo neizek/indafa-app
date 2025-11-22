@@ -9,7 +9,7 @@
 	import { validator } from '@felte/validator-zod';
 	import { LogIn } from '@lucide/svelte';
 	import Selector from '../ui/Selector.svelte';
-	import type { SignInType, VerificationType } from '$lib/types/auth';
+	import type { SignInType } from '$lib/types/auth';
 	import { t } from '$lib/translations/translations';
 	import PhoneInput from '../ui/PhoneInput.svelte';
 	import { showErrorToast } from '$lib/helpers/toaster';

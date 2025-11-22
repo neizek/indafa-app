@@ -8,7 +8,6 @@
 	import type { FullAppointment } from '$lib/types/appointments';
 	import { derived, type Readable } from 'svelte/store';
 
-	// TO BE CHANGED
 	const fullAppointments: Readable<FullAppointment[]> = derived(appointmentsStore, (items) =>
 		items.flatMap((appointment) => {
 			const carWash = $carWashesMap.get(appointment.car_wash_id);

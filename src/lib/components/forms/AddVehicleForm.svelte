@@ -11,6 +11,7 @@
 	import FormItem from '../ui/FormItem.svelte';
 	import Input from '../ui/Input.svelte';
 	import Button from '../ui/Button.svelte';
+	import PopUpButtons from '../ui/PopUpButtons.svelte';
 
 	let isLoading = $state(false);
 
@@ -62,8 +63,12 @@
 	<FormItem label={$t('common.licensePlate')} errors={$errors.licensePlate}>
 		<Input placeholder="EV7394" bind:value={$data.licensePlate} oninput={capitalize} />
 	</FormItem>
-	<div class="mt-2 flex justify-between gap-2">
-		<Button type="submit" label={$t('common.addVehicle')} icon={Plus} full />
-		<Button preset="tonal" icon={XIcon} label={$t('common.cancel')} />
-	</div>
+	<PopUpButtons>
+		{#snippet primaryButton()}
+			<Button type="submit" label={$t('common.addVehicle')} icon={Plus} {isLoading} />
+		{/snippet}
+		{#snippet secondaryButton()}
+			<Button preset="tonal" icon={XIcon} label={$t('common.cancel')} onclick={closePopUp} />
+		{/snippet}
+	</PopUpButtons>
 </Form>

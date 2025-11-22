@@ -19,7 +19,9 @@
 			container: mapContainer,
 			style: 'mapbox://styles/mapbox/navigation-night-v1',
 			center: [24.198310039551963, 56.990224093655414],
-			zoom: 9
+			zoom: 9,
+			logoPosition: 'top-left',
+			attributionControl: false
 		});
 
 		map.addControl(new mapboxgl.FullscreenControl());

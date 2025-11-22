@@ -97,20 +97,30 @@ async function getUserAppointments(id: string) {
 	return data;
 }
 
-async function getAppointmentsByDate(date: Date, carWashId: number): Promise<Appointment[]> {
+async function getAppointmentsByDate(
+	date: Date,
+	carWashId: number,
+	onlyPending?: boolean
+): Promise<Appointment[]> {
 	const startOfDay = new Date(date);
 	startOfDay.setHours(0, 0, 0, 0);
 
 	const endOfDay = new Date(date);
 	endOfDay.setHours(23, 59, 59, 999);
 
-	const { data, error } = await supabase
+	let query = supabase
 		.from('appointment')
 		.select('*')
 		.gte('start_time', startOfDay.toISOString())
 		.lte('start_time', endOfDay.toISOString())
 		.eq('car_wash_id', carWashId)
 		.order('start_time');
+
+	if (onlyPending) {
+		query = query.eq('status', AppointmentStatusEnum.pending);
+	}
+
+	const { data, error } = await query;
 
 	if (error) {
 		console.error('Error fetching appointments:', error);
@@ -220,7 +230,11 @@ function openCancelAppointmentPopUp(appointment: Appointment) {
 
 // #region Other
 
-async function getAvaliableTimes(carWash: CarWash, date: Date): Promise<SelectOption[]> {
+async function getAvaliableTimes(
+	carWash: CarWash,
+	date: Date,
+	onlyPending?: boolean
+): Promise<SelectOption[]> {
 	let timeOptions = [];
 
 	const thisDateWorkingHours = carWash?.working_hours.find(
@@ -237,33 +251,34 @@ async function getAvaliableTimes(carWash: CarWash, date: Date): Promise<SelectOp
 	const openTime = getHoursFromTime(thisDateWorkingHours.open_time);
 	const closeTime = getHoursFromTime(thisDateWorkingHours.close_time);
 
-	timeOptions =
-		(await createTimeOptions(
-			new Date(date.setHours(openTime, 0, 0, 0)),
-			new Date(date.setHours(closeTime, 0, 0, 0)),
-			60,
-			carWash.id
-		)) ?? [];
-
-	return timeOptions;
-}
-
-async function createTimeOptions(from: Date, to: Date, intervalMinutes: number, carWashId: number) {
-	if (!carWashId) {
-		return;
-	}
-
-	const options = [];
-	const current = new Date(from);
-
 	const [thisDateAppointments, thisDateBookedTimes] = await Promise.all([
-		getAppointmentsByDate(current, carWashId),
-		getBookedTimesByDate(current, carWashId)
+		getAppointmentsByDate(date, carWash.id, onlyPending),
+		getBookedTimesByDate(date, carWash.id)
 	]);
 
 	const bookedTimes: number[] = [...thisDateAppointments, ...thisDateBookedTimes].map(
 		(reservation) => new Date(reservation.start_time).getHours()
 	);
+
+	timeOptions =
+		(await createTimeOptions(
+			new Date(date.setHours(openTime, 0, 0, 0)),
+			new Date(date.setHours(closeTime, 0, 0, 0)),
+			60,
+			bookedTimes
+		)) ?? [];
+
+	return timeOptions;
+}
+
+async function createTimeOptions(
+	from: Date,
+	to: Date,
+	intervalMinutes: number,
+	bookedTimes: number[]
+) {
+	const options = [];
+	const current = new Date(from);
 
 	while (current < to) {
 		const hours = current.getHours().toString().padStart(2, '0');

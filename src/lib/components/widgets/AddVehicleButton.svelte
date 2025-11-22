@@ -6,6 +6,12 @@
 	import { t } from '$lib/translations/translations';
 </script>
 
-{#if $vehiclesStore && $vehiclesStore.length < 8}
-	<Button label={$t('common.add')} icon={Plus} preset="ghost" onclick={openAddVehiclePopUp} />
+{#if $vehiclesStore && $vehiclesStore.length < 6}
+	<Button
+		label={$t('common.add')}
+		icon={Plus}
+		preset="ghost"
+		onclick={openAddVehiclePopUp}
+		full={false}
+	/>
 {/if}

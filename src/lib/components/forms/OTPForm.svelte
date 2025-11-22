@@ -13,6 +13,7 @@
 	import { showErrorToast, showInfoToast } from '$lib/helpers/toaster';
 	import { goto } from '$app/navigation';
 	import { intendedUrl } from '$lib/stores/navigation';
+	import PopUpButtons from '../ui/PopUpButtons.svelte';
 
 	let {
 		input,
@@ -72,6 +73,7 @@
 			.then(() => {
 				startCountdown();
 			})
+			.catch((error) => showErrorToast({ error }))
 			.finally(() => {
 				isLoadingResending = false;
 			});
@@ -113,21 +115,24 @@
 			oninput={onCodeInput}
 		/>
 	</FormItem>
-	<div class="mt-4 flex flex-col gap-2">
-		<Button
-			type="submit"
-			label={$t('common.submitCode')}
-			icon={Check}
-			isLoading={isLoadingVerification}
-			full
-		/>
-		<Button
-			preset="ghost"
-			label={`${$t('common.didntReceiveResend')} ${countdown > 0 ? `${countdown}${$t('common.s')}` : ''}`}
-			full
-			isLoading={isLoadingResending}
-			disabled={isDisabled}
-			onclick={onResend}
-		/>
-	</div>
+	<PopUpButtons>
+		{#snippet primaryButton()}
+			<Button
+				type="submit"
+				label={$t('common.submitCode')}
+				icon={Check}
+				isLoading={isLoadingVerification}
+			/>
+		{/snippet}
+		{#snippet secondaryButton()}
+			<Button
+				preset="ghost"
+				label={`${$t('common.didntReceiveResend')} ${countdown > 0 ? `${countdown}${$t('common.s')}` : ''}`}
+				full
+				isLoading={isLoadingResending}
+				disabled={isDisabled}
+				onclick={onResend}
+			/>
+		{/snippet}
+	</PopUpButtons>
 </Form>

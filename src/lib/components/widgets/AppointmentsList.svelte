@@ -4,7 +4,7 @@
 	import Selector from '$lib/components/ui/Selector.svelte';
 	import { getOperatorAppointmentsByDate } from '$lib/helpers/appointments';
 	import { formatAppointmentDateTime } from '$lib/helpers/datetime';
-	import { carWashes, carWashesOptions } from '$lib/stores/carWashes';
+	import { carWashes, carWashesMap, carWashesOptions } from '$lib/stores/carWashes';
 	import { createPopUp } from '$lib/stores/popUp';
 	import { Trash, UserSearch } from '@lucide/svelte';
 	import CustomerDetails from './CustomerDetails.svelte';
@@ -16,7 +16,6 @@
 	import type { OperatorAppointment } from '$lib/types/appointments';
 	import StatusChangeForm from '../forms/StatusChangeForm.svelte';
 	import DeleteAppointmentForm from '../forms/DeleteAppointmentForm.svelte';
-	import Input from '../ui/Input.svelte';
 	import BookedTimes from './BookedTimes.svelte';
 	import { showErrorToast } from '$lib/helpers/toaster';
 	import DateInput from '../ui/DateInput.svelte';
@@ -24,19 +23,20 @@
 
 	let { adminMode } = $props();
 
-	let selectedCarWash = $state($carWashes[0]);
+	let selectedCarWashId = $state($carWashes[0].id);
 	let selectedDate: Date = $state(new Date());
-
 	let appointments: OperatorAppointment[] = $state([]);
 	let isLoadingAppointments = $state(false);
-	let dateOptions: SelectOption[] = $derived.by(() =>
-		selectedCarWash ? getWorkingDatesOptions(selectedCarWash) : []
-	);
+
+	let dateOptions: SelectOption[] = $derived.by(() => {
+		const chosenCarWash = $carWashesMap.get(selectedCarWashId);
+		return chosenCarWash ? getWorkingDatesOptions(chosenCarWash, true) : [];
+	});
 
 	async function getAppointments() {
-		if (selectedDate && selectedCarWash) {
+		if (selectedDate && selectedCarWashId) {
 			isLoadingAppointments = true;
-			getOperatorAppointmentsByDate(selectedDate, selectedCarWash.id)
+			getOperatorAppointmentsByDate(selectedDate, selectedCarWashId)
 				.then((data) => {
 					appointments = data;
 				})
@@ -105,7 +105,7 @@
 	<FormItem label={$t('common.selectCarWash')}>
 		<Selector
 			options={$carWashesOptions}
-			bind:value={selectedCarWash.id}
+			bind:value={selectedCarWashId}
 			onchange={onChangeDateOrCarWash}
 		/>
 	</FormItem>
@@ -118,9 +118,9 @@
 	</FormItem>
 </Section>
 
-{#if selectedDate && selectedCarWash}
+{#if selectedDate && selectedCarWashId}
 	<Section>
-		<BookedTimes date={selectedDate} carWash={selectedCarWash} />
+		<BookedTimes date={selectedDate} carWash={$carWashesMap.get(selectedCarWashId)} />
 	</Section>
 {/if}
 

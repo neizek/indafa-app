@@ -12,6 +12,7 @@
 	import { t } from '$lib/translations/translations';
 	import PhoneInput from '../ui/PhoneInput.svelte';
 	import { showErrorToast } from '$lib/helpers/toaster';
+	import PopUpButtons from '../ui/PopUpButtons.svelte';
 
 	let { closePopUp } = $props();
 	let isLoading: boolean = $state(false);
@@ -95,8 +96,12 @@
 			<Input bind:value={$data.email} />
 		</FormItem>
 	{/if}
-	<div class="mt-2 flex gap-2">
-		<Button type="submit" label={$t('common.confirm')} icon={Check} {isLoading} full />
-		<Button label={$t('common.cancel')} preset="tonal" icon={XIcon} full onclick={closePopUp} />
-	</div>
+	<PopUpButtons>
+		{#snippet primaryButton()}
+			<Button type="submit" label={$t('common.confirm')} icon={Check} {isLoading} />
+		{/snippet}
+		{#snippet secondaryButton()}
+			<Button label={$t('common.cancel')} preset="tonal" icon={XIcon} full onclick={closePopUp} />
+		{/snippet}
+	</PopUpButtons>
 </Form>

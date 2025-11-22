@@ -5,6 +5,7 @@
 	import Section from '$lib/components/ui/Section.svelte';
 	import { ROUTES } from '$lib/constants/routes';
 	import { openEditUserMenuPopUp, signOut } from '$lib/helpers/auth';
+	import { showErrorToast } from '$lib/helpers/toaster';
 	import { user } from '$lib/stores/auth';
 	import { t } from '$lib/translations/translations';
 	import { LogOut, Pen } from '@lucide/svelte';
@@ -18,6 +19,7 @@
 			.then(() => {
 				goto(ROUTES.HOME);
 			})
+			.catch((error) => showErrorToast({ error }))
 			.finally(() => {
 				isLoading = false;
 			});

@@ -10,3 +10,14 @@ export interface SelectOption {
 	icon?: Component<IconProps>;
 	disabled?: boolean;
 }
+
+export interface ButtonProps {
+	type?: 'submit' | 'button';
+	label?: string;
+	preset?: 'primary' | 'cancel' | 'tonal' | 'ghost' | 'menu';
+	full?: boolean;
+	icon?: Component<IconProps>;
+	isLoading?: boolean;
+	disabled?: boolean;
+	onclick?: () => void;
+}

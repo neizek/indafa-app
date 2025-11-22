@@ -11,6 +11,7 @@
 	import { Save, XIcon } from '@lucide/svelte';
 	import { createForm } from 'felte';
 	import z from 'zod';
+	import PopUpButtons from '../ui/PopUpButtons.svelte';
 
 	let { appointment, onchange, closePopUp } = $props();
 	let isLoading = $state(false);
@@ -51,14 +52,18 @@
 	<FormItem label={$t('common.selectNewStatus')} errors={$errors.status}>
 		<Selector options={statusOptions} bind:value={$data.status} />
 	</FormItem>
-	<div class="mt-2 flex justify-between gap-2">
-		<Button type="submit" icon={Save} label={$t('common.save')} full />
-		<Button
-			type="button"
-			icon={XIcon}
-			preset="tonal"
-			label={$t('common.cancel')}
-			onclick={() => closePopUp()}
-		/>
-	</div>
+	<PopUpButtons>
+		{#snippet primaryButton()}
+			<Button type="submit" icon={Save} label={$t('common.save')} />
+		{/snippet}
+		{#snippet secondaryButton()}
+			<Button
+				type="button"
+				icon={XIcon}
+				preset="tonal"
+				label={$t('common.cancel')}
+				onclick={() => closePopUp()}
+			/>
+		{/snippet}
+	</PopUpButtons>
 </Form>

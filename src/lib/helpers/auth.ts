@@ -19,6 +19,8 @@ import ChangeEmailForm from '$lib/components/forms/ChangeEmailForm.svelte';
 import ChangePhoneForm from '$lib/components/forms/ChangePhoneForm.svelte';
 import ChangePersonalDataForm from '$lib/components/forms/ChangePersonalDataForm.svelte';
 
+const WHITELISTED_EMAILS = ['test@example.com'];
+
 // #region General
 
 export function initUser(currentSession: Session) {
@@ -90,6 +92,10 @@ export async function sendOTP(type: VerificationType, input: string) {
 
 	if (!payload) {
 		return;
+	}
+
+	if (WHITELISTED_EMAILS.includes(input)) {
+		return true;
 	}
 
 	const { data, error } = await supabase.auth.signInWithOtp(payload);

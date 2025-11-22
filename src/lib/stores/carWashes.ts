@@ -1,4 +1,3 @@
-// import supabase from '$lib/db';
 import { derived, writable, type Readable } from 'svelte/store';
 import type { CarWash } from '../types/carWashes';
 import { getCarWashes } from '$lib/helpers/carWashes';

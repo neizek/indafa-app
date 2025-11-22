@@ -47,7 +47,7 @@
 	"verificationCode": "Проверочный код",
 	"didntReceiveResend": "Не получили код? Отправить ещё раз",
 	"submitCode": "Подтвердить код",
-	"personalData": "Персональные данные",
+	"personalData": "Пользователь",
 	"myVehicles": "Мои авто",
 	"operatorsDashboard": "Панель оператора",
 	"adminsDashboard": "Панель администратора",
@@ -117,6 +117,6 @@
 	"successfulAppointment": "Вы успешно записались на автомойку",
 	"doYouWantToDeleteAppointment": "Вы действительно хотите удалить эту запись?",
 	"avaliableHours": "Доступные часы для записи",
-	"appointmentReminder": "Напоминание о записи на автомойку",
+	"appointmentReminder": "Запись на автомойку",
 	"appointmentReminderText": "Мы ждем вас сегодня в {{ time }}"
 }
