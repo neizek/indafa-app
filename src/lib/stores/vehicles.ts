@@ -12,7 +12,7 @@ const vehiclesStore = (() => {
 			return [];
 		}
 
-		let vehicles: Vehicle[] | null = await storage.get('vehicles');
+		let vehicles: Vehicle[] | null = storage.get('vehicles');
 
 		if (!vehicles) vehicles = (await getVehiclesByUserId(userId)) || [];
 

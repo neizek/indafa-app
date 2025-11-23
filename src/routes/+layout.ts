@@ -13,7 +13,7 @@ export const ssr = false;
 export const csr = true;
 export const prerender = false;
 
-const savedLocale = await storage.get<string>('locale');
+const savedLocale = storage.get<string>('locale');
 
 loadTranslations(savedLocale ?? supportedLocalesOptions[0].value);
 await initSession();

@@ -1,5 +1,3 @@
-import { Preferences } from '@capacitor/preferences';
-
 export interface StorageItem<T> {
 	value: T;
 	/**
@@ -13,16 +11,17 @@ export interface StorageItem<T> {
 }
 
 class AppStorage {
-	public async get<T>(key: string): Promise<T | null> {
-		const encoded = await Preferences.get({ key });
+	public get<T>(key: string): T | null {
+		const encoded = localStorage.getItem(key);
 
-		if (!encoded || encoded.value === null || !encoded.value) {
+		if (!encoded) {
 			return null;
 		}
 
-		const { value, lifetime, createdAt }: StorageItem<T> = JSON.parse(encoded.value);
+		const { value, lifetime, createdAt }: StorageItem<T> = JSON.parse(encoded);
+
 		if (lifetime && Date.now() - createdAt > lifetime) {
-			await Preferences.remove({ key });
+			localStorage.removeItem(key);
 
 			return null;
 		}
@@ -39,19 +38,19 @@ class AppStorage {
 	 * @param value
 	 * @param lifetime in milliseconds.
 	 */
-	public async set<T>(key: string, value: T, lifetime?: number): Promise<void> {
-		await Preferences.set({
+	public set<T>(key: string, value: T, lifetime?: number): void {
+		localStorage.setItem(
 			key,
-			value: JSON.stringify({
+			JSON.stringify({
 				value,
 				lifetime,
 				createdAt: Date.now()
 			})
-		});
+		);
 	}
 
-	public async remove(key: string): Promise<void> {
-		await Preferences.remove({ key });
+	public remove(key: string): void {
+		localStorage.removeItem(key);
 	}
 }
 

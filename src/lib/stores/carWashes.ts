@@ -5,7 +5,7 @@ import type { SelectOption } from '$lib/types/ui';
 import storage from '$lib/helpers/storage';
 
 async function initCarWashes(): Promise<CarWash[]> {
-	let carWashes = (await storage.get('carWashes')) as CarWash[];
+	let carWashes = storage.get('carWashes') as CarWash[];
 
 	if (!carWashes) {
 		carWashes = await getCarWashes();
