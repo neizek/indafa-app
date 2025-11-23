@@ -1,27 +1,33 @@
-import { goto } from '$app/navigation';
-import { resolve } from '$app/paths';
-import { ROUTES } from '$lib/constants/routes.js';
-import { callToLoginPopUp } from '$lib/helpers/auth';
+// import { goto } from '$app/navigation';
+// import { resolve } from '$app/paths';
+// import { ROUTES } from '$lib/constants/routes.js';
+// import { callToLoginPopUp } from '$lib/helpers/auth';
 import storage from '$lib/helpers/storage';
-import { initSession, isAdmin, isOperator, isReviewer, session } from '$lib/stores/auth';
-import { intendedUrl, previousUrl } from '$lib/stores/navigation.js';
+import {
+	initSession
+	// isAdmin,
+	// isOperator,
+	// isReviewer,
+	// session
+} from '$lib/stores/auth';
+// import { intendedUrl, previousUrl } from '$lib/stores/navigation.js';
 import { initTheme } from '$lib/stores/theme';
 import { loadTranslations, supportedLocalesOptions } from '$lib/translations/translations';
 import { LocalNotifications } from '@capacitor/local-notifications';
-import { get } from 'svelte/store';
+// import { get } from 'svelte/store';
 
 export const ssr = false;
 export const csr = true;
 export const prerender = false;
 
-const adminRoutes = [ROUTES.ADMIN.DASHBOARD, ROUTES.ADMIN.APPOINTMENTS];
-const operatorRoutes = [ROUTES.OPERATOR];
-const protectedRoutes = [
-	...adminRoutes,
-	...operatorRoutes,
-	ROUTES.USER.PROFILE,
-	ROUTES.APPOINTMENT
-];
+// const adminRoutes = [ROUTES.ADMIN.DASHBOARD, ROUTES.ADMIN.APPOINTMENTS];
+// const operatorRoutes = [ROUTES.OPERATOR];
+// const protectedRoutes = [
+// 	...adminRoutes,
+// 	...operatorRoutes,
+// 	ROUTES.USER.PROFILE,
+// 	ROUTES.APPOINTMENT
+// ];
 console.log('getting locale');
 const savedLocale = storage.get<string>('locale');
 
