@@ -14,22 +14,25 @@ export const ssr = false;
 export const csr = true;
 export const prerender = false;
 
-const savedLocale = storage.get<string>('locale');
-
-loadTranslations(savedLocale ?? supportedLocalesOptions[0].value);
-initTheme();
-await initSession();
-
-const adminRoutes = [ROUTES.ADMIN.DASHBOARD, ROUTES.ADMIN.APPOINTMENTS];
-const operatorRoutes = [ROUTES.OPERATOR];
-const protectedRoutes = [
-	...adminRoutes,
-	...operatorRoutes,
-	ROUTES.USER.PROFILE,
-	ROUTES.APPOINTMENT
-];
-
 export async function load(page) {
+	const adminRoutes = [ROUTES.ADMIN.DASHBOARD, ROUTES.ADMIN.APPOINTMENTS];
+	const operatorRoutes = [ROUTES.OPERATOR];
+	const protectedRoutes = [
+		...adminRoutes,
+		...operatorRoutes,
+		ROUTES.USER.PROFILE,
+		ROUTES.APPOINTMENT
+	];
+	console.log('getting locale');
+	const savedLocale = storage.get<string>('locale');
+
+	console.log('loading translations');
+	loadTranslations(savedLocale ?? supportedLocalesOptions[0].value);
+	console.log('initiating theme');
+	initTheme();
+	console.log('initiating session');
+	await initSession();
+
 	// Permission for notifications
 	LocalNotifications.checkPermissions().then((status) => {
 		if (status.display === 'prompt' || status.display === 'prompt-with-rationale') {
