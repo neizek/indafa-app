@@ -4,17 +4,22 @@
 	let {
 		children,
 		label,
-		errors
+		errors,
+		optional = false
 	}: {
 		children: any;
 		label?: string;
 		errors?: string[] | null;
+		optional?: boolean;
 	} = $props();
 </script>
 
 <label class="label">
 	{#if label}
-		<span class="label-text">{label}</span>
+		<span class="label-text">
+			{label}
+			{optional ? `(${$t('common.optional').toLowerCase()})` : ''}
+		</span>
 	{/if}
 	{@render children()}
 	{#if errors && errors.length > 0}

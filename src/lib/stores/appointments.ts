@@ -53,8 +53,12 @@ const appointmentsStore = (() => {
 })();
 
 appointmentsStore.subscribe((appointments) => {
+	const pendingAppointments = appointments.filter(
+		(appointment) => appointment.status === AppointmentStatusEnum.pending
+	);
+
 	LocalNotifications.schedule({
-		notifications: appointments.map((appointment) => ({
+		notifications: pendingAppointments.map((appointment) => ({
 			title: get(t)('common.appointmentReminder'),
 			body: get(t)('common.appointmentReminderText', {
 				time: formatAppointmentDateTime(appointment.start_time).time

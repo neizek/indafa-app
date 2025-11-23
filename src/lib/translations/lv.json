@@ -118,5 +118,13 @@
 	"doYouWantToDeleteAppointment": "Vai tiešām vēlaties dzēst pierakstu?",
 	"avaliableHours": "Pieejamais laiks rezervēšanai",
 	"appointmentReminder": "Automašīnas mazgāšanas pieraksts",
-	"appointmentReminderText": "Mēs gaidām jūs šodien plkst. {{ time }}"
+	"appointmentReminderText": "Mēs gaidām jūs šodien plkst. {{ time }}",
+	"day": "Diena",
+	"open": "Atvērts",
+	"reason": "Iemesls",
+	"daysOff": "Brīvdienas",
+	"addDayOff": "Pievienot brīvdienu",
+	"noAnyDaysOff": "Jūs neesat pievienojis nevienu brīvdienu",
+	"doYouWantToDeleteDayOff": "Vai tiešām vēlaties dzēst šo brīvdienu?",
+	"optional": "Neobligāts"
 }

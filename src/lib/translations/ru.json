@@ -118,5 +118,13 @@
 	"doYouWantToDeleteAppointment": "Вы действительно хотите удалить эту запись?",
 	"avaliableHours": "Доступные часы для записи",
 	"appointmentReminder": "Запись на автомойку",
-	"appointmentReminderText": "Мы ждем вас сегодня в {{ time }}"
+	"appointmentReminderText": "Мы ждем вас сегодня в {{ time }}",
+	"day": "День",
+	"open": "Открыто",
+	"reason": "Причина",
+	"daysOff": "Выходные",
+	"addDayOff": "Добавить выходной",
+	"noAnyDaysOff": "Вы не добавили ни одного выходного",
+	"doYouWantToDeleteDayOff": "Хотите ли вы удалить этот выходной день?",
+	"optional": "Необязательно"
 }

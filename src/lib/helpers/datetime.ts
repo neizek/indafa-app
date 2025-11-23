@@ -33,6 +33,11 @@ export function formatDateTime(dbDate: string) {
 	return date.toLocaleDateString() + ' ' + hours + ':' + minutes;
 }
 
+export function formatDate(dbDate: string) {
+	const date = new Date(dbDate);
+	return date.toLocaleDateString('ru');
+}
+
 export function formatAppointmentDateTime(dateString: string) {
 	const date = new Date(dateString);
 	const currentLocale = get(locale);

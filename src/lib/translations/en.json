@@ -118,5 +118,13 @@
 	"doYouWantToDeleteAppointment": "Do you really want to delete the appointment?",
 	"avaliableHours": "Avaliable hours for appointment",
 	"appointmentReminder": "Carwash appointment",
-	"appointmentReminderText": "We are waiting for you today at {{ time }}"
+	"appointmentReminderText": "We are waiting for you today at {{ time }}",
+	"day": "Day",
+	"open": "Open",
+	"reason": "Reason",
+	"daysOff": "Days off",
+	"addDayOff": "Add day off",
+	"noAnyDaysOff": "You haven't added any days off",
+	"doYouWantToDeleteDayOff": "Do you really want to delete the day off?",
+	"optional": "Optional"
 }
