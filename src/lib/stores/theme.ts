@@ -7,6 +7,7 @@ export enum Theme {
 	Dark = 'dark'
 }
 
+export const currentTheme = writable<Theme>(undefined);
 export const themesOptions = Object.values(Theme).map((theme) => ({
 	value: theme,
 	label: `common.${theme}`,
@@ -16,7 +17,7 @@ export const themesOptions = Object.values(Theme).map((theme) => ({
 const isDarkThemePreffered = () =>
 	window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-async function initTheme(): Promise<Theme> {
+export function initTheme() {
 	let theme = storage.get('theme') as Theme;
 
 	if (!theme) {
@@ -24,17 +25,15 @@ async function initTheme(): Promise<Theme> {
 	}
 
 	applyTheme(theme);
-	return theme;
 }
 
-export const currentTheme = writable(await initTheme());
-
-function applyTheme(theme: Theme) {
+export function applyTheme(theme: Theme) {
+	currentTheme.set(theme);
 	storage.set('theme', theme);
 	document.documentElement.classList.toggle('dark', theme === Theme.Dark);
 }
 
-export function updateTheme(theme: Theme) {
-	currentTheme.set(theme);
-	applyTheme(theme);
-}
+// export function updateTheme(theme: Theme) {
+// 	currentTheme.set(theme);
+// 	applyTheme(theme);
+// }

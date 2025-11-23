@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { currentTheme, Theme, themesOptions, updateTheme } from '$lib/stores/theme';
+	import { applyTheme, currentTheme, Theme, themesOptions } from '$lib/stores/theme';
 	import { supportedLocalesOptions, switchLocale, locale, t } from '$lib/translations/translations';
 	import { CircleQuestionMark } from '@lucide/svelte';
 	import Button from '../ui/Button.svelte';
@@ -24,7 +24,7 @@
 		<Selector
 			options={themesOptions}
 			bind:value={theme}
-			onchange={(value) => updateTheme(value as Theme)}
+			onchange={(value) => applyTheme(value as Theme)}
 		/>
 	</FormItem>
 	<FormItem label={$t('common.others')}>
