@@ -17,7 +17,7 @@ const isDarkThemePreffered = () =>
 	window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 async function initTheme(): Promise<Theme> {
-	let theme = (await storage.get('theme')) as Theme;
+	let theme = await storage.get<Theme | null>('theme');
 
 	if (!theme) {
 		theme = isDarkThemePreffered() ? Theme.Dark : Theme.Light;

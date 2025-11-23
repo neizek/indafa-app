@@ -16,12 +16,11 @@ class AppStorage {
 	public async get<T>(key: string): Promise<T | null> {
 		const encoded = await Preferences.get({ key });
 
-		if (!encoded || encoded.value === null) {
+		if (!encoded || encoded.value === null || !encoded.value) {
 			return null;
 		}
 
 		const { value, lifetime, createdAt }: StorageItem<T> = JSON.parse(encoded.value);
-
 		if (lifetime && Date.now() - createdAt > lifetime) {
 			await Preferences.remove({ key });
 
