@@ -23,18 +23,21 @@ async function initTheme(): Promise<Theme> {
 		theme = isDarkThemePreffered() ? Theme.Dark : Theme.Light;
 	}
 
-	applyTheme(theme);
+	await applyTheme(theme);
 	return theme;
 }
 
 export const currentTheme = writable(await initTheme());
 
-function applyTheme(theme: Theme) {
-	storage.set('theme', theme);
+async function applyTheme(theme: Theme) {
+	const storedTheme = await storage.get<Theme | null>('theme');
+	if (storedTheme !== theme) {
+		await storage.set('theme', theme);
+	}
 	document.documentElement.classList.toggle('dark', theme === Theme.Dark);
 }
 
-export function updateTheme(theme: Theme) {
+export async function updateTheme(theme: Theme) {
 	currentTheme.set(theme);
-	applyTheme(theme);
+	await applyTheme(theme);
 }
