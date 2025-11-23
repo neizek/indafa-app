@@ -14,51 +14,52 @@ export const ssr = false;
 export const csr = true;
 export const prerender = false;
 
-export async function load(page) {
-	const adminRoutes = [ROUTES.ADMIN.DASHBOARD, ROUTES.ADMIN.APPOINTMENTS];
-	const operatorRoutes = [ROUTES.OPERATOR];
-	const protectedRoutes = [
-		...adminRoutes,
-		...operatorRoutes,
-		ROUTES.USER.PROFILE,
-		ROUTES.APPOINTMENT
-	];
-	console.log('getting locale');
-	const savedLocale = storage.get<string>('locale');
+const adminRoutes = [ROUTES.ADMIN.DASHBOARD, ROUTES.ADMIN.APPOINTMENTS];
+const operatorRoutes = [ROUTES.OPERATOR];
+const protectedRoutes = [
+	...adminRoutes,
+	...operatorRoutes,
+	ROUTES.USER.PROFILE,
+	ROUTES.APPOINTMENT
+];
+console.log('getting locale');
+const savedLocale = storage.get<string>('locale');
 
-	console.log('loading translations');
-	loadTranslations(savedLocale ?? supportedLocalesOptions[0].value);
-	console.log('initiating theme');
-	initTheme();
-	console.log('initiating session');
-	await initSession();
+console.log('loading translations');
+loadTranslations(savedLocale ?? supportedLocalesOptions[0].value);
+console.log('initiating theme');
+initTheme();
+console.log('initiating session');
+await initSession();
 
-	// Permission for notifications
-	LocalNotifications.checkPermissions().then((status) => {
-		if (status.display === 'prompt' || status.display === 'prompt-with-rationale') {
-			LocalNotifications.requestPermissions();
-		}
-	});
-
-	// Route protection (Middleware)
-	const needsAuth = protectedRoutes.some((route) => page.url.pathname.startsWith(route as string));
-	const operatorsOnly = operatorRoutes.some((route) =>
-		page.url.pathname.startsWith(route as string)
-	);
-	const adminsOnly = adminRoutes.some((route) => page.url.pathname.startsWith(route as string));
-
-	if (needsAuth && !get(session)) {
-		const navigateToLink = get(previousUrl) ?? ROUTES.HOME;
-		intendedUrl.set(page.url);
-		await goto(resolve(navigateToLink), { replaceState: true });
-		callToLoginPopUp();
+// Permission for notifications
+LocalNotifications.checkPermissions().then((status) => {
+	if (status.display === 'prompt' || status.display === 'prompt-with-rationale') {
+		LocalNotifications.requestPermissions();
 	}
+});
 
-	if (operatorsOnly && !get(isOperator) && !get(isAdmin) && !get(isReviewer)) {
-		goto(resolve(ROUTES.HOME));
-	}
+// export async function load(page) {
 
-	if (adminsOnly && !get(isAdmin) && !get(isReviewer)) {
-		goto(resolve(ROUTES.HOME));
-	}
-}
+// 	// Route protection (Middleware)
+// 	const needsAuth = protectedRoutes.some((route) => page.url.pathname.startsWith(route as string));
+// 	const operatorsOnly = operatorRoutes.some((route) =>
+// 		page.url.pathname.startsWith(route as string)
+// 	);
+// 	const adminsOnly = adminRoutes.some((route) => page.url.pathname.startsWith(route as string));
+
+// 	if (needsAuth && !get(session)) {
+// 		const navigateToLink = get(previousUrl) ?? ROUTES.HOME;
+// 		intendedUrl.set(page.url);
+// 		goto(navigateToLink, { replaceState: true });
+// 		callToLoginPopUp();
+// 	}
+
+// 	if (operatorsOnly && !get(isOperator) && !get(isAdmin) && !get(isReviewer)) {
+// 		goto(resolve(ROUTES.HOME));
+// 	}
+
+// 	if (adminsOnly && !get(isAdmin) && !get(isReviewer)) {
+// 		goto(resolve(ROUTES.HOME));
+// 	}
+// }
