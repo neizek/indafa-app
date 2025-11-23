@@ -10,6 +10,13 @@
 
 	let language = $state($locale);
 	let theme = $state($currentTheme);
+
+	$effect(() => {
+		if (language == null) language = supportedLocalesOptions[0]?.value ?? 'en';
+	});
+	$effect(() => {
+		if (theme == null) theme = Theme.Light;
+	});
 </script>
 
 <div class="flex flex-col gap-4">

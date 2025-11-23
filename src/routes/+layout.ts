@@ -5,6 +5,7 @@ import { callToLoginPopUp } from '$lib/helpers/auth';
 import storage from '$lib/helpers/storage';
 import { initSession, isAdmin, isOperator, isReviewer, session } from '$lib/stores/auth';
 import { intendedUrl, previousUrl } from '$lib/stores/navigation.js';
+import { initTheme } from '$lib/stores/theme';
 import { loadTranslations, supportedLocalesOptions } from '$lib/translations/translations';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { get } from 'svelte/store';
@@ -16,6 +17,7 @@ export const prerender = false;
 const savedLocale = storage.get<string>('locale');
 
 loadTranslations(savedLocale ?? supportedLocalesOptions[0].value);
+initTheme();
 await initSession();
 
 const adminRoutes = [ROUTES.ADMIN.DASHBOARD, ROUTES.ADMIN.APPOINTMENTS];
