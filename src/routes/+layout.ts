@@ -1,28 +1,13 @@
-import { goto } from '$app/navigation';
-import { resolve } from '$app/paths';
-import { ROUTES } from '$lib/constants/routes.js';
-import { callToLoginPopUp } from '$lib/helpers/auth';
 import storage from '$lib/helpers/storage';
-import { initSession, isAdmin, isOperator, isReviewer, session } from '$lib/stores/auth';
-import { intendedUrl, previousUrl } from '$lib/stores/navigation.js';
+import { initSession } from '$lib/stores/auth';
 import { initTheme } from '$lib/stores/theme';
 import { loadTranslations, supportedLocalesOptions } from '$lib/translations/translations';
 import { LocalNotifications } from '@capacitor/local-notifications';
-import { get } from 'svelte/store';
 
 export const ssr = false;
 export const csr = true;
 // Disable prerendering to avoid iOS webview hydration issues
 export const prerender = false;
-
-const adminRoutes = [ROUTES.ADMIN.DASHBOARD, ROUTES.ADMIN.APPOINTMENTS];
-const operatorRoutes = [ROUTES.OPERATOR];
-const protectedRoutes = [
-	...adminRoutes,
-	...operatorRoutes,
-	ROUTES.USER.PROFILE,
-	ROUTES.APPOINTMENT
-];
 
 let initialized = false;
 
@@ -62,29 +47,9 @@ async function initializeApp() {
 	initialized = true;
 }
 
-export async function load(page) {
+export async function load() {
 	// Initialize app on first load
 	await initializeApp();
-
-	// Route protection (Middleware)
-	const needsAuth = protectedRoutes.some((route) => page.url.pathname.startsWith(route as string));
-	const operatorsOnly = operatorRoutes.some((route) =>
-		page.url.pathname.startsWith(route as string)
-	);
-	const adminsOnly = adminRoutes.some((route) => page.url.pathname.startsWith(route as string));
-
-	if (needsAuth && !get(session)) {
-		const navigateToLink = get(previousUrl) ?? ROUTES.HOME;
-		intendedUrl.set(page.url);
-		goto(resolve(navigateToLink), { replaceState: true });
-		callToLoginPopUp();
-	}
-
-	if (operatorsOnly && !get(isOperator) && !get(isAdmin) && !get(isReviewer)) {
-		goto(resolve(ROUTES.HOME));
-	}
-
-	if (adminsOnly && !get(isAdmin) && !get(isReviewer)) {
-		goto(resolve(ROUTES.HOME));
-	}
+	// No route protection here - it causes infinite loops in load() function
+	// Each goto() triggers another load() call, creating a cycle
 }
