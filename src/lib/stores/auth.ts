@@ -15,33 +15,61 @@ export const isCustomer = derived(userRole, ($role) => $role === UserRolesEnum.c
 export const isReviewer = derived(userRole, ($role) => $role === UserRolesEnum.reviewer);
 
 export async function initSession() {
-	const {
-		data: { session: currentSession },
-		error
-	} = await supabase.auth.getSession();
+	try {
+		const {
+			data: { session: currentSession },
+			error
+		} = await supabase.auth.getSession();
 
-	if (error) {
-		console.log('Error with initiating session:', error);
-		return;
+		if (error) {
+			console.log('Error with initiating session:', error);
+			return null;
+		}
+
+		if (currentSession) {
+			initUser(currentSession);
+		}
+
+		return currentSession;
+	} catch (err) {
+		console.log('Exception initializing session:', err);
+		return null;
 	}
-
-	if (currentSession) {
-		initUser(currentSession);
-	}
-
-	return currentSession;
 }
 
-supabase.auth.onAuthStateChange((_event, newSession) => {
-	if (_event === 'SIGNED_OUT' || !newSession) {
-		console.log('User signed out');
-		clearUser();
-		return;
-	}
+// Setup auth state listener but with error handling
+let authListenerInitialized = false;
 
-	if ((_event === 'SIGNED_IN' || _event === 'INITIAL_SESSION') && newSession) {
-		console.log('User signed in');
-		if (get(session)?.access_token !== newSession.access_token) initUser(newSession);
-		return;
+function setupAuthListener() {
+	if (authListenerInitialized) return;
+	authListenerInitialized = true;
+
+	try {
+		supabase.auth.onAuthStateChange((_event, newSession) => {
+			try {
+				if (_event === 'SIGNED_OUT' || !newSession) {
+					console.log('User signed out');
+					clearUser();
+					return;
+				}
+
+				if ((_event === 'SIGNED_IN' || _event === 'INITIAL_SESSION') && newSession) {
+					console.log('User signed in');
+					if (get(session)?.access_token !== newSession.access_token) {
+						initUser(newSession);
+					}
+					return;
+				}
+			} catch (err) {
+				console.log('Error in auth state change handler:', err);
+			}
+		});
+	} catch (err) {
+		console.log('Error setting up auth listener:', err);
 	}
-});
+}
+
+// Call this after initial session setup to avoid race conditions
+export function initAuthListener() {
+	setupAuthListener();
+}

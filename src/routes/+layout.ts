@@ -1,5 +1,5 @@
 import storage from '$lib/helpers/storage';
-import { initSession } from '$lib/stores/auth';
+import { initSession, initAuthListener } from '$lib/stores/auth';
 import { initTheme } from '$lib/stores/theme';
 import { loadTranslations, supportedLocalesOptions } from '$lib/translations/translations';
 import { LocalNotifications } from '@capacitor/local-notifications';
@@ -23,6 +23,9 @@ async function initializeApp() {
 	initTheme();
 	console.log('initiating session');
 	await initSession();
+
+	// Setup auth listener after initial session
+	initAuthListener();
 
 	// Permission for notifications - only on native platforms
 	try {

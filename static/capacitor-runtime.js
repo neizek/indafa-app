@@ -3,6 +3,18 @@
  * This file initializes Capacitor and ensures proper app lifecycle handling
  */
 
+// Prevent errors from crashing the app
+window.addEventListener('error', (event) => {
+	console.log('Global error caught:', event.error);
+	// Don't rethrow, allow app to continue
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+	console.log('Unhandled promise rejection:', event.reason);
+	// Don't rethrow, allow app to continue
+	event.preventDefault();
+});
+
 // Mark when the DOM is ready
 let isReady = false;
 
@@ -14,9 +26,6 @@ function setupCapacitor() {
 }
 
 // Initialize on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', setupCapacitor);
-
-// Fallback for if DOMContentLoaded already fired
 if (document.readyState === 'loading') {
 	document.addEventListener('DOMContentLoaded', setupCapacitor);
 } else {
