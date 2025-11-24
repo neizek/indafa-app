@@ -14,37 +14,41 @@ let initialized = false;
 async function initializeApp() {
 	if (initialized) return;
 
-	console.log('getting locale');
-	const savedLocale = storage.get<string>('locale');
-
-	console.log('loading translations');
-	loadTranslations(savedLocale ?? supportedLocalesOptions[0].value);
-	console.log('initiating theme');
-	initTheme();
-	console.log('initiating session');
-	await initSession();
-
-	// Setup auth listener after initial session
-	initAuthListener();
-
-	// Permission for notifications - only on native platforms
 	try {
-		const isNative = typeof window !== 'undefined' && 'capacitor' in window;
-		if (isNative) {
-			LocalNotifications.checkPermissions()
-				.then((status) => {
-					if (status.display === 'prompt' || status.display === 'prompt-with-rationale') {
-						LocalNotifications.requestPermissions().catch((err) => {
-							console.log('Notification permission request error:', err);
-						});
-					}
-				})
-				.catch((err) => {
-					console.log('Failed to check notification permissions:', err);
-				});
+		console.log('getting locale');
+		const savedLocale = storage.get<string>('locale');
+
+		console.log('loading translations');
+		loadTranslations(savedLocale ?? supportedLocalesOptions[0].value);
+		console.log('initiating theme');
+		initTheme();
+		console.log('initiating session');
+		await initSession();
+
+		// Setup auth listener after initial session
+		initAuthListener();
+
+		// Permission for notifications - only on native platforms
+		try {
+			const isNative = typeof window !== 'undefined' && 'capacitor' in window;
+			if (isNative) {
+				LocalNotifications.checkPermissions()
+					.then((status) => {
+						if (status.display === 'prompt' || status.display === 'prompt-with-rationale') {
+							LocalNotifications.requestPermissions().catch((err) => {
+								console.log('Notification permission request error:', err);
+							});
+						}
+					})
+					.catch((err) => {
+						console.log('Failed to check notification permissions:', err);
+					});
+			}
+		} catch (error) {
+			console.log('Notification setup error:', error);
 		}
 	} catch (error) {
-		console.log('Notification setup error:', error);
+		console.log('Critical app initialization error:', error);
 	}
 
 	initialized = true;
