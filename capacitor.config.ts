@@ -7,9 +7,6 @@ const config: CapacitorConfig = {
 	// server: {
 	// 	allowNavigation: ['https://*.supabase.co']
 	// },
-	server: {
-		errorPath: '/'
-	},
 	plugins: {
 		LocalNotifications: {
 			smallIcon: 'ic_stat_icon'
