@@ -39,12 +39,25 @@ async function initializeApp() {
 	console.log('initiating session');
 	await initSession();
 
-	// Permission for notifications
-	LocalNotifications.checkPermissions().then((status) => {
-		if (status.display === 'prompt' || status.display === 'prompt-with-rationale') {
-			LocalNotifications.requestPermissions();
+	// Permission for notifications - only on native platforms
+	try {
+		const isNative = typeof window !== 'undefined' && 'capacitor' in window;
+		if (isNative) {
+			LocalNotifications.checkPermissions()
+				.then((status) => {
+					if (status.display === 'prompt' || status.display === 'prompt-with-rationale') {
+						LocalNotifications.requestPermissions().catch((err) => {
+							console.log('Notification permission request error:', err);
+						});
+					}
+				})
+				.catch((err) => {
+					console.log('Failed to check notification permissions:', err);
+				});
 		}
-	});
+	} catch (error) {
+		console.log('Notification setup error:', error);
+	}
 
 	initialized = true;
 }
