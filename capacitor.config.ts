@@ -4,9 +4,11 @@ const config: CapacitorConfig = {
 	appId: 'com.teweb.indafa',
 	appName: 'Indafa',
 	webDir: 'build',
-	// server: {
-	// 	allowNavigation: ['https://*.supabase.co']
-	// },
+	// Prevent common iOS webview issues
+	server: {
+		// Allow loading from all origins
+		allowNavigation: ['*']
+	},
 	plugins: {
 		LocalNotifications: {
 			smallIcon: 'ic_stat_icon'

@@ -12,7 +12,8 @@ import { get } from 'svelte/store';
 
 export const ssr = false;
 export const csr = true;
-export const prerender = true;
+// Disable prerendering to avoid iOS webview hydration issues
+export const prerender = false;
 
 const adminRoutes = [ROUTES.ADMIN.DASHBOARD, ROUTES.ADMIN.APPOINTMENTS];
 const operatorRoutes = [ROUTES.OPERATOR];
@@ -22,24 +23,36 @@ const protectedRoutes = [
 	ROUTES.USER.PROFILE,
 	ROUTES.APPOINTMENT
 ];
-console.log('getting locale');
-const savedLocale = storage.get<string>('locale');
 
-console.log('loading translations');
-loadTranslations(savedLocale ?? supportedLocalesOptions[0].value);
-console.log('initiating theme');
-initTheme();
-console.log('initiating session');
-await initSession();
+let initialized = false;
 
-// Permission for notifications
-LocalNotifications.checkPermissions().then((status) => {
-	if (status.display === 'prompt' || status.display === 'prompt-with-rationale') {
-		LocalNotifications.requestPermissions();
-	}
-});
+async function initializeApp() {
+	if (initialized) return;
+
+	console.log('getting locale');
+	const savedLocale = storage.get<string>('locale');
+
+	console.log('loading translations');
+	loadTranslations(savedLocale ?? supportedLocalesOptions[0].value);
+	console.log('initiating theme');
+	initTheme();
+	console.log('initiating session');
+	await initSession();
+
+	// Permission for notifications
+	LocalNotifications.checkPermissions().then((status) => {
+		if (status.display === 'prompt' || status.display === 'prompt-with-rationale') {
+			LocalNotifications.requestPermissions();
+		}
+	});
+
+	initialized = true;
+}
 
 export async function load(page) {
+	// Initialize app on first load
+	await initializeApp();
+
 	// Route protection (Middleware)
 	const needsAuth = protectedRoutes.some((route) => page.url.pathname.startsWith(route as string));
 	const operatorsOnly = operatorRoutes.some((route) =>

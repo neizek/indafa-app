@@ -21,12 +21,6 @@
 		previousUrl.set(from?.url.pathname as Route);
 		closeAllPopUps();
 	});
-
-	onMount(() => {
-		if (page.url.pathname !== '/') {
-			goto('/');
-		}
-	});
 </script>
 
 <svelte:head>
